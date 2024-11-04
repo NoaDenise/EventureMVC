@@ -1,0 +1,60 @@
+﻿@model EventureMVC.Models.ViewModel.ExploreViewModel
+
+<h1>Explore Activities!</h1>
+
+<form id="filterForm" method="get" action="/Explore/Index">
+    <label>
+        <input type="checkbox" name="isFree" value="true" /> Free Entry
+    </label>
+    <label>
+        <input type="checkbox" name="is18Plus" value="true" /> 18+ Only
+    </label>
+    <label>
+        <input type="checkbox" name="isFamilyFriendly" value="true" /> Family Friendly
+    </label>
+
+    <!-- Date filter inputs -->
+    <label>
+        Start Date: <input type="date" name="startDate" />
+    </label>
+    <label>
+        End Date: <input type="date" name="endDate" />
+    </label>
+
+    <!-- Location filter input with Datalist for auto-fill -->
+    <label>
+        Location:
+        <input type="text" id="location" name="location" placeholder="Enter location" list="locationsList" autocomplete="off" />
+        <datalist id="locationsList">
+            @foreach (var country in Model.CountriesWithCities)
+            {
+                foreach (var city in country.Value)
+                {
+                    <option value="@city">@city</option>
+                }
+            }
+        </datalist>
+    </label>
+
+    <button type="submit">Apply Filter</button>
+    <button type="button" onclick="clearFilters()">Clear Filter</button>
+</form>
+
+<div id="activities-container" class="list-group">
+    @foreach (var activity in Model.Activities) // Show filtered activities
+    {
+        <div class="list-group-item flex-column align-items-start activity-item">
+            <img src="@activity.ImageUrl" alt="Activity Image" />
+            <h5>@activity.ActivityName</h5>
+            <h6>@activity.ActivityLocation</h6>
+            <p>@activity.DateOfActivity?.ToString("f")</p>
+        </div>
+    }
+</div>
+
+<!-- JavaScript for Clear Filter functionality -->
+<script>
+    function clearFilters() {
+        window.location.href = '/Explore/Index'; // Redirect to the index without any filters
+    }
+</script>

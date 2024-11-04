@@ -11,8 +11,4 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\ViewModel\" />
-  </ItemGroup>
-
 </Project>
