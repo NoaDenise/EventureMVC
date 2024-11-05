@@ -1,9 +1,12 @@
 using EventureMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+
 
 namespace EventureMVC.Controllers
 {
+    [Authorize(Roles = "User")]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,11 +25,14 @@ namespace EventureMVC.Controllers
         {
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult GuestHome()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            HttpContext.Session.SetString("UserRole", "Guest");
+            ViewData["Message"] = "Welcome, Guest!";
+            return View(); 
         }
+
+
+
     }
 }
