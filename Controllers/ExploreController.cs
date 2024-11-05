@@ -60,16 +60,22 @@ namespace EventureMVC.Controllers
             // Loading the locations
             var countriesWithCities = LoadCountriesWithCities();
 
-
             // error handling, will need updating
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var activities = JsonConvert.DeserializeObject<List<Activity>>(json);
+
                 return View(new ExploreViewModel
                 {
                     Activities = activities,
-                    CountriesWithCities = countriesWithCities
+                    CountriesWithCities = countriesWithCities,
+                    IsFree = isFree ?? false,
+                    Is18Plus = is18Plus ?? false,
+                    IsFamilyFriendly = isFamilyFriendly ?? false,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    Location = location
                 });
             }
             else
@@ -77,7 +83,13 @@ namespace EventureMVC.Controllers
                 return View(new ExploreViewModel
                 {
                     Activities = new List<Activity>(),
-                    CountriesWithCities = countriesWithCities
+                    CountriesWithCities = countriesWithCities,
+                    IsFree = isFree ?? false,
+                    Is18Plus = is18Plus ?? false,
+                    IsFamilyFriendly = isFamilyFriendly ?? false,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    Location = location
                 });
             }
         }
