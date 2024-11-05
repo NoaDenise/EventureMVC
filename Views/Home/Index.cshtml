@@ -3,6 +3,16 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Welcome to Eventure</h1>
+
+    <p>
+        Join Eventure, your go-to platform for discovering exciting events around you.
+        Whether you’re hosting or attending, easily share, find, and explore everything from concerts and festivals to workshops and meetups.
+        Be part of a community-driven hub where connection happens through shared experiences.
+        Post. Explore. Engage.
+    </p>
+
+    <button onclick="location.href='@Url.Action("Login", "Account")'">Log in</button>
+    <button onclick="location.href='@Url.Action("Register", "Account")'">Register</button>
+    <button onclick="location.href='@Url.Action("Index", "Home")'">Continue as guest</button>
 </div>
