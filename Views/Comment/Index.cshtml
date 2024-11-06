@@ -1,0 +1,40 @@
+﻿@using EventureMVC.Models
+@model List<CommentShowDTO> 
+<h1>Comments for Activity ID: @ViewData["activityId"]</h1>
+
+
+
+<h1>Comments</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Comment Text</th>
+            <th>Created At</th>
+            <th>User Name</th>
+            <th>Activity Name</th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                <td>@comment.CommentText</td>
+                <td>@comment.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@comment.UserName</td>
+                <td>@comment.ActivityName</td>
+                <td>
+                    <a asp-action="Details" asp-route-commentId="@comment.CommentId" class="btn btn-info">View</a>
+                    <a asp-action="Edit" asp-route-id="@comment.CommentId" class="btn btn-primary">Edit</a>
+                    <form asp-action="Delete" asp-route-commentId="@comment.CommentId" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this comment?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Add New Comment</a>

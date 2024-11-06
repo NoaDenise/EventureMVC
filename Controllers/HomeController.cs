@@ -1,6 +1,6 @@
 using EventureMVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+
 
 namespace EventureMVC.Controllers
 {
@@ -23,6 +23,6 @@ namespace EventureMVC.Controllers
             return View();
         }
 
-        
+
     }
 }

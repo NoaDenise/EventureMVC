@@ -1,0 +1,10 @@
+﻿@model CommentCreateEditDTO
+
+<h2>Edit Comment</h2>
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label for="CommentText">Comment Text</label>
+        <textarea id="CommentText" name="CommentText" class="form-control" required>@Model.CommentText</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
