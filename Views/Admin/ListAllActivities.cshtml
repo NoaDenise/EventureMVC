@@ -1,0 +1,25 @@
+﻿@model List<Activity>
+
+<h4>All Activities</h4>
+
+@foreach (var activity in Model)
+{
+    <p class="card-text">ID: @activity.ActivityId</p>
+    <p class="card-text">@activity.ActivityName</p>
+    <p class="card-text">Description: @activity.ActivityDescription</p>
+    <p class="card-text">Location: @activity.ActivityLocation</p>
+    <p class="card-text">Date of Activity: @activity.DateOfActivity</p>
+    <p class="card-text">Image Url: @activity.ImageUrl</p>
+    <p class="card-text">Website Url: @activity.WebsiteUrl</p>
+    <p class="card-text">Contact Info: @activity.ContactInfo</p>
+    <p class="card-text">Is Free: @activity.IsFree</p>
+    <p class="card-text">Is 18+: @activity.Is18Plus</p>
+    <p class="card-text">Is Kid Friendly: @activity.IsFamilyFriendly</p>
+
+    <a asp-controller="Admin" asp-action="EditActivity" asp-route-id=@activity.ActivityId class="button">Edit</a>
+
+    <form method="post" asp-controller="Admin" asp-action="DeleteActivity" style="display:inline;">
+        <input type="hidden" name="id" value="@activity.ActivityId" />
+        <button type="submit" class="button" onclick="return confirm('Do you really want to delete this activity?');">Delete</button>
+    </form>
+}
