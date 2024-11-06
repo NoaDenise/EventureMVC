@@ -1,0 +1,11 @@
+﻿@model CommentShowDTO
+
+<h2>Comment Details</h2>
+<div>
+    <p><strong>Comment Text:</strong> @Model.CommentText</p>
+    <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+    <p><strong>User Name:</strong> @Model.UserName</p>
+    <p><strong>Activity Name:</strong> @Model.ActivityName</p>
+</div>
+
+<a asp-action="Index" class="btn btn-primary">Back to Comments</a>
