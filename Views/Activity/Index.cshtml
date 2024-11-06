@@ -1,0 +1,46 @@
+﻿@model EventureMVC.Models.ActivityViewModel
+
+@if (Model != null)
+{
+    <div class="container my-4">
+        <div class="card">
+            <div class="card-body">
+                <!-- Event Name -->
+                <h3 class="card-title">@Model.ActivityName</h3>
+
+                <!-- Event Description -->
+                <p class="card-text"><strong>Description:</strong> @Model.ActivityDescription</p>
+
+                <!-- Event Date, Location, Website, and Contact Info -->
+                <p class="card-text">
+                    <strong>Date of event:</strong> @(Model.DateOfActivity.HasValue ? Model.DateOfActivity.Value.ToString("yyyy-MM-dd") : "TBA")<br>
+                    <strong>Location:</strong> @Model.ActivityLocation<br>
+                    <strong>Website:</strong> <a href="@Model.WebsiteUrl" target="_blank">@Model.WebsiteUrl</a><br>
+                    <strong>Contact:</strong> @Model.ContactInfo
+                </p>
+
+                <!-- Event Images -->
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
+                }
+
+                <!-- Comments Section -->
+                <h5 class="mt-4">Comments</h5>
+
+                <!-- Comment Form -->
+                <form asp-action="AddComment" method="post" class="mt-2">
+                    <div class="form-group">
+                        <textarea class="form-control" id="commentText" name="commentText" rows="4" placeholder="Add a comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Add Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>No activity found or an error occurred while fetching the data.</p>
+}
+

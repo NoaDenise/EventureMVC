@@ -25,12 +25,14 @@ namespace EventureMVC.Controllers
         {
             return View();
         }
+
         public IActionResult GuestHome()
         {
             HttpContext.Session.SetString("UserRole", "Guest");
             ViewData["Message"] = "Welcome, Guest!";
             return View(); 
         }
+
 
 
 
