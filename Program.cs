@@ -19,8 +19,8 @@ namespace EventureMVC
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
-                options.LoginPath = "/Auth/Login";
-                options.LogoutPath = "/Auth/Logout";
+                options.LoginPath = "/User/Login";
+                options.LogoutPath = "/User/Logout";
                 options.AccessDeniedPath = "/";
             });
 
