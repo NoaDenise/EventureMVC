@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Successful Registration";
+}
+
+<h1>Thanks for registering</h1>
+<p>Continue to the Explore page or add preferences to your profile</p>
+
+<a asp-controller="Explore" asp-action="Index" class="btn btn-primary">Explore</a>
+<a asp-controller="MaxUser" asp-action="AddPreferences" class="btn btn-secondary">Add Preferences</a> @* Change MaxUser to just user!! *@
