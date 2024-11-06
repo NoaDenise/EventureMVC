@@ -1,0 +1,75 @@
+﻿@using EventureMVC.Models.ViewModel
+@model Activity
+
+<h1>Create Activity</h1>
+
+<form asp-action="AddActivity" method="post">
+
+    <div class="form-section">
+        <label asp-for="UserId">Userid (needed before finishing login functions)</label>
+        <input asp-for="UserId" class="form-control" />
+        <span asp-validation-for="UserId"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="ActivityName">Name of activity / Title</label>
+        <input asp-for="ActivityName" class="form-control"/>
+        <span asp-validation-for="ActivityName"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="ActivityDescription">Description (Any useful information about the activity)</label>
+        <input asp-for="ActivityDescription" class="form-control" />
+        <span asp-validation-for="ActivityDescription"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="DateOfActivity">Choose a date for the activity</label>
+        <input asp-for="DateOfActivity" class="form-control" type="datetime-local" />
+        <span asp-validation-for="DateOfActivity"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="ActivityLocation">Where will the activity be located?</label>
+        <input asp-for="ActivityLocation" class="form-control" />
+        <span asp-validation-for="ActivityLocation"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="ImageUrl">Link for image</label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <span asp-validation-for="ImageUrl"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="WebsiteUrl">Link to website</label>
+        <input asp-for="WebsiteUrl" class="form-control" />
+        <span asp-validation-for="WebsiteUrl"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="ContactInfo">Contact information</label>
+        <input asp-for="ContactInfo" class="form-control" />
+        <span asp-validation-for="ContactInfo"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="IsFree">Is this a free activity?</label>
+        <input asp-for="IsFree" class="form-check-input" type="checkbox" />
+        <span asp-validation-for="IsFree"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="Is18Plus">Is this activity +18?</label>
+        <input asp-for="Is18Plus" class="form-check-input" type="checkbox" />
+        <span asp-validation-for="Is18Plus"></span>
+    </div>
+
+    <div class="form-section">
+        <label asp-for="IsFamilyFriendly">Is this activity Family friendly?</label>
+        <input asp-for="IsFamilyFriendly" class="form-check-input" type="checkbox" />
+        <span asp-validation-for="IsFamilyFriendly"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Activity</button>
+</form>

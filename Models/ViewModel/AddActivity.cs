@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventureMVC.Models
+namespace EventureMVC.Models.ViewModel
 {
-    public class Activity
+    public class AddActivity
     {
-        public int ActivityId { get; set; }
-
         [Required]
         public string UserId { get; set; }
 
@@ -18,7 +16,7 @@ namespace EventureMVC.Models
         public string ActivityDescription { get; set; }
 
         public DateTime? DateOfActivity { get; set; }
-        
+
         [Required]
         public string ActivityLocation { get; set; }
 
@@ -30,16 +28,13 @@ namespace EventureMVC.Models
 
         [StringLength(2000, MinimumLength = 3, ErrorMessage = "Kontaktinfo måste vara mellan 3 - 2000 tecken")]
         public string? ContactInfo { get; set; }
-       
-        [Required]
-        public bool IsApproved { get; set; }
-        
+
         [Required]
         public bool IsFree { get; set; }
-        
+
         [Required]
         public bool Is18Plus { get; set; }
-        
+
         [Required]
         public bool IsFamilyFriendly { get; set; }
     }

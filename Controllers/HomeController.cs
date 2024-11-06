@@ -2,7 +2,6 @@ using EventureMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace EventureMVC.Controllers
 {
     [Authorize(Roles = "User")]
@@ -32,9 +31,6 @@ namespace EventureMVC.Controllers
             ViewData["Message"] = "Welcome, Guest!";
             return View(); 
         }
-
-
-
 
     }
 }
