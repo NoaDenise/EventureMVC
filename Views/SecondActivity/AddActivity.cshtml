@@ -5,11 +5,7 @@
 
 <form asp-action="AddActivity" method="post">
 
-    <div class="form-section">
-        <label asp-for="UserId">Userid (needed before finishing login functions)</label>
-        <input asp-for="UserId" class="form-control" />
-        <span asp-validation-for="UserId"></span>
-    </div>
+    <input type="hidden" asp-for="UserId"/>
 
     <div class="form-section">
         <label asp-for="ActivityName">Name of activity / Title</label>

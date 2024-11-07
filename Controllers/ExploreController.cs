@@ -16,14 +16,23 @@ namespace EventureMVC.Controllers
             _client = client;
         }
 
-        public async Task <IActionResult> Index(
+        public async Task<IActionResult> Index(
             bool? isFree = null,
             bool? is18Plus = null,
             bool? isFamilyFriendly = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
-            string location = null)
+            string location = null,
+            List<int> likedActivities = null)
         {
+            //Get the userId from the session cookie/jwt
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             //Make a query with all the bools and inputs
             var queryParameters = new List<string>();
 
@@ -60,6 +69,18 @@ namespace EventureMVC.Controllers
             // Loading the locations
             var countriesWithCities = LoadCountriesWithCities();
 
+            // Fetch the current users likes
+            if (likedActivities == null)
+            {
+                likedActivities = new List<int>();
+                var likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
+                if (likedActivitiesResponse.IsSuccessStatusCode)
+                {
+                    var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
+                    likedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
+                }
+            }
+
             // error handling, will need updating
             if (response.IsSuccessStatusCode)
             {
@@ -75,7 +96,8 @@ namespace EventureMVC.Controllers
                     IsFamilyFriendly = isFamilyFriendly ?? false,
                     StartDate = startDate,
                     EndDate = endDate,
-                    Location = location
+                    Location = location,
+                    LikedActivities = likedActivities
                 });
             }
             else
@@ -89,10 +111,53 @@ namespace EventureMVC.Controllers
                     IsFamilyFriendly = isFamilyFriendly ?? false,
                     StartDate = startDate,
                     EndDate = endDate,
-                    Location = location
+                    Location = location,
+                    LikedActivities = likedActivities
                 });
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> LikeActivity(int activityId)
+        {
+            // Get userId from session or JWT
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            // Call API to like activity
+            var response = await _client.PostAsJsonAsync($"{baseUrl}api/User/addUserEvent/{userId}/{activityId}",
+                new { UserId = userId, ActivityId = activityId }
+            );
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Re-fetch the liked activities to pass them to the view
+                var likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
+                List<int> likedActivities = new List<int>();
+
+                if (likedActivitiesResponse.IsSuccessStatusCode)
+                {
+                    var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
+                    likedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
+                }
+
+                // Redirect back to the Index action with the updated liked activities
+                return RedirectToAction("Index", "Explore", new
+                {
+                    likedActivities = likedActivities // Pass the updated liked activities list
+                });
+            }
+            else
+            {
+                TempData["Error"] = "Failed to like the activity. You may have already liked it.";
+                return RedirectToAction("Index", "Explore");
+            }
+        }
+
 
         // Loads the countries json so we can list them in search bar
         private Dictionary<string, List<string>> LoadCountriesWithCities()

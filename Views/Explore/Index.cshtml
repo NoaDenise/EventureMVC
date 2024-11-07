@@ -2,6 +2,8 @@
 
 <h1>Explore Activities!</h1>
 
+<a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem">Post an Activity</a>
+
 <form id="filterForm" method="get" action="/Explore/Index">
     <label>
         <input type="checkbox" name="isFree" value="true" @(Model.IsFree ? "checked" : "") /> Free Entry
@@ -40,19 +42,34 @@
     <button type="button" onclick="clearFilters()">Clear Filter</button>
 </form>
 
+@* Activities list *@
 <div id="activities-container" class="list-group">
-    @foreach (var activity in Model.Activities) // Show filtered activities
+    @foreach (var activity in Model.Activities)
     {
         <div class="list-group-item flex-column align-items-start activity-item">
-            <img src="@activity.ImageUrl" alt="Activity Image" />
-            <h5>@activity.ActivityName</h5>
-            <h6>@activity.ActivityLocation</h6>
-            <p>@activity.DateOfActivity?.ToString("f")</p>
+            <div class="d-flex w-100 justify-content-between">
+                <div class="w-75">
+                    <h5>@activity.ActivityName</h5>
+                    <h6>@activity.ActivityLocation</h6>
+                    <p>@activity.DateOfActivity?.ToString("f")</p>
+                </div>
+                <div class="info-buttons">
+                    <p>+18 @activity.Is18Plus</p>
+                    <p>Family Friendly @activity.IsFamilyFriendly</p>
+                    <p>Free @activity.IsFree</p>
+                </div>
+
+                <form asp-action="LikeActivity" method="post" class="like-form">
+                    <input type="hidden" name="activityId" value="@activity.ActivityId" />
+                    <button type="submit" class="btn btn-heart">
+                        <i class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"></i> Like
+                    </button>
+                </form>
+            </div>
         </div>
     }
 </div>
 
-<!-- JavaScript for Clear Filter functionality -->
 <script>
     function clearFilters() {
         window.location.href = '/Explore/Index';

@@ -2,6 +2,13 @@
 using System.Text;
 using EventureMVC.Models;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using System.Reflection;
+
 namespace EventureMVC.Controllers
 {
     public class UserController : Controller
@@ -33,34 +40,45 @@ namespace EventureMVC.Controllers
         public async Task<IActionResult> Login(LoginUserViewModel login)
         {
 
-            var jsonContent = new StringContent(JsonSerializer.Serialize(login), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{_baseUri}/login", jsonContent);
+            var response = await _httpClient.PostAsJsonAsync($"{_baseUri}api/User/login", login);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                var responseData = await response.Content.ReadAsStringAsync();
-                var token = JsonDocument.Parse(responseData).RootElement.GetProperty("Token").GetString();
-
-                // Store the token and user data in session or cookies
-                HttpContext.Session.SetString("AuthToken", token);
-
-                // Check if the user is an admin or a regular user
-                var userRole = await GetUserRole(token); // Custom method for role retrieval based on token
-
-                if (userRole == "Admin")
-                {
-                    return RedirectToAction("Dashboard", "Admin");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid login attempt.");
                 return View(login);
             }
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var token = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token.Token);
+            var claims = jwtToken.Claims.ToList();
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Extract UserId from the "nameid" claim (assuming it's present)
+            var userIdClaim = claims.FirstOrDefault(c => c.Type == "nameid");
+            if (userIdClaim != null)
+            {
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userIdClaim.Value));
+                HttpContext.Session.SetString("nameid", userIdClaim.Value); // Storing in session
+            }
+
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = jwtToken.ValidTo
+            });
+
+            HttpContext.Response.Cookies.Append("jwtToken", token.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = jwtToken.ValidTo
+            });
+
+            return RedirectToAction("Index", "Home");
         }
 
         //Det behövs inte
@@ -76,6 +94,7 @@ namespace EventureMVC.Controllers
             }
             return null;
         }
+
         [HttpPost]
         public IActionResult GuestLogin()
         {

@@ -1,0 +1,19 @@
+﻿@model List<string>
+
+<h2>Search Results</h2>
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var view in Model)
+        {
+            <li>
+                <a href="/@view">@view</a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No views found matching your search.</p>
+}

@@ -20,3 +20,48 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.like-button {
+    background: none; /* No background */
+    border: none; /* No border */
+    padding: 0; /* No padding */
+    outline: none; /* No outline */
+    cursor: pointer; /* Pointer cursor */
+    appearance: none; /* Removes default button styling on some browsers */
+}
+
+.heart-icon {
+    color: lightgrey; /* Default color */
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.heart-icon:hover {
+    color: lightpink; /* Default color */
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.liked .heart-icon {
+    color: red; /* Color when liked */
+}
+.heart-icon.liked {
+    color: red; /* Color when liked */
+}
+
+/* Remove all visual feedback on active, focus, and hover */
+.like-button:focus,
+.like-button:active,
+.like-button:hover {
+    outline: none;
+    box-shadow: none; /* Removes any shadow effect */
+    background: none; /* Ensures no background appears */
+    border: none; /* No border */
+}
+
+.btn.like-button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
