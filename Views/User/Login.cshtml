@@ -1,4 +1,4 @@
-﻿@model EventureMVC.Models.LoginUserViewModel
+﻿@model EventureMVC.Models.ViewModel.LoginUserViewModel
 
 
 
@@ -12,6 +12,10 @@
     <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password" name="Password" required />
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="rememberMe" name="RememberMe" />
+        <label class="form-check-label" for="rememberMe">Remember Me</label>
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
