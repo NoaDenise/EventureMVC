@@ -1,0 +1,30 @@
+﻿@model EventureMVC.Models.ViewModel.MyInformationViewModel
+
+<h2>Min Information</h2>
+
+<div>
+    <label>Förnamn:</label>
+    <span>@Model.FirstName</span>
+</div>
+<div>
+    <label>Efternamn:</label>
+    <span>@Model.LastName</span>
+</div>
+<div>
+    <label>Plats:</label>
+    <span>@Model.UserLocation</span>
+</div>
+<div>
+    <label>Användarnamn:</label>
+    <span>@Model.UserName</span>
+</div>
+<div>
+    <label>E-post:</label>
+    <span>@Model.Email</span>
+</div>
+<div>
+    <label>Telefonnummer:</label>
+    <span>@Model.PhoneNumber</span>
+</div>
+
+<a href="@Url.Action("EditMyInformation", "MyPages")">Redigera Information</a>
