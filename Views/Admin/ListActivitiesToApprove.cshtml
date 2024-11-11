@@ -23,3 +23,12 @@
     </form>
 
 }
+
+<!-- Error message when error occurs -->
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
