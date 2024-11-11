@@ -29,7 +29,7 @@ namespace EventureMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginUserViewModel login)
+        public async Task<IActionResult> Login(Models.ViewModel.LoginUserViewModel login)
         {
 
             // Send login credentials to the API in JSON format
@@ -60,7 +60,7 @@ namespace EventureMVC.Controllers
                     // Store userId in session
                     HttpContext.Session.SetString("nameid", userId);
                 }
-                else if (userRole == "user")
+                else
                 {
                     ModelState.AddModelError("", "Failed to retrieve User ID from token.");
                     return View(login);
@@ -155,6 +155,8 @@ namespace EventureMVC.Controllers
             // Delete the JWT token from cookies when the user logs out
             HttpContext.Response.Cookies.Delete("jwtToken");
 
+            //Delete the session
+            HttpContext.Session.Clear();
 
             // Redirect the user back to the login page
             return RedirectToAction("Login", "User");

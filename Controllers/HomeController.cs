@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace EventureMVC.Controllers
-
+{
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -28,18 +28,18 @@ namespace EventureMVC.Controllers
         {
             HttpContext.Session.SetString("UserRole", "Guest");
             ViewData["Message"] = "Welcome, Guest!";
-            return View(); 
+            return View();
         }
 
         private readonly List<string> _views = new List<string>
-        {
-            "Home",
-            "Explore",
-            "Login",
-            "Register",
-            "SecondActivity/AddActivity"
-            // Kanske m�ste uppdatera till n�got annat, s� att den hittar alla sidor automatisktt, eller s� har vi de viktiga saker man kan s�ka p�.
-        };
+            {
+                "Home",
+                "Explore",
+                "Login",
+                "Register",
+                "SecondActivity/AddActivity"
+                // Kanske m�ste uppdatera till n�got annat, s� att den hittar alla sidor automatisktt, eller s� har vi de viktiga saker man kan s�ka p�.
+            };
 
         public IActionResult Search(string query)
         {
