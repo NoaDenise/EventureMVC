@@ -36,6 +36,9 @@
                             <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
                         </li>
                         <li class="nav-item">
+
+                            <a class="nav-link text-dark" asp-area="" asp-controller="MyPages" asp-action="Index">My Pages</a>
+
                             @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                             {
                                 <form asp-action="Logout" asp-controller="User" method="post" class="form-inline">
@@ -46,6 +49,7 @@
                             {
                                 <a asp-action="Login" asp-controller="User" class="btn btn-outline-primary ml-2">Login</a>
                             }
+
                         </li>
                     </ul>
                 </div>

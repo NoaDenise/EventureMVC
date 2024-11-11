@@ -1,0 +1,19 @@
+﻿@model List<EventureMVC.Models.UserAttendanceDTO>
+
+<h2>Aktiviteter Jag Har Anmält Mig Till</h2>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var activity in Model)
+    {
+        <div class="activity-card">
+            <h3>@activity.ActivityName</h3>
+            <p>Plats: @activity.ActivityLocation</p>
+            <p>Datum: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Datum inte tillgängligt")</p>
+        </div>
+    }
+}
+else
+{
+    <p>Du har inte anmält dig till några aktiviteter än.</p>
+}
