@@ -19,7 +19,7 @@ namespace EventureMVC.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "My Pages"; // Sätter rubriken för vyn
-            return View("~/Views/MyPagesUser/Index.cshtml"); // Återger vyn för My Pages
+            return View("Index"); // Återger vyn för My Pages
         }
 
         public async Task <IActionResult> MyInformation(string userId = "1d19e442-0828-4e8f-8b37-0752b62ab4a8")
@@ -30,20 +30,49 @@ namespace EventureMVC.Controllers
 
             var myInformation = JsonConvert.DeserializeObject<MyInformationViewModel>(json);
 
-            return View("~/Views/MyPagesUser/MyInformation.cshtml", myInformation);
+            return View( myInformation);
         }
 
-        public IActionResult SavedActivities()
+        public async Task<IActionResult> SavedActivities()
         {
             ViewData["Title"] = "Saved Activities";
-            return View(); 
+
+            // Här ska vi anropa API:et för att hämta sparade aktiviteter
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getAllUserEvents");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var savedActivities = JsonConvert.DeserializeObject<List<SavedActivitiesUserDTO>>(json);
+                return View("SavedActivities");
+            }
+            else
+            {
+                // Hantera fel här, exempelvis skicka en tom lista eller ett felmeddelande
+                return View("SavedActivities", new List<SavedActivitiesUserDTO>());
+            }
         }
 
-        public IActionResult ActivitySignUps()
+        public async Task<IActionResult> ActivitySignUps()
         {
-            ViewData["Title"] = "Activity Sign-Ups";
-            return View(); 
+            string userId = "1d19e442-0828-4e8f-8b37-0752b62ab4a8";  // Byt ut detta med din autentisering
+
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/Attendance/getUsersAttendance/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var activitySignUps = JsonConvert.DeserializeObject<List<UserAttendanceDTO>>(json);
+
+                return View("ActivitySignUps");
+            }
+            else
+            {
+                // Hantera fel vid hämtning av data från API:et
+                return View("ActivitySignUps",new List<UserAttendanceDTO>());
+            }
         }
+
 
         public IActionResult EditDeleteCreatedActivities()
         {

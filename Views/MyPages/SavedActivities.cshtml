@@ -1,0 +1,19 @@
+﻿@model List<EventureMVC.Models.SavedActivitiesUserDTO>
+
+<h2>Gilla/sparade aktiviteter</h2>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var activity in Model)
+    {
+        <div class="activity-card">
+            <h3>@activity.ActivityName</h3>
+            <p>Plats: @activity.ActivityLocation</p>
+            <p>Datum: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Datum inte tillgängligt")</p>
+        </div>
+    }
+}
+else
+{
+    <p>Inga sparade aktiviteter att visa.</p>
+}
