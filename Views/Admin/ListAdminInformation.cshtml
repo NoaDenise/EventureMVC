@@ -1,0 +1,15 @@
+﻿@model EventureMVC.Models.User
+
+@* <h4>My Information</h4>
+
+    <p class="card-text">First name: @Model.FirstName</p>
+    <p class="card-text"></p>
+    <p class="card-text"></p> *@
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

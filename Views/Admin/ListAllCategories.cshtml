@@ -19,3 +19,10 @@
         <button type="submit" class="button" onclick="return confirm('Do you really want to delete this category?');">Delete</button>
     </form>
 }
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

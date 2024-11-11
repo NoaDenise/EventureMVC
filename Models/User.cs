@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventureMVC.Models
 {
-    public class User
+    public class User 
     {
         [Required]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Förnamn måste vara mellan 1-50 tecken")]
@@ -11,5 +12,8 @@ namespace EventureMVC.Models
         [StringLength(50, MinimumLength = 1, ErrorMessage = "Förnamn måste vara mellan 1-50 tecken")]
         public string LastName { get; set; }
         public string? UserLocation { get; set; }
+        public bool IsAdmin { get; set; }
+
+
     }
 }
