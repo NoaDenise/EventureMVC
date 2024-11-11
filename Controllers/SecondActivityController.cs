@@ -66,10 +66,12 @@ namespace EventureMVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Success"); // Or use RedirectToAction("Details", "Activity", new { id = activity.Id });
+                return RedirectToAction("myCreatedActivities"); // Or use RedirectToAction("Details", "Activity", new { id = activity.Id }); Kanske ska länka där man ser listan för alla man skapat?
+                //eller ändra i backend så man får ut ActivityId i svaret när man har skapat en activity.
             }
 
             return View(activity);
         }
     }
 }
+

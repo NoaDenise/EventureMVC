@@ -48,11 +48,11 @@
     {
         <div class="list-group-item flex-column align-items-start activity-item">
             <div class="d-flex w-100 justify-content-between">
-                <div class="w-75">
+                <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })" class="activity-link w-75 text-decoration-none text-reset">
                     <h5>@activity.ActivityName</h5>
                     <h6>@activity.ActivityLocation</h6>
                     <p>@activity.DateOfActivity?.ToString("f")</p>
-                </div>
+                </a>
                 <div class="info-buttons">
                     <p>+18 @activity.Is18Plus</p>
                     <p>Family Friendly @activity.IsFamilyFriendly</p>
