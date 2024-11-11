@@ -4,10 +4,6 @@
 
 <form method="post" asp-action="EditCategory">
 
-
-    <input type="hidden" asp-for="CategoryId" />
-
-
     <div class="form-group">
         <label asp-for="CategoryName">Name</label>
         <input asp-for="CategoryName" class="form-control" />
@@ -19,6 +15,16 @@
         <span asp-validation-for="CategoryDescription" class="text-danger"></span>
     </div>
 
+
+    <input type="hidden" asp-for="CategoryId" />
+
     <button type="submit" class="button">Save</button>
     <a asp-action="ListAllCategories" class="button">Cancel</a>
 </form>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

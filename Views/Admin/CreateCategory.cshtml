@@ -16,3 +16,10 @@
     <button type="submit" class="button">Save</button>
     <a asp-action="ListAllCategories" class="button">Cancel</a>
 </form>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

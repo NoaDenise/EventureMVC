@@ -10,10 +10,12 @@ namespace EventureMVC.Controllers
     {
         private readonly HttpClient _httpClient;
         private string baseUri = "https://localhost:7277";
+        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(HttpClient httpClient)
+        public AdminController(HttpClient httpClient, ILogger<AdminController> logger)
         {
             _httpClient = httpClient;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -22,17 +24,47 @@ namespace EventureMVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ListMyInformation(int userId)
+        public async Task<IActionResult> ListMyInformation(string userId)
         {
+
+            //USE THIS??? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----------------
+            //if (!User.IsInRole("Admin"))
+            //{
+            //    return Forbid("You are not authorized to perform this action.");
+            //}
+
             ViewData["Title"] = "My Information";
 
             var response = await _httpClient.GetAsync($"{baseUri}/api/User/getUserById/{userId}");
 
+            if (!response.IsSuccessStatusCode)
+            {
+
+                //SHOULD WE SEND TO ERROR PAGE OR JUST REDIRECT TO FUNCTIONING SITE?
+                //Console.WriteLine($"Error: {response.StatusCode}");
+                //return View("Error");
+
+                TempData["ErrorMessage"] = "Unable to list your information. Please, try again later.";
+                return RedirectToAction("Index");
+
+
+            }
+
             var json = await response.Content.ReadAsStringAsync();
 
-            var myInformation = JsonConvert.DeserializeObject<User>(json);
+            try
+            {
+                var myInformation = JsonConvert.DeserializeObject<User>(json);
+                return View();
 
-            return View();
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
         }
 
 
@@ -58,23 +90,59 @@ namespace EventureMVC.Controllers
             //in Swagger and here we have to fill in true in order to list NOT approved activities
             var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/awaitingApproval?isApproved=true");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                //Console.WriteLine($"Error: {response.StatusCode}");
+                //return View("Error");
+
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
             var json = await response.Content.ReadAsStringAsync();
 
-            var activities = JsonConvert.DeserializeObject<List<Activity>>(json);
-
-            return View(activities);
+            try
+            {
+                var activities = JsonConvert.DeserializeObject<List<Activity>>(json);
+                return View(activities);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("Index");
+            }
         }
 
 
         public async Task<IActionResult> ApproveActivity(int id)
         {
+
             var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getActivityById/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Could not find activity. Please, try again later.";
+                return RedirectToAction("ListActivitiesToApprove");
+            }
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var activityToApprove = JsonConvert.DeserializeObject<Activity>(json);
 
-            return View(activityToApprove);
+
+            try
+            {
+                var activityToApprove = JsonConvert.DeserializeObject<Activity>(json);
+
+                return View(activityToApprove);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
         }
 
 
@@ -82,27 +150,20 @@ namespace EventureMVC.Controllers
         //putasync takes two params, so had to add null
         public async Task<IActionResult> ApproveActivity(Activity activity)
         {
-            var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/approveActivity/{activity.ActivityId}", null);
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            return RedirectToAction("ListActivitiesToApprove");
+            try
+            {
+                var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/approveActivity/{activity.ActivityId}", null);
 
-            //}
+                return RedirectToAction("ListActivitiesToApprove");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unable to approve activity. Please, try again later.";
+                return RedirectToAction("ListActivitiesToApprove");
+            }
+
         }
-
-        //[HttpPost]
-        ////putasync takes two params, so had to add null
-        //public async Task<IActionResult> ApproveActivity(int activityId)
-        //{
-        //    var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/approveActivity/{activityId}", null);
-
-        //    //if (response.IsSuccessStatusCode)
-        //    //{
-        //        return RedirectToAction("ListActivitiesToApprove");
-
-        //    //}
-        //}
 
 
         public async Task<IActionResult> ListAllActivities()
@@ -111,24 +172,64 @@ namespace EventureMVC.Controllers
 
             var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getAllActivities");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Unable to list all activities. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
             var json = await response.Content.ReadAsStringAsync();
 
-            var activities = JsonConvert.DeserializeObject<List<Activity>>(json);
+            try
+            {
+                var activities = JsonConvert.DeserializeObject<List<Activity>>(json);
 
-            return View(activities);
+                return View(activities);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list all activities. Please, try again later.";
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<IActionResult> EditActivity(int id)
         {
+            //if (id <= 0)
+            //{
+            //    return BadRequest("Invalid Activity ID.");//TEST, bugged? for int params
+            //}
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data received.");
+            }
+
             var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getActivityById/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+                TempData["ErrorMessage"] = "Unable to edit activity. Please, try again later.";
+                return RedirectToAction("ListAllActivities");
+            }
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var activity = JsonConvert.DeserializeObject<Activity>(json);
+            try
+            {
+                var activity = JsonConvert.DeserializeObject<Activity>(json);
 
-
-
-            return View(activity);
+                return View(activity);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("ListAllActivities");
+            }
         }
 
         [HttpPost]
@@ -144,7 +245,7 @@ namespace EventureMVC.Controllers
                 // Skapa ActivityCreateEditDTO och fyll i fälten???
                 var activityToEdit = new Activity
                 {
-                    ActivityId = activity.ActivityId, // Se till att detta sätts
+                    ActivityId = activity.ActivityId, // always set this field
                     ActivityName = activity.ActivityName,
                     ActivityDescription = activity.ActivityDescription,
                     DateOfActivity = activity.DateOfActivity,
@@ -158,21 +259,39 @@ namespace EventureMVC.Controllers
                 };
             }
 
+            try
+            {
+                var json = JsonConvert.SerializeObject(activity);
 
-            var json = JsonConvert.SerializeObject(activity);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/editActivity/{activity.ActivityId}", content);
 
-            var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/editActivity/{activity.ActivityId}", content);
-
-            return RedirectToAction("ListAllActivities");
+                return RedirectToAction("ListAllActivities");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unable to edit activity. Please, try again later.";
+                return RedirectToAction("ListAllActivities");
+            }
         }
 
 
         [HttpPost]
         public async Task<IActionResult> DeleteActivity(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data received.");
+            }
+
             var response = await _httpClient.DeleteAsync($"{baseUri}/api/Activity/deleteActivity/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Unable to list your information. Please, try again later.";
+                return RedirectToAction("ListAllActivities");
+            }
 
             return RedirectToAction("ListAllActivities");
         }
@@ -183,11 +302,27 @@ namespace EventureMVC.Controllers
 
             var response = await _httpClient.GetAsync($"{baseUri}/api/Category/getAllCategories");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Unable to list your information. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
             var json = await response.Content.ReadAsStringAsync();
 
-            var categories = JsonConvert.DeserializeObject<List<Category>>(json);
+            try
+            {
+                var categories = JsonConvert.DeserializeObject<List<Category>>(json);
 
-            return View(categories);
+                return View(categories);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list categories. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
         }
 
         public IActionResult CreateCategory()
@@ -202,31 +337,56 @@ namespace EventureMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(category);
+                return BadRequest("Invalid data received.");
             }
 
-            var json = JsonConvert.SerializeObject(category);
+            try
+            {
+                var json = JsonConvert.SerializeObject(category);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{baseUri}/api/Category/addCategory", content);
+                var response = await _httpClient.PostAsync($"{baseUri}/api/Category/addCategory", content);
 
-            return RedirectToAction("ListAllCategories");
+                return RedirectToAction("ListAllCategories");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unable to create category. Please, try again later.";
+                return RedirectToAction("ListAllCategories");
+            }
         }
 
 
-        //MUST BE FIXED
+        //BUGGED
         public async Task<IActionResult> EditCategory(int id)
         {
             ViewData["Title"] = "Edit Category";
 
             var response = await _httpClient.GetAsync($"{baseUri}/api/Category/getCategoryById/{id}");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+                return RedirectToAction("ListAllCategories");
+            }
+
             var json = await response.Content.ReadAsStringAsync();
 
-            var category = JsonConvert.DeserializeObject<Category>(json);
 
-            return View(category);
+            try
+            {
+                var category = JsonConvert.DeserializeObject<Category>(json);
+
+                return View(category);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to find category. Please, try again later.";
+                return RedirectToAction("ListAllCategories");
+            }
         }
 
         [HttpPost]
@@ -236,6 +396,11 @@ namespace EventureMVC.Controllers
             //{
             //    return View(category);
             //}
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data received.");
+            }
 
 
             if (ModelState.IsValid)
@@ -248,20 +413,39 @@ namespace EventureMVC.Controllers
                 };
 
             }
+            try
+            {
+                var json = JsonConvert.SerializeObject(category);
 
-            var json = JsonConvert.SerializeObject(category);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync($"{baseUri}/api/Category/editCategory/{category.CategoryId}", content);
 
-            var response = await _httpClient.PutAsync($"{baseUri}/api/Category/editCategory/{category.CategoryId}", content);
+                return RedirectToAction("ListAllCategories");
+            }
 
-            return RedirectToAction("ListAllCategories");
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unable to edit category. Please, try again later.";
+                return RedirectToAction("ListAllCategories");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var response = await _httpClient.DeleteAsync($"{baseUri}/api/Category/deleteCategory?categoryId=/{id}");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data received.");
+            }
+
+            var response = await _httpClient.DeleteAsync($"{baseUri}/api/Category/deleteCategory/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Unable to delete category. Please, try again later.";
+                return RedirectToAction("ListAllCategories");
+            }
 
             return RedirectToAction("ListAllCategories");
         }
