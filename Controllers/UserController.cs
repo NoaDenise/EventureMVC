@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
 using EventureMVC.Models.ViewModel;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace EventureMVC.Controllers
 {
@@ -25,7 +26,8 @@ namespace EventureMVC.Controllers
         public IActionResult Login()
         {
             return View();
-        }      
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserViewModel login)
         {
@@ -48,6 +50,21 @@ namespace EventureMVC.Controllers
                     return View(login);
                 }
 
+                // Parse the token to extract claims (including 'nameid')
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid")?.Value;
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    // Store userId in session
+                    HttpContext.Session.SetString("nameid", userId);
+                }
+                else if (userRole == "user")
+                {
+                    ModelState.AddModelError("", "Failed to retrieve User ID from token.");
+                    return View(login);
+                }
 
                 // Set the token cookie with appropriate expiration based on Remember Me
                 HttpContext.Response.Cookies.Append("jwtToken", token, new Microsoft.AspNetCore.Http.CookieOptions
@@ -60,23 +77,23 @@ namespace EventureMVC.Controllers
 
 
                 // Retrieve the user's role after successful login
-                var userRole = await GetUserRole(token);  
+                var userRole = await GetUserRole(token);
 
                 if (userRole == "admin")
 
                 {    // If the user is an admin, redirect to the admin page
-                    return RedirectToAction("index", "Admin");                
+                    return RedirectToAction("index", "Admin");
                 }
                 else if (userRole == "user")
                 {
                     // If the user is a regular user, redirect to the Explore page
-                    return RedirectToAction("index", "Explore");          
+                    return RedirectToAction("index", "Explore");
                 }
             }
             else
             {
                 // If the login attempt fails, add an error to the ModelState
-                ModelState.AddModelError("", "Invalid login attempt.");               
+                ModelState.AddModelError("", "Invalid login attempt.");
             }
             // If login fails, return the login view with the model to display errors
             return View(login);

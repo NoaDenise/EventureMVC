@@ -26,6 +26,7 @@ namespace EventureMVC
             {
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -33,6 +34,10 @@ namespace EventureMVC
                 options.LoginPath = "/User/Login";
                 options.LogoutPath = "/User/Logout";
                 options.AccessDeniedPath = "/";
+
+                // Cookie expiration settings
+                options.ExpireTimeSpan = TimeSpan.FromDays(30); // Set this to a reasonable expiration time
+                options.SlidingExpiration = true; // Optional: Automatically refresh the expiration time
             });
          
 
