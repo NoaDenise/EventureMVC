@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace EventureMVC.Controllers
-{
-    //[Authorize(Roles = "User")]
 
     public class HomeController : Controller
     {
@@ -40,7 +38,7 @@ namespace EventureMVC.Controllers
             "Login",
             "Register",
             "SecondActivity/AddActivity"
-            // Kanske måste uppdatera till något annat, så att den hittar alla sidor automatisktt, eller så har vi de viktiga saker man kan söka på.
+            // Kanske mï¿½ste uppdatera till nï¿½got annat, sï¿½ att den hittar alla sidor automatisktt, eller sï¿½ har vi de viktiga saker man kan sï¿½ka pï¿½.
         };
 
         public IActionResult Search(string query)

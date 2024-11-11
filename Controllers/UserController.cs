@@ -14,21 +14,13 @@ namespace EventureMVC.Controllers
 {
     public class UserController : Controller
     {
-
         private readonly HttpClient _httpClient;
         private readonly string _baseUri = "https://localhost:7277/";
 
         public UserController(HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient; // Injecting the HTTP client dependency
         }
-
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
 
         // GET: User/Login
         public IActionResult Login()
@@ -68,7 +60,7 @@ namespace EventureMVC.Controllers
                     // Store userId in session
                     HttpContext.Session.SetString("nameid", userId);
                 }
-                else
+                else if (userRole == "user")
                 {
                     ModelState.AddModelError("", "Failed to retrieve User ID from token.");
                     return View(login);
@@ -150,7 +142,7 @@ namespace EventureMVC.Controllers
         // POST: User/GuestLogin
         [HttpPost]
         public IActionResult GuestLogin()
-        {
+        {            
             return RedirectToAction("Index", "Explore"); // Redirect to a guest-friendly page
         }
 
@@ -167,6 +159,7 @@ namespace EventureMVC.Controllers
             // Redirect the user back to the login page
             return RedirectToAction("Login", "User");
         }
+
     }
 }
 

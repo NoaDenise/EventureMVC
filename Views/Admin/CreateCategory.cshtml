@@ -1,0 +1,25 @@
+﻿@model Category
+
+<h4>Create New Category</h4>
+
+<form asp-action="CreateCategory" method="post">
+    <div class="form-group">
+        <label asp-for="CategoryName">Category Name</label>
+        <input asp-for="CategoryName" class="form-control" />
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryDescription">Category Description</label>
+        <input asp-for="CategoryDescription" class="form-control" />
+        <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+    </div>
+    <button type="submit" class="button">Save</button>
+    <a asp-action="ListAllCategories" class="button">Cancel</a>
+</form>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

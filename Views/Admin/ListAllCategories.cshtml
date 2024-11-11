@@ -1,0 +1,28 @@
+﻿@model List<Category>
+
+<div class="button">
+    <a asp-action="CreateCategory" asp-controller="Admin" class="button">Create</a>
+</div>
+
+<h4>All Categories</h4>
+
+@foreach (var category in Model)
+{
+    <p class="card-text">ID: @category.CategoryId</p>
+    <p class="card-text">Name: @category.CategoryName</p>
+    <p class="card-text">Description: @category.CategoryDescription</p>
+
+    <a asp-controller="Admin" asp-action="EditCategory" asp-route-id=@category.CategoryId class="button">Edit</a>
+
+    <form method="post" asp-action="DeleteCategory" asp-controller="Admin" style="display:inline;">
+        <input type="hidden" name="id" value="@category.CategoryId" />
+        <button type="submit" class="button" onclick="return confirm('Do you really want to delete this category?');">Delete</button>
+    </form>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

@@ -1,0 +1,76 @@
+﻿@model Activity
+
+<h4>Edit Activity</h4>
+
+<form method="post" asp-action="EditActivity">
+
+    <div class="form-group">
+        <label asp-for="ActivityName">Name</label>
+        <input asp-for="ActivityName" class="form-control" />
+        <span asp-validation-for="ActivityName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ActivityDescription">Description</label>
+        <input asp-for="ActivityDescription" class="form-control" />
+        <span asp-validation-for="ActivityDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ActivityLocation">Location</label>
+        <input asp-for="ActivityLocation" class="form-control" />
+        <span asp-validation-for="ActivityLocation" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfActivity">Date Of Activity</label>
+        <input asp-for="DateOfActivity" class="form-control" />
+        <span asp-validation-for="DateOfActivity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUrl">Image Url</label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="WebsiteUrl">Website Url</label>
+        <input asp-for="WebsiteUrl" class="form-control" />
+        <span asp-validation-for="WebsiteUrl" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ContactInfo">Contact Info</label>
+        <input asp-for="ContactInfo" class="form-control" />
+        <span asp-validation-for="ContactInfo" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="IsFree">Is Free</label>
+        <input asp-for="IsFree" type="checkbox" class="form-check-input" />
+        <span asp-validation-for="IsFree" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Is18Plus">Is 18+</label>
+        <input asp-for="Is18Plus" type="checkbox" class="form-check-input" />
+        <span asp-validation-for="Is18Plus" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IsFamilyFriendly">Is Kid Friendly</label>
+        <input asp-for="IsFamilyFriendly" type="checkbox" class="form-check-input" />
+        <span asp-validation-for="IsFamilyFriendly" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="ActivityId" />
+    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="IsApproved" />
+
+
+
+    <button type="submit" class="button">Save</button>
+    <a asp-action="ListAllActivities" class="button">Cancel</a>
+
+</form>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

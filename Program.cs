@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using EventureMVC.Models;
+using System.Net.Http.Headers;
 
 namespace EventureMVC
 {
@@ -10,7 +13,15 @@ namespace EventureMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddHttpClient();
+
+            //builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient("APIClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7277/"); 
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
             builder.Services.AddSession(options =>
             {
                 options.Cookie.HttpOnly = true;
@@ -28,6 +39,8 @@ namespace EventureMVC
                 options.ExpireTimeSpan = TimeSpan.FromDays(30); // Set this to a reasonable expiration time
                 options.SlidingExpiration = true; // Optional: Automatically refresh the expiration time
             });
+         
+
 
             var app = builder.Build();
 
