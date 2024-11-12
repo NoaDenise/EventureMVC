@@ -1,14 +1,27 @@
-﻿@using EventureMVC.Models
-@model CommentCreateEditDTO
+﻿@using EventureMVC.Models.ViewModel;
+@model CommentViewModel;
 
-<h2>Add New Comment</h2>
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label for="CommentText">Comment Text</label>
-        <textarea id="CommentText" name="CommentText" class="form-control" required></textarea>
-    </div>
-    <div class="form-group">
-        <input type="hidden" asp-for="ActivityId" value="@ViewData["id"]" />
-    </div>
-    <button type="submit" class="btn btn-success">Submit</button>
-</form>
+@* @if (User.Identity.IsAuthenticated)
+{ *@
+    <h5 class="mt-4">Add a Comment</h5>
+    <form asp-action="Create" method="post">
+        <input type="hidden" asp-for="ActivityId" />
+
+        <div class="form-group">
+            <label for="CommentText">Comment</label>
+            <textarea id="CommentText" name="CommentText" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="ActivityId" value="@ViewData["id"]" />
+            <input type="hidden" asp-for="UserId" value="@ViewData["id"]" />
+
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+@* }
+else
+{
+    <p class="text-muted mt-3">
+        You need to be <a asp-controller="User" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Comment", new { activityId = Model.ActivityId })">logged in</a> to add a comment.
+    </p>
+} *@
