@@ -4,6 +4,7 @@ namespace EventureMVC.Models
 {
     public class Comment
     {
+
         public int CommentId { get; set; }
 
         [StringLength(2500)]
@@ -15,5 +16,8 @@ namespace EventureMVC.Models
 
         [Required]
         public int ActivityId { get; set; }
+
+        public string UserName { get; set; }
+        public string ActivityName { get; set; }
     }
 }

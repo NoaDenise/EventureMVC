@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using EventureMVC.Models;
+using EventureMVC.Models.ViewModel;
+
+
 namespace EventureMVC.Controllers
 {
     public class CommentController : Controller
@@ -15,12 +18,13 @@ namespace EventureMVC.Controllers
             _httpClient = httpClient;
         }
 
-        public async Task<IActionResult> Index(int activityId=3 )
+        public async Task<IActionResult> Index(int activityId)
         {
-            ViewData["activityId"] = activityId;
-
+            //ViewData["activityId"] = activityId;
+            
             // Log API URI and activityId
             var apiUrl = $"{_baseUri}api/Comment/getAllCommentsByActivity/{activityId}";
+              
 
             var response = await _httpClient.GetAsync(apiUrl);
 
@@ -28,7 +32,7 @@ namespace EventureMVC.Controllers
             {
                 Console.WriteLine($"API Response Status Code: {response.StatusCode}");
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-                return View(new List<CommentShowDTO>());
+                return View(new List<CommentViewModel >());
             }
 
             var json = await response.Content.ReadAsStringAsync();
@@ -36,7 +40,7 @@ namespace EventureMVC.Controllers
 
             try
             {
-                var commentList = JsonConvert.DeserializeObject<List<CommentShowDTO>>(json);
+                var commentList = JsonConvert.DeserializeObject<List<CommentViewModel>>(json);
                 Console.WriteLine("Deserialized Comment List Count: " + (commentList?.Count ?? 0));
 
                 return View(commentList);
@@ -45,21 +49,40 @@ namespace EventureMVC.Controllers
             {
                 Console.WriteLine("Deserialization Error: " + ex.Message);
                 ModelState.AddModelError(string.Empty, "Error processing data. Please try again later.");
-                return View(new List<CommentShowDTO>());
+                return View(new List<CommentViewModel>());
             }
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int activityId =3)
         {
-            return View(new CommentCreateEditDTO());
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create(CommentCreateEditDTO newComment)
-        {
-            if (!ModelState.IsValid)
+            var newComment = new CommentViewModel
+            {
+                ActivityId = activityId
+            };
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            if (string.IsNullOrEmpty(token))
+            {
+                // Om användaren inte är inloggad, skicka användaren till inloggningssidan
+                return RedirectToAction("Login", "User", new { returnUrl = $"/Comment/Create?activityId={activityId}" });
+            }
+            else 
             {
                 return View(newComment);
             }
+
+            // Visa kommentarsformuläret om användaren är inloggad
+            return View(new CommentViewModel { ActivityId = activityId });
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> Create(CommentViewModel newComment)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(newComment);
+            //}
 
             var token = HttpContext.Request.Cookies["jwtToken"];
             if (string.IsNullOrEmpty(token))
@@ -93,7 +116,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Index");
             }
             var json = await response.Content.ReadAsStringAsync(); 
-            var comment = JsonConvert.DeserializeObject<CommentShowDTO>(json); 
+            var comment = JsonConvert.DeserializeObject<CommentViewModel>(json); 
 
         
             return View(comment);
@@ -110,14 +133,14 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Index");
             }
             var json = await response.Content.ReadAsStringAsync();
-            var comment = JsonConvert.DeserializeObject<CommentShowDTO>(json);
+            var comment = JsonConvert.DeserializeObject<CommentViewModel>(json);
 
 
             return View(comment);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int commentId, CommentCreateEditDTO updatedComment)
+        public async Task<IActionResult> Edit(int commentId, CommentViewModel updatedComment)
         {
             var apiUrl = $"{_baseUri}api/Comment/editComment/{commentId}";
 

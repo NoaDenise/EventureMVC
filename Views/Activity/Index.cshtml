@@ -1,10 +1,14 @@
-﻿@model EventureMVC.Models.ActivityViewModel
+﻿@using EventureMVC.Models.ViewModel;
+@model ActivityViewModel
+
+
 
 @if (Model != null)
 {
     <div class="container my-4">
         <div class="card">
             <div class="card-body">
+
                 <!-- Event Name -->
                 <h3 class="card-title">@Model.ActivityName</h3>
 
@@ -24,17 +28,8 @@
                 {
                     <img src="@Model.ImageUrl" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
                 }
-
-                <!-- Comments Section -->
-                <h5 class="mt-4">Comments</h5>
-
-                <!-- Comment Form -->
-                <form asp-action="AddComment" method="post" class="mt-2">
-                    <div class="form-group">
-                        <textarea class="form-control" id="commentText" name="commentText" rows="4" placeholder="Add a comment..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">Add Comment</button>
-                </form>
+}
+          
             </div>
         </div>
     </div>
@@ -43,4 +38,58 @@ else
 {
     <p>No activity found or an error occurred while fetching the data.</p>
 }
+
+<!-- Comments Section -->
+<div class="container my-4">
+
+    <h5 class="mt-4">Comments</h5>
+
+
+    <div class="d-flex justify-content-between align-items-center">
+        <p>Would you like to add your comment?</p>
+        <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3">
+            <i class="fas fa-comment-alt"></i> Add Comment
+        </a>
+    </div>
+
+    @if (Model.Comments != null && Model.Comments.Any())
+    {
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">@comment.UserName</h6>
+                    <p class="card-text">@comment.CommentText</p>
+                    <p class="text-muted small">@comment.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No comments available for this activity.</p>
+    }
+    
+</div>
+
+
+    <!-- Add Comment Button or Login Prompt -->
+    @* @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-primary mt-3">Add Comment</a>
+    }
+    else
+    {
+        <p class="text-muted mt-3">
+            You need to be <a asp-controller="User" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Activity", new { activityId = Model.ActivityId })">logged in</a> to add a comment.
+        </p>
+    } *@
+
+<!-- Comment Form -->
+@* <form asp-action="AddComment" method="post" class="mt-2">
+                    <div class="form-group">
+                        <textarea class="form-control" id="commentText" name="commentText" rows="4" placeholder="Add a comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Add Comment</button>
+                </form> *@
 

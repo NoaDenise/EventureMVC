@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using EventureMVC.Models;
+using EventureMVC.Models.ViewModel;
 
 namespace EventureMVC.Controllers
 {
@@ -13,43 +14,43 @@ namespace EventureMVC.Controllers
         {
             _httpClient = httpClient;
         }
-        public async Task<IActionResult> Index(int activityId = 3)
+
+        public async Task<IActionResult> Index(int activityId)
         {
             ViewData["Title"] = "Activity";
 
             // Define the request URI with activityId parameter
-            var requestUri = $"{BaseUri}api/Activity/getActivityById/{activityId}";
-
+            var activityUri = $"{BaseUri}api/Activity/getActivityById/{activityId}";
+           
+            var commentsUri = $"{BaseUri}api/Comment/getAllCommentsByActivity/{activityId}";
+              
             try
             {
-                // Send request to API
-                var response = await _httpClient.GetAsync(requestUri);
-
-                // Check if the response is successful
-                if (!response.IsSuccessStatusCode)
+                // Fetch Activity details
+                var activityResponse = await _httpClient.GetAsync(activityUri);
+                if (!activityResponse.IsSuccessStatusCode)
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to retrieve data. Please contact the administrator.");
+                    ModelState.AddModelError(string.Empty, "Failed to retrieve activity data.");
                     return View(null);
                 }
+                var activityJson = await activityResponse.Content.ReadAsStringAsync();
+                var activity = JsonConvert.DeserializeObject<ActivityViewModel>(activityJson);
 
-                // Read response content as string
-                var json = await response.Content.ReadAsStringAsync();
-
-                // Deserialize JSON to a single ActivityViewModel object
-                var activity = JsonConvert.DeserializeObject<ActivityViewModel>(json);
+                // Fetch Comments related to the activity
+                var commentsResponse = await _httpClient.GetAsync(commentsUri);
+                if (!commentsResponse.IsSuccessStatusCode)
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to retrieve comments.");
+                    return View(activity); // Return activity even if comments fail
+                }
+                var commentsJson = await commentsResponse.Content.ReadAsStringAsync();
+                activity.Comments = JsonConvert.DeserializeObject<List<CommentViewModel>>(commentsJson);
 
                 return View(activity);
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
-                // Handle request errors
-                ModelState.AddModelError(string.Empty, "Server error. Please try again later.");
-                return View(null);
-            }
-            catch (JsonException)
-            {
-                // Handle deserialization errors
-                ModelState.AddModelError(string.Empty, "Error processing data. Please try again later.");
+                ModelState.AddModelError(string.Empty, "An error occurred. Please try again later.");
                 return View(null);
             }
         }
