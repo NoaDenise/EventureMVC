@@ -1,11 +1,15 @@
-﻿@model EventureMVC.Models.User
+﻿@model EventureMVC.Models.ViewModel.AdminInformationViewModel
 
-@* <h4>My Information</h4>
+<h4>My Information</h4>
 
     <p class="card-text">First name: @Model.FirstName</p>
-    <p class="card-text"></p>
-    <p class="card-text"></p> *@
+    <p class="card-text">Last name: @Model.LastName</p>
+    <p class="card-text">Password will not be listed, but you can change it here.</p>
 
+<!-- asp-route-id should be removed, since it will collide with identity -->
+<a asp-controller="Admin" asp-action="EditAdminInformation" class="button">Edit</a>
+
+@* <a asp-controller="Admin" asp-action="EditAdminInformation" asp-route-id="@Model.Id" class="button">Edit</a> *@
 
 @if (TempData["ErrorMessage"] != null)
 {

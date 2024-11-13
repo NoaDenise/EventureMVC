@@ -1,7 +1,10 @@
 ﻿using EventureMVC.Models;
+using EventureMVC.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.ComponentModel.Design;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 
 namespace EventureMVC.Controllers
@@ -17,6 +20,8 @@ namespace EventureMVC.Controllers
             _httpClient = httpClient;
             _logger = logger;
         }
+
+
         public IActionResult Index()
         {
             ViewData["Title"] = "Admin Pages";
@@ -24,8 +29,15 @@ namespace EventureMVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ListMyInformation(string userId)
+        public async Task<IActionResult> ListAdminInformation(/*string userId*/)
         {
+
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
 
             //USE THIS??? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----------------
             //if (!User.IsInRole("Admin"))
@@ -54,8 +66,16 @@ namespace EventureMVC.Controllers
 
             try
             {
-                var myInformation = JsonConvert.DeserializeObject<User>(json);
-                return View();
+                var adminInfo = JsonConvert.DeserializeObject<User>(json);
+
+                //we will only list name for admin, password should never be shown/fetched
+                var model = new AdminInformationViewModel
+                {
+                    FirstName = adminInfo.FirstName,
+                    LastName = adminInfo.LastName
+                };
+
+                return View(model);
 
             }
             catch (JsonException ex)
@@ -68,20 +88,104 @@ namespace EventureMVC.Controllers
         }
 
 
-        public IActionResult EditMyInformation()
+        public async Task<IActionResult> EditAdminInformation()
         {
             ViewData["Title"] = "Edit Information";
 
-            return View();
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest("Invalid data received.");
+            //}
+
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var response = await _httpClient.GetAsync($"{baseUri}/api/User/getUserById/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+                TempData["ErrorMessage"] = "Unable to find admin. Please, try again later.";
+                return RedirectToAction("ListAdminInformation");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                var admin = JsonConvert.DeserializeObject<AdminInformationViewModel>(json);
+
+                //var model = new AdminInformationEditViewModel
+                //{
+
+                //}
+
+                return View(admin);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("ListAllActivities");
+            }
+
+
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditMyInformation()
-        //{
+        [HttpPost]
+        public async Task<IActionResult> EditAdminInformation(AdminInformationViewModel adminInformationViewModel)
+        {
 
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(adminInformationViewModel);
+            //}
 
-        //    return RedirectToAction("AdminInformation");
-        //}
+            //if (ModelState.IsValid)
+            //{
+                var adminToEdit = new AdminInformationViewModel
+                {
+                    Id = adminInformationViewModel.Id,
+                    FirstName = adminInformationViewModel.FirstName,
+                    LastName = adminInformationViewModel.LastName,
+                    CurrentPassword = adminInformationViewModel.CurrentPassword,
+                    NewPassword = adminInformationViewModel.NewPassword,
+                    ConfirmPassword = adminInformationViewModel.ConfirmPassword
+                };
+
+            //}
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var apiUrl = $"{baseUri}/api/User/editAdmin/{id}";
+
+            var response = await _httpClient.PutAsJsonAsync(apiUrl, adminInformationViewModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Information successfully updated!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Unable to update information.";
+            }
+
+            return RedirectToAction("ListAdminInformation");
+
+            
+        }
+       
 
         public async Task<IActionResult> ListActivitiesToApprove()
         {
@@ -235,10 +339,10 @@ namespace EventureMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> EditActivity(Activity activity)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(editActivityVM);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(activity);
+            }
 
             if (ModelState.IsValid)
             {
@@ -337,7 +441,7 @@ namespace EventureMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid data received.");
+                return View(category);
             }
 
             try
@@ -390,17 +494,17 @@ namespace EventureMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCategory(Category category)
+        public async Task<IActionResult> EditCategory(int categoryId, Category category)
         {
             //if (!ModelState.IsValid)
             //{
             //    return View(category);
             //}
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid data received.");
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest("Invalid data received.");
+            //}
 
 
             if (ModelState.IsValid)
