@@ -120,10 +120,10 @@ namespace EventureMVC.Controllers
             }
         }
 
+        //Toggles the like between like and unlike
         [HttpPost]
         public async Task<IActionResult> LikeActivity(int activityId)
         {
-            // Get userId from session or JWT
             var userId = HttpContext.Session.GetString("nameid");
 
             if (string.IsNullOrEmpty(userId))
@@ -131,16 +131,23 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            // Call API to like activity
-            var response = await _client.PostAsJsonAsync($"{baseUrl}api/User/addUserEvent/{userId}/{activityId}",
-                new { UserId = userId, ActivityId = activityId }
-            );
+            var likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
+            List<int> likedActivities = new List<int>();
+
+            if (likedActivitiesResponse.IsSuccessStatusCode)
+            {
+                var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
+                likedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
+            }
+
+            bool isLiked = likedActivities.Contains(activityId);
+            var toggleLikeUrl = $"{baseUrl}api/User/toggleLike/{userId}/{activityId}/{!isLiked}";
+
+            var response = await _client.PostAsJsonAsync(toggleLikeUrl, new { UserId = userId, ActivityId = activityId });
 
             if (response.IsSuccessStatusCode)
             {
-                // Re-fetch the liked activities to pass them to the view
-                var likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
-                List<int> likedActivities = new List<int>();
+                likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
 
                 if (likedActivitiesResponse.IsSuccessStatusCode)
                 {
@@ -148,18 +155,17 @@ namespace EventureMVC.Controllers
                     likedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
                 }
 
-                // Redirect back to the Index action with the updated liked activities
-                return RedirectToAction("Index", "Explore", new
-                {
-                    likedActivities = likedActivities // Pass the updated liked activities list
-                });
+                // Pass liked activities list to the view model when redirecting back to the Index action
+                return RedirectToAction("Index", new { likedActivities });
             }
             else
             {
-                TempData["Error"] = "Failed to like the activity. You may have already liked it.";
-                return RedirectToAction("Index", "Explore");
+                TempData["Error"] = "Failed to toggle the like status.";
+                return RedirectToAction("Index");
             }
         }
+
+
 
 
         // Loads the countries json so we can list them in search bar
