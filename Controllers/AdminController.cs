@@ -72,7 +72,8 @@ namespace EventureMVC.Controllers
                 var model = new AdminInformationViewModel
                 {
                     FirstName = adminInfo.FirstName,
-                    LastName = adminInfo.LastName
+                    LastName = adminInfo.LastName,
+                    PhoneNumber = adminInfo.PhoneNumber
                 };
 
                 return View(model);
@@ -134,29 +135,25 @@ namespace EventureMVC.Controllers
                 TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
                 return RedirectToAction("ListAllActivities");
             }
-
-
         }
 
         [HttpPost]
         public async Task<IActionResult> EditAdminInformation(AdminInformationViewModel adminInformationViewModel)
         {
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(adminInformationViewModel);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(adminInformationViewModel);
+            }
 
             //if (ModelState.IsValid)
             //{
-                var adminToEdit = new AdminInformationViewModel
+            var adminToEdit = new AdminInformationViewModel
                 {
-                    Id = adminInformationViewModel.Id,
+                    //Id = adminInformationViewModel.Id,
                     FirstName = adminInformationViewModel.FirstName,
                     LastName = adminInformationViewModel.LastName,
-                    CurrentPassword = adminInformationViewModel.CurrentPassword,
-                    NewPassword = adminInformationViewModel.NewPassword,
-                    ConfirmPassword = adminInformationViewModel.ConfirmPassword
+                    PhoneNumber = adminInformationViewModel.PhoneNumber
                 };
 
             //}
@@ -168,13 +165,13 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var apiUrl = $"{baseUri}/api/User/editAdmin/{id}";
+            var apiUrl = $"{baseUri}/api/User/editAdminInfo/{id}";
 
             var response = await _httpClient.PutAsJsonAsync(apiUrl, adminInformationViewModel);
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["SuccessMessage"] = "Information successfully updated!";
+                TempData["SuccessMessage"] = "Information successfully updated!";//Not shown!!!
             }
             else
             {
@@ -185,7 +182,99 @@ namespace EventureMVC.Controllers
 
             
         }
-       
+
+        public async Task<IActionResult> EditAdminPassword()
+        {
+            ViewData["Title"] = "Edit Password";
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest("Invalid data received.");
+            //}
+
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var response = await _httpClient.GetAsync($"{baseUri}/api/User/getUserById/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+                TempData["ErrorMessage"] = "Unable to find admin. Please, try again later.";
+                return RedirectToAction("ListAdminInformation");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                var admin = JsonConvert.DeserializeObject<AdminPasswordViewModel>(json);
+
+                return View(admin);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list activities to approve. Please, try again later.";
+                return RedirectToAction("ListAllActivities");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAdminPassword(AdminPasswordViewModel adminPasswordViewModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(adminPasswordViewModel);
+            }
+
+            //if (ModelState.IsValid)
+            //{
+            var adminToEdit = new AdminPasswordViewModel
+            {
+                CurrentPassword = adminPasswordViewModel.CurrentPassword,
+                NewPassword = adminPasswordViewModel.NewPassword,
+                ConfirmPassword = adminPasswordViewModel.ConfirmPassword
+            };
+
+            //}
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var apiUrl = $"{baseUri}/api/User/editAdminPassword/{id}";
+
+            var response = await _httpClient.PutAsJsonAsync(apiUrl, adminPasswordViewModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Password successfully updated!";//EDIT TO BE SHOWN!!
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Unable to update password.";//This is shown...
+            }
+
+            return RedirectToAction("ListAdminInformation");
+
+
+        }
+
+
+
+
+
 
         public async Task<IActionResult> ListActivitiesToApprove()
         {

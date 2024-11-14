@@ -13,7 +13,7 @@ namespace EventureMVC.Models
         public string LastName { get; set; }
         public string? UserLocation { get; set; }
         public bool IsAdmin { get; set; }
-
+        public string PhoneNumber { get; set; }
 
     }
 }
