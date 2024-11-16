@@ -74,6 +74,39 @@ namespace EventureMVC.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteSavedActivity(int userEventId)
+        {
+            string userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            // Anropa API:et för att radera den sparade aktiviteten
+            var response = await _httpClient.DeleteAsync($"{_baseUri}/api/User/deleteUserEvent?userEventId={userEventId}&userId={userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var updatedResponse = await _httpClient.GetAsync($"{_baseUri}/api/User/getAllUserEvents?userId={userId}");
+
+                if (updatedResponse.IsSuccessStatusCode)
+                {
+                    var json = await updatedResponse.Content.ReadAsStringAsync();
+                    var savedActivities = JsonConvert.DeserializeObject<List<SavedActivitiesUserDTO>>(json);
+                    return View("SavedActivities", savedActivities);
+                }
+            }
+            else
+            {
+                ViewData["ErrorMessage"] = "Error occurred while deleting the activity.";
+                return View("SavedActivities");
+            }
+
+            return RedirectToAction("SavedActivities");
+        }
+
         public async Task<IActionResult> ActivitySignUps()
         {
             string userId = "1d19e442-0828-4e8f-8b37-0752b62ab4a8";  // Byt ut detta med din autentisering
