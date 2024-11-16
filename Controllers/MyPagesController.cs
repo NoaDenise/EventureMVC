@@ -10,6 +10,7 @@ namespace EventureMVC.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUri = "https://localhost:7277";
+        private readonly ILogger<AdminController> _logger;
 
         public MyPagesController(HttpClient httpClient)
         {
@@ -33,19 +34,49 @@ namespace EventureMVC.Controllers
 
         public async Task<IActionResult> MyInformation()
         {
-            string userId = HttpContext.Session.GetString("nameid");
+            var userId = HttpContext.Session.GetString("nameid");
 
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Login", "User");
             }
 
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{userId}");
-            var json = await response.Content.ReadAsStringAsync();
-            var myInformation = JsonConvert.DeserializeObject<MyInformationViewModel>(json);
+            ViewData["Title"] = "My Information";
 
-            return View(myInformation);
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{userId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Unable to list your information. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                var userInfo = JsonConvert.DeserializeObject<MyInformationDTO>(json);
+
+                var model = new MyInformationViewModel
+                {
+                    FirstName = userInfo.FirstName,
+                    LastName = userInfo.LastName,
+                    PhoneNumber = userInfo.PhoneNumber,
+                    UserLocation = userInfo.UserLocation,
+                    UserName = userInfo.UserName,
+                    Email = userInfo.Email
+                };
+
+                return View(model);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list your information. Please, try again later.";
+                return RedirectToAction("Index");
+            }
         }
+
 
         public async Task<IActionResult> SavedActivities()
         {
