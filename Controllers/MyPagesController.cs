@@ -31,6 +31,22 @@ namespace EventureMVC.Controllers
             return View("Index"); // Återger vyn för My Pages
         }
 
+        public async Task<IActionResult> MyInformation()
+        {
+            string userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{userId}");
+            var json = await response.Content.ReadAsStringAsync();
+            var myInformation = JsonConvert.DeserializeObject<MyInformationViewModel>(json);
+
+            return View(myInformation);
+        }
+
         public async Task<IActionResult> SavedActivities()
         {
             ViewData["Title"] = "Saved Activities";
