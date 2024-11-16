@@ -51,18 +51,25 @@ namespace EventureMVC.Controllers
         {
             ViewData["Title"] = "Saved Activities";
 
-            // Här ska vi anropa API:et för att hämta sparade aktiviteter
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getAllUserEvents");
+            // Hämta användar-ID från sessionen
+            string userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            // Anropa API:et för att hämta sparade aktiviteter
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getAllUserEvents?userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var savedActivities = JsonConvert.DeserializeObject<List<SavedActivitiesUserDTO>>(json);
-                return View("SavedActivities");
+                return View("SavedActivities", savedActivities);
             }
             else
             {
-                // Hantera fel här, exempelvis skicka en tom lista eller ett felmeddelande
                 return View("SavedActivities", new List<SavedActivitiesUserDTO>());
             }
         }
