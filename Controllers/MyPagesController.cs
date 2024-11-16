@@ -109,7 +109,12 @@ namespace EventureMVC.Controllers
 
         public async Task<IActionResult> ActivitySignUps()
         {
-            string userId = "1d19e442-0828-4e8f-8b37-0752b62ab4a8";  // Byt ut detta med din autentisering
+            string userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
 
             var response = await _httpClient.GetAsync($"{_baseUri}/api/Attendance/getUsersAttendance/{userId}");
 
@@ -117,14 +122,49 @@ namespace EventureMVC.Controllers
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var activitySignUps = JsonConvert.DeserializeObject<List<UserAttendanceDTO>>(json);
-
-                return View("ActivitySignUps");
+                return View("ActivitySignUps", activitySignUps);
             }
             else
             {
-                // Hantera fel vid hämtning av data från API:et
-                return View("ActivitySignUps",new List<UserAttendanceDTO>());
+                return View("ActivitySignUps", new List<UserAttendanceDTO>());
             }
+        }
+
+
+
+        // Method to delete a user's activity sign-up
+        [HttpPost]
+        public async Task<IActionResult> DeleteActivitySignup(int attendanceId)
+        {
+            string userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            // Anropa API för att radera användarens sign-up, nu med både attendanceId och userId
+            var response = await _httpClient.DeleteAsync($"{_baseUri}/api/Attendance/deleteAttendance/{attendanceId}");
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                var updatedResponse = await _httpClient.GetAsync($"{_baseUri}/api/Attendance/getUsersAttendance/{userId}");
+
+                if (updatedResponse.IsSuccessStatusCode)
+                {
+                    var json = await updatedResponse.Content.ReadAsStringAsync();
+                    var activitySignUps = JsonConvert.DeserializeObject<List<UserAttendanceDTO>>(json);
+                    return View("ActivitySignUps", activitySignUps); // Återvänd till vyn med uppdaterad lista
+                }
+            }
+            else
+            {
+                ViewData["ErrorMessage"] = "Error occurred while deleting the activity sign-up.";
+                return View("ActivitySignUps");
+            }
+
+            return RedirectToAction("ActivitySignUps");
         }
 
 
