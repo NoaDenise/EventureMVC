@@ -18,19 +18,17 @@ namespace EventureMVC.Controllers
 
         public IActionResult Index()
         {
-            ViewData["Title"] = "My Pages"; // Sätter rubriken för vyn
+            // Hämta användar-ID från sessionen
+            string userId = HttpContext.Session.GetString("nameid");
+
+            // Om användaren inte är inloggad, omdirigera till login
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            ViewData["Title"] = "My Pages";
             return View("Index"); // Återger vyn för My Pages
-        }
-
-        public async Task <IActionResult> MyInformation(string userId = "1d19e442-0828-4e8f-8b37-0752b62ab4a8")
-        {
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{userId}");
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            var myInformation = JsonConvert.DeserializeObject<MyInformationViewModel>(json);
-
-            return View( myInformation);
         }
 
         public async Task<IActionResult> SavedActivities()
