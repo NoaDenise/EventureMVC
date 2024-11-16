@@ -130,8 +130,6 @@ namespace EventureMVC.Controllers
             }
         }
 
-
-
         // Method to delete a user's activity sign-up
         [HttpPost]
         public async Task<IActionResult> DeleteActivitySignup(int attendanceId)
@@ -167,11 +165,18 @@ namespace EventureMVC.Controllers
             return RedirectToAction("ActivitySignUps");
         }
 
-
-        public IActionResult EditDeleteCreatedActivities()
+        public IActionResult DeleteCreatedActivities()
         {
-            ViewData["Title"] = "Edit/Delete Created Activities";
-            return View(); 
+            // Hämta användar-ID från sessionen
+            string userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            ViewData["Title"] = "Delete Created Activities";
+            return View();
         }
     }
 }
