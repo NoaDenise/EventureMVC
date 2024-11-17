@@ -77,6 +77,45 @@ namespace EventureMVC.Controllers
             }
         }
 
+        public async Task<IActionResult> EditMyInformation()
+        {
+            ViewData["Title"] = "Edit Information";
+
+ 
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+                TempData["ErrorMessage"] = "Unable to find user. Please, try again later.";
+                return RedirectToAction("MyInformation");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                var user = JsonConvert.DeserializeObject<MyInformationViewModel>(json);
+
+
+                return View(user);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to list edit your information. Please, try again later.";
+                return RedirectToAction("Index");
+            }
+        }
+
 
         public async Task<IActionResult> SavedActivities()
         {
