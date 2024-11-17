@@ -116,6 +116,40 @@ namespace EventureMVC.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditMyInformation(MyInformationViewModel myInformationViewModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(myInformationViewModel);
+            }
+
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var apiUrl = $"{_baseUri}/api/User/editUser/{id}";
+
+            var response = await _httpClient.PutAsJsonAsync(apiUrl, myInformationViewModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Information successfully updated!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Unable to update information.";
+            }
+
+            return RedirectToAction("MyInformation");
+
+        }
+
 
         public async Task<IActionResult> SavedActivities()
         {
