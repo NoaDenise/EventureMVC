@@ -10,8 +10,8 @@
 <p class="card-text">Email: @Model.Email</p>
 <p class="card-text">Password will not be shown, but you can change it here.</p>
 
-<a asp-controller="MyPage" asp-action="EditUserInformation" class="button">Edit Information</a>
-<a asp-controller="MyPage" asp-action="EditUserPassword" class="button">Edit Password</a>
+<a asp-controller="MyPages" asp-action="EditMyInformation" class="button">Edit Information</a>
+<a asp-controller="MyPages" asp-action="EditUserPassword" class="button">Edit Password</a>
 
 @if (TempData["ErrorMessage"] != null)
 {
