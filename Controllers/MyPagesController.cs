@@ -112,7 +112,7 @@ namespace EventureMVC.Controllers
             {
                 _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
                 TempData["ErrorMessage"] = "Unable to edit your information. Please, try again later.";
-                return RedirectToAction("Index");
+                return RedirectToAction("MyInformation");
             }
         }
 
@@ -150,6 +150,76 @@ namespace EventureMVC.Controllers
 
         }
 
+        public async Task<IActionResult> EditUserPassword()
+        {
+            ViewData["Title"] = "Edit Password";
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: {response.StatusCode}");
+                TempData["ErrorMessage"] = "Unable to find user. Please, try again later.";
+                return RedirectToAction("MyInformation");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                var user = JsonConvert.DeserializeObject<UserPasswordViewModel>(json);
+
+                return View(user);
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
+                TempData["ErrorMessage"] = "Unable to edit password. Please, try again later.";
+                return RedirectToAction("MyInformation");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserPassword(UserPasswordViewModel userPasswordViewModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(userPasswordViewModel);
+            }
+
+
+            var id = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var apiUrl = $"{_baseUri}/api/User/editAdminPassword/{id}";
+
+            var response = await _httpClient.PutAsJsonAsync(apiUrl, userPasswordViewModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Password successfully updated!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Unable to update password.";
+            }
+
+            return RedirectToAction("MyInformation");
+
+        }
 
         public async Task<IActionResult> SavedActivities()
         {
