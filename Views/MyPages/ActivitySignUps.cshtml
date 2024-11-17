@@ -1,6 +1,6 @@
 ﻿@model List<EventureMVC.Models.UserAttendanceDTO>
 
-<h2>Aktiviteter Jag Har Anmält Mig Till</h2>
+<h2>My Activity Sign-Ups</h2>
 
 @if (Model != null && Model.Any())
 {
@@ -8,12 +8,18 @@
     {
         <div class="activity-card">
             <h3>@activity.ActivityName</h3>
-            <p>Plats: @activity.ActivityLocation</p>
-            <p>Datum: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Datum inte tillgängligt")</p>
+            <p>Location: @activity.ActivityLocation</p>
+            <p>Date: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Date not available")</p>
+
+            <!-- Form to delete the signup -->
+            <form asp-action="DeleteActivitySignup" method="post">
+                <input type="hidden" name="attendanceId" value="@activity.AttendanceId" />
+                <button type="submit">Cancel Sign-Up</button>
+            </form>
         </div>
     }
 }
 else
 {
-    <p>Du har inte anmält dig till några aktiviteter än.</p>
+    <p>You have not signed up for any activities yet.</p>
 }

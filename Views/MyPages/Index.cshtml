@@ -1,12 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "My Pages";
+    var userId = Context.Session.GetString("nameid");
 }
 
-<h1>My Pages</h1>
-
-<ul>
-    <li><a asp-controller="MyPages" asp-action="MyInformation">My Information</a></li>
-    <li><a asp-controller="MyPages" asp-action="SavedActivities">Saved Activities</a></li>
-    <li><a asp-controller="MyPages" asp-action="ActivitySignUps">Activity Sign-Ups</a></li>
-    <li><a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities">Edit/Delete Created Activities</a></li>
-</ul>
+@if (string.IsNullOrEmpty(userId))
+{
+    <p>You need to be logged in to view this page. <a href="/User/Login">Click here to log in.</a></p>
+}
+else
+{
+    <h1>Welcome to My Pages!</h1>
+    <ul>
+        <li><a asp-controller="MyPages" asp-action="MyInformation">My Information</a></li>
+        <li><a asp-controller="MyPages" asp-action="SavedActivities">Saved Activities</a></li>
+        <li><a asp-controller="MyPages" asp-action="ActivitySignUps">Activity Sign-Ups</a></li>
+        <li><a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities">Edit/Delete Created Activities</a></li>
+    </ul>
+}
