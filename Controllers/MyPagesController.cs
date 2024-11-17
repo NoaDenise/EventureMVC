@@ -111,7 +111,7 @@ namespace EventureMVC.Controllers
             catch (JsonException ex)
             {
                 _logger.LogError(ex, "Failed to deserialize JSON:{JsonContent}", json);
-                TempData["ErrorMessage"] = "Unable to list edit your information. Please, try again later.";
+                TempData["ErrorMessage"] = "Unable to edit your information. Please, try again later.";
                 return RedirectToAction("Index");
             }
         }
