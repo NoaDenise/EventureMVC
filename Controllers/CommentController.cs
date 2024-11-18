@@ -103,7 +103,7 @@ namespace EventureMVC.Controllers
                 return View(newComment);
             }
 
-            return RedirectToAction("Index", new { activityId = newComment.ActivityId });
+            return RedirectToAction("Index", "Activity", new { activityId = newComment.ActivityId });
         }
 
 
@@ -155,7 +155,7 @@ namespace EventureMVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Comment", new { activityId = activityId }); 
+                return RedirectToAction("Index", new { activityId = activityId }); 
             }
             else
             {

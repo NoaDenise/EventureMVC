@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Eventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EventureMVC.styles.css" asp-append-version="true" />
@@ -29,20 +30,14 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Comment" asp-action="Index">Comment</a>
-                        </li>
-                                               
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Activity" asp-action="Index">Activity</a>
-                        </li>
-
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
                         </li>
+
                         <li class="nav-item">
-
                             <a class="nav-link text-dark" asp-area="" asp-controller="MyPages" asp-action="Index">My Pages</a>
+                        </li>
 
+                        <li>
                             @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                             {
                                 <form asp-action="Logout" asp-controller="User" method="post" class="form-inline">
@@ -53,8 +48,8 @@
                             {
                                 <a asp-action="Login" asp-controller="User" class="btn btn-outline-primary ml-2">Login</a>
                             }
-
                         </li>
+
                     </ul>
                 </div>
                 <form action="/Home/Search" method="get" class="form-inline">

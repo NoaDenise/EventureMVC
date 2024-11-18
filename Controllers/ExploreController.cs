@@ -31,11 +31,6 @@ namespace EventureMVC.Controllers
             //Get the userId from the session cookie/jwt
             var userId = HttpContext.Session.GetString("nameid");
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return RedirectToAction("Login", "User");
-            }
-
             //Make a query with all the bools and inputs
             var queryParameters = new List<string>();
 
