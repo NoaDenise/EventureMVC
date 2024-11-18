@@ -1,8 +1,15 @@
 ﻿@using EventureMVC.Models.ViewModel;
 @model CommentViewModel;
 
-@* @if (User.Identity.IsAuthenticated)
-{ *@
+@{
+    var userId = Context.Session.GetString("nameid");
+}
+    @if (string.IsNullOrEmpty(userId))
+{
+    <p>You need to be logged in to view this page. <a href="/User/Login">Click here to log in.</a></p>
+}
+else
+{
     <h5 class="mt-4">Add a Comment</h5>
     <form asp-action="Create" method="post">
         <input type="hidden" asp-for="ActivityId" />
@@ -15,13 +22,7 @@
             <input type="hidden" asp-for="ActivityId" value="@ViewData["id"]" />
             <input type="hidden" asp-for="UserId" value="@ViewData["id"]" />
 
-        </div>
+        </div> 
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
-@* }
-else
-{
-    <p class="text-muted mt-3">
-        You need to be <a asp-controller="User" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Comment", new { activityId = Model.ActivityId })">logged in</a> to add a comment.
-    </p>
-} *@
+}

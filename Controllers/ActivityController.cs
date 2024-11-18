@@ -28,6 +28,7 @@ namespace EventureMVC.Controllers
             {
                 // Fetch Activity details
                 var activityResponse = await _httpClient.GetAsync(activityUri);
+
                 if (!activityResponse.IsSuccessStatusCode)
                 {
                     ModelState.AddModelError(string.Empty, "Failed to retrieve activity data.");
@@ -44,6 +45,8 @@ namespace EventureMVC.Controllers
                     return View(activity); // Return activity even if comments fail
                 }
                 var commentsJson = await commentsResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"API Response JSON: {commentsJson}"); // Loggar hela responsen för kontroll
+
                 activity.Comments = JsonConvert.DeserializeObject<List<CommentViewModel>>(commentsJson);
 
                 return View(activity);
