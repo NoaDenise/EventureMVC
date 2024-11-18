@@ -48,7 +48,7 @@
     {
         <div class="list-group-item flex-column align-items-start activity-item">
             <div class="d-flex w-100 justify-content-between">
-                <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })" class="activity-link w-75 text-decoration-none text-reset">
+                <a href="@Url.Action("Index", "Explore", new { activityId = activity.ActivityId })" class="activity-link w-75 text-decoration-none text-reset">
                     <h5>@activity.ActivityName</h5>
                     <h6>@activity.ActivityLocation</h6>
                     <p>@activity.DateOfActivity?.ToString("f")</p>
@@ -59,12 +59,14 @@
                     <p>Free @activity.IsFree</p>
                 </div>
 
-                <form asp-action="LikeActivity" method="post" class="like-form">
-                    <input type="hidden" name="activityId" value="@activity.ActivityId" />
-                    <button type="submit" class="btn btn-heart">
-                        <i class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"></i> Like
-                    </button>
-                </form>
+                @* Heart button for like/dislike *@
+                <button type="button" class="btn btn-heart"
+                        id="like-button-@activity.ActivityId"
+                        onclick="toggleLikeDislike(@activity.ActivityId)">
+                    <i id="heart-icon-@activity.ActivityId" class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"></i>
+                </button>
+
+
             </div>
         </div>
     }
@@ -74,4 +76,20 @@
     function clearFilters() {
         window.location.href = '/Explore/Index';
     }
+
+    function toggleLikeDislike(activityId) {
+        // Define the URL for toggling like/dislike
+        let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;
+        let heartIcon = document.getElementById(`heart-icon-${activityId}`);
+        heartIcon.classList.toggle("liked"); // Toggle the liked class
+        // Send the fetch request
+        fetch(toggleUrl, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',  // Identifies this as an AJAX request
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
 </script>

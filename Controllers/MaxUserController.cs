@@ -35,12 +35,18 @@ namespace EventureMVC.Controllers
                 return View(model);               
             }
 
-            var response = await _httpClient.PostAsJsonAsync($"{baseUrl}api/User/register", model);
+            string role = "User";
+
+            var response = await _httpClient.PostAsJsonAsync($"{baseUrl}api/User/register?role={role}", model);
 
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"Registration failed: {errorContent}");
+
             return View(model);
             
         }

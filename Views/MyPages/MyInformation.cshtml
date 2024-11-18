@@ -1,30 +1,21 @@
 ﻿@model EventureMVC.Models.ViewModel.MyInformationViewModel
 
-<h2>Min Information</h2>
+<h4>My Information</h4>
 
-<div>
-    <label>Förnamn:</label>
-    <span>@Model.FirstName</span>
-</div>
-<div>
-    <label>Efternamn:</label>
-    <span>@Model.LastName</span>
-</div>
-<div>
-    <label>Plats:</label>
-    <span>@Model.UserLocation</span>
-</div>
-<div>
-    <label>Användarnamn:</label>
-    <span>@Model.UserName</span>
-</div>
-<div>
-    <label>E-post:</label>
-    <span>@Model.Email</span>
-</div>
-<div>
-    <label>Telefonnummer:</label>
-    <span>@Model.PhoneNumber</span>
-</div>
+<p class="card-text">First name: @Model.FirstName</p>
+<p class="card-text">Last name: @Model.LastName</p>
+<p class="card-text">Phone number: @Model.PhoneNumber</p>
+<p class="card-text">Location: @Model.UserLocation</p>
+<p class="card-text">User Name: @Model.UserName</p>
+<p class="card-text">Email: @Model.Email</p>
+<p class="card-text">Password will not be shown, but you can change it here.</p>
 
-<a href="@Url.Action("EditMyInformation", "MyPages")">Redigera Information</a>
+<a asp-controller="MyPages" asp-action="EditMyInformation" class="button">Edit Information</a>
+<a asp-controller="MyPages" asp-action="EditUserPassword" class="button">Edit Password</a>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}

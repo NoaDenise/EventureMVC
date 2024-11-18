@@ -1,6 +1,6 @@
 ﻿@model List<EventureMVC.Models.SavedActivitiesUserDTO>
 
-<h2>Gilla/sparade aktiviteter</h2>
+<h2>Liked Activities</h2>
 
 @if (Model != null && Model.Any())
 {
@@ -8,12 +8,16 @@
     {
         <div class="activity-card">
             <h3>@activity.ActivityName</h3>
-            <p>Plats: @activity.ActivityLocation</p>
-            <p>Datum: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Datum inte tillgängligt")</p>
+            <p>Location: @activity.ActivityLocation</p>
+            <p>Date: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Date not available")</p>
+            <form asp-action="DeleteSavedActivity" method="post">
+                <input type="hidden" name="userEventId" value="@activity.UserEventId" />
+                <button type="submit">Delete</button>
+            </form>
         </div>
     }
 }
 else
 {
-    <p>Inga sparade aktiviteter att visa.</p>
+    <p>No saved activities yet.</p>
 }
