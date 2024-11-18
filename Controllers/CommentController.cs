@@ -4,6 +4,8 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using EventureMVC.Models;
 using EventureMVC.Models.ViewModel;
+using System.Collections.Generic;
+using System.Text;
 
 
 namespace EventureMVC.Controllers
@@ -11,49 +13,47 @@ namespace EventureMVC.Controllers
     public class CommentController : Controller
     {
         private readonly HttpClient _httpClient;
+        private readonly ILogger<CommentController> _logger;
         private string _baseUri = "https://localhost:7277/";
 
-        public CommentController(HttpClient httpClient)
+        public CommentController(IHttpClientFactory httpClientFactory, ILogger<CommentController> logger)
         {
-            _httpClient = httpClient;
-        }
+            _httpClient = httpClientFactory.CreateClient("APIClient");
 
+            _logger = logger;
+        }
         public async Task<IActionResult> Index(int activityId)
         {
-            //ViewData["activityId"] = activityId;
-            
-            // Log API URI and activityId
-            var apiUrl = $"{_baseUri}api/Comment/getAllCommentsByActivity/{activityId}";
-              
+            // Log and ensure that the activityId is correct
+            if (activityId == 0)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid activity ID.");
+                return View(new List<CommentViewModel>());
+            }
 
+            Console.WriteLine($"Loading comments for ActivityId: {activityId}");
+            ViewData["activityId"] = activityId;
+
+            var apiUrl = $"{_baseUri}api/Comment/getAllCommentsByActivity/{activityId}";
             var response = await _httpClient.GetAsync(apiUrl);
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"API Response Status Code: {response.StatusCode}");
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-                return View(new List<CommentViewModel >());
+                return View(new List<CommentViewModel>());
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("API Response JSON: " + json);
-
-            try
-            {
-                var commentList = JsonConvert.DeserializeObject<List<CommentViewModel>>(json);
-                Console.WriteLine("Deserialized Comment List Count: " + (commentList?.Count ?? 0));
-
-                return View(commentList);
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine("Deserialization Error: " + ex.Message);
-                ModelState.AddModelError(string.Empty, "Error processing data. Please try again later.");
-                return View(new List<CommentViewModel>());
-            }
+            var commentList = JsonConvert.DeserializeObject<List<CommentViewModel>>(json);
+            //foreach (var comment in commentList)
+            //{
+            //    //Console.WriteLine($"Deserialized Comment ID: {comment.CommentId}, Text: {comment.CommentText}");
+            //}
+            return View(commentList);
         }
+
         [HttpGet]
-        public IActionResult Create(int activityId =3)
+        public IActionResult Create(int activityId)
         {
             var newComment = new CommentViewModel
             {
@@ -62,39 +62,41 @@ namespace EventureMVC.Controllers
             var token = HttpContext.Request.Cookies["jwtToken"];
             if (string.IsNullOrEmpty(token))
             {
-                // Om användaren inte är inloggad, skicka användaren till inloggningssidan
                 return RedirectToAction("Login", "User", new { returnUrl = $"/Comment/Create?activityId={activityId}" });
             }
-            else 
+            else
             {
                 return View(newComment);
-            }
-
-            // Visa kommentarsformuläret om användaren är inloggad
-            return View(new CommentViewModel { ActivityId = activityId });
+            }         
+            return View(/*new CommentViewModel*/ ); /*{ ActivityId = activityId }*/
 
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Create(CommentViewModel newComment)
         {
             //if (!ModelState.IsValid)
             //{
             //    return View(newComment);
             //}
-
-            var token = HttpContext.Request.Cookies["jwtToken"];
-            if (string.IsNullOrEmpty(token))
+            string userId = HttpContext.Session.GetString("nameid");
+            if (string.IsNullOrEmpty(userId))
             {
-                ModelState.AddModelError(string.Empty, "Authentication token is missing. Please log in.");
-                return View(newComment);
+                return RedirectToAction("Login", "User");
             }
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            newComment.UserId = userId;
+
             var apiUrl = $"{_baseUri}api/Comment/addComment";
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
             var response = await _httpClient.PostAsJsonAsync(apiUrl, newComment);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Response Status: {response.StatusCode}");
+            Console.WriteLine($"Response Content: {responseContent}");
             if (!response.IsSuccessStatusCode)
             {
                 ModelState.AddModelError(string.Empty, "Failed to add comment. Please try again.");
@@ -103,24 +105,9 @@ namespace EventureMVC.Controllers
 
             return RedirectToAction("Index", new { activityId = newComment.ActivityId });
         }
-        [HttpGet]
-        public async Task<IActionResult> Details(int commentId)
-        {
 
-            var apiUrl = $"{_baseUri}api/Comment/getCommentById/{commentId}";
 
-            var response = await _httpClient.GetAsync(apiUrl);
-            if (!response.IsSuccessStatusCode)
-            {
-                ModelState.AddModelError(string.Empty, "Error retrieving comment details.");
-                return RedirectToAction("Index");
-            }
-            var json = await response.Content.ReadAsStringAsync(); 
-            var comment = JsonConvert.DeserializeObject<CommentViewModel>(json); 
-
-        
-            return View(comment);
-        }
+        // GET: Edit - Edit an Existing Comment
         [HttpGet]
         public async Task<IActionResult> Edit(int commentId)
         {
@@ -129,43 +116,58 @@ namespace EventureMVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelState.AddModelError(string.Empty, "Error loading comment data.");
+                ModelState.AddModelError(string.Empty, "Failed to retrieve comment for editing.");
                 return RedirectToAction("Index");
             }
+
             var json = await response.Content.ReadAsStringAsync();
             var comment = JsonConvert.DeserializeObject<CommentViewModel>(json);
-
 
             return View(comment);
         }
 
+        // POST: Edit - Save Updated Comment
         [HttpPost]
         public async Task<IActionResult> Edit(int commentId, CommentViewModel updatedComment)
         {
             var apiUrl = $"{_baseUri}api/Comment/editComment/{commentId}";
 
-            var response = await _httpClient.PutAsJsonAsync(apiUrl, updatedComment);
+            var jsonContent = JsonConvert.SerializeObject(updatedComment);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(apiUrl, content);
+
             if (!response.IsSuccessStatusCode)
             {
                 ModelState.AddModelError(string.Empty, "Failed to update comment.");
-                return View(updatedComment);
+                return View("Edit", updatedComment);
             }
-
+            //return RedirectToAction("Index", "Comment", new { activityId = updatedComment.ActivityId });       
             return RedirectToAction("Index", new { activityId = updatedComment.ActivityId });
+
         }
+
         [HttpPost]
-        public async Task<IActionResult> Delete(int commentId)
+        public async Task<IActionResult> Delete(int commentId, int activityId)
         {
             var apiUrl = $"{_baseUri}api/Comment/deleteComment/{commentId}";
-
             var response = await _httpClient.DeleteAsync(apiUrl);
-            if (!response.IsSuccessStatusCode)
+
+            if (response.IsSuccessStatusCode)
             {
-                ModelState.AddModelError(string.Empty, "Failed to delete comment.");
+                return RedirectToAction("Index", "Comment", new { activityId = activityId }); 
             }
-
-            return RedirectToAction("Index");
+            else
+            {
+                
+                ModelState.AddModelError(string.Empty, "Failed to delete comment.");
+                return RedirectToAction("Index", "Comment", new { activityId = activityId });
+            }
         }
-
     }
 }
+
+
+
+
+    
