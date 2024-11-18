@@ -4,7 +4,7 @@
 
 footer {
     background-color: #525a5c;
-    padding-top: 0.5rem;
+    padding-top: 0rem;
     padding-bottom: 0rem;
 }
 
@@ -22,14 +22,14 @@ footer a:hover {
     color: #96DED1;
 }
 
-footer a:visited {
+/*footer a:visited {
     color: #0589F5;
-}
+}*/
 
-footer a:focus {
+/*footer a:focus {
     color: #0C665C;
 }
-
+*/
 /*to color the social media icons when we hover on them*/
 footer a:hover svg path {
     fill: #96DED1;
@@ -92,8 +92,9 @@ html {
     min-height: 100%;
 }
 
+/*this affected footer - footer went up in body*/
 body {
-    margin-bottom: 60px;
+    margin-bottom: 7rem;
 }
 
 .like-button {
