@@ -1,8 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Welcome to Eventure</h1>
+
+    <p>
+        Join Eventure, your go-to platform for discovering exciting events around you.
+        Whether you’re hosting or attending, easily share, find, and explore everything from concerts and festivals to workshops and meetups.
+        Be part of a community-driven hub where connection happens through shared experiences.
+        Post. Explore. Engage.
+    </p>
+
+    <a asp-controller="User" asp-action="Login" class="btn btn-primary">Log in</a>
+    <a asp-controller="User" asp-action="Register" class="btn btn-primary">Register</a>
+    <a asp-controller="Explore" asp-action="Index" class="btn btn-primary">Continue as guest</a>
 </div>
