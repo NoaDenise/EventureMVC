@@ -21,9 +21,12 @@
                     <a asp-action="Edit" asp-route-commentId="@comment.CommentId" asp-route-activityId="@comment.ActivityId" class="btn btn-primary">Edit</a>
 
                     <!-- Delete action with hidden activityId -->
-                    <form asp-action="Delete" asp-route-commentId="@comment.CommentId" asp-route-activityId="@comment.ActivityId" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                    <form method="post" asp-action="Delete">
+                        <input type="hidden" name="commentId" value="@comment.CommentId" />
+                        <input type="hidden" name="activityId" value="@ViewData["activityId"]" />
+                        <button type="submit">Delete</button>
                     </form>
+
                 </td>
             </tr>
         }

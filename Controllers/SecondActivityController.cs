@@ -21,7 +21,6 @@ namespace EventureMVC.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult AddActivity()
         {
             ViewData["Title"] ="Create Activity";
@@ -49,15 +48,13 @@ namespace EventureMVC.Controllers
                 return View(activity);
             }
 
-            var token = HttpContext.Request.Cookies["jwtToken"];
-            if (string.IsNullOrEmpty(token))
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
             {
-                // If the token is missing, redirect to loginpage
                 return RedirectToAction("Login", "User");
             }
 
-            // Set the authorization header for the API request
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var json = JsonConvert.SerializeObject(activity);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
