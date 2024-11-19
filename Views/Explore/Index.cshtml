@@ -42,6 +42,89 @@
     <button type="button" onclick="clearFilters()">Clear Filter</button>
 </form>
 
+@* Activities list v1 *@
+<div id="activities-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    @foreach (var activity in Model.Activities)
+    {
+        <div class="col">
+            <div class="card shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#55595c"></rect>
+                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Activity!</text>
+                </svg>
+                <div class="card-body">
+
+                    <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })" class="activity-link w-75 text-decoration-none text-reset">
+                        <h5>@activity.ActivityName</h5>
+                        <h6>@activity.ActivityLocation</h6>
+                    </a>
+
+                    <div class="d-flex justify-content-between">
+
+                        <p class="text-body"> @activity.DateOfActivity?.ToString("f")</p>
+
+                        <button type="button" class="like-button"
+                                id="like-button-@activity.ActivityId"
+                                onclick="toggleLikeDislike(@activity.ActivityId)">
+                            <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"> Like</span>
+                        </button>
+                    </div> 
+
+                    <div class="mt-auto d-flex justify-content-around">
+
+                        @if (activity.IsFree)
+                        {
+                            <p>
+                                Free
+                                <i class="bi bi-check-lg"></i>
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                Free
+                                <i class="bi bi-x-lg"></i>
+                            </p>
+                        }
+                            
+                        @if (activity.Is18Plus)
+                        {
+                            <p>
+                                +18 only
+                                <i class="bi bi-check-lg"></i>
+                            </p>
+                                
+                        }
+                        else
+                        {
+                            <p>
+                                +18 only
+                                <i class="bi bi-x-lg"></i>
+                            </p>
+                        }
+                        
+                        @if (activity.IsFamilyFriendly)
+                        {
+                            <p>
+                                Family Friendly
+                                <i class="bi bi-check-lg"></i>
+                            </p>
+                            }
+                        else
+                        {
+                            <p>
+                                Family Friendly
+                                <i class="bi bi-x-lg"></i>
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
 @* Activities list *@
 <div id="activities-container" class="list-group">
     @foreach (var activity in Model.Activities)
