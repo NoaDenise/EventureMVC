@@ -1,21 +1,66 @@
 ﻿@model EventureMVC.Models.ViewModel.MyInformationViewModel
 
-<h1>My Information</h1>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">My Information</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>First Name:</h5>
+                    <p class="text-muted">@Model.FirstName</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Last Name:</h5>
+                    <p class="text-muted">@Model.LastName</p>
+                </div>
+            </div>
 
-<p class="card-text">First name: @Model.FirstName</p>
-<p class="card-text">Last name: @Model.LastName</p>
-<p class="card-text">Phone number: @Model.PhoneNumber</p>
-<p class="card-text">Location: @Model.UserLocation</p>
-<p class="card-text">User Name: @Model.UserName</p>
-<p class="card-text">Email: @Model.Email</p>
-<p class="card-text">Password will not be shown, but you can change it here.</p>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Phone Number:</h5>
+                    <p class="text-muted">@Model.PhoneNumber</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Location:</h5>
+                    <p class="text-muted">@Model.UserLocation</p>
+                </div>
+            </div>
 
-<a asp-controller="MyPages" asp-action="EditMyInformation" class="button">Edit Information</a>
-<a asp-controller="MyPages" asp-action="EditUserPassword" class="button">Edit Password</a>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Username:</h5>
+                    <p class="text-muted">@Model.UserName</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Email:</h5>
+                    <p class="text-muted">@Model.Email</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Password:</h5>
+                    <p class="text-muted">Password is hidden for security reasons</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a asp-controller="MyPages" asp-action="EditMyInformation" class="btn btn-outline-primary me-2">
+                    Edit Information
+                </a>
+                <a asp-controller="MyPages" asp-action="EditUserPassword" class="btn btn-outline-danger">
+                    Edit Password
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger mt-3">
         @TempData["ErrorMessage"]
     </div>
 }

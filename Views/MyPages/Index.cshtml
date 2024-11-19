@@ -9,10 +9,26 @@
 else
 {
     <h1>Welcome to My Pages!</h1>
-    <ul class="my-pages-list">
-        <li><a asp-controller="MyPages" asp-action="MyInformation">My Information</a></li>
-        <li><a asp-controller="MyPages" asp-action="SavedActivities">Saved Activities</a></li>
-        <li><a asp-controller="MyPages" asp-action="ActivitySignUps">Activity Sign-Ups</a></li>
-        <li><a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities">Edit/Delete Created Activities</a></li>
-    </ul>
+
+    <div class="list-group">
+        <!-- My Information -->
+        <a asp-controller="MyPages" asp-action="MyInformation" class="list-group-item list-group-item-action list-group-item-info">
+            My Information
+        </a>
+
+        <!-- Saved Activities -->
+        <a asp-controller="MyPages" asp-action="SavedActivities" class="list-group-item list-group-item-action list-group-item-warning">
+            Saved Activities
+        </a>
+
+        <!-- Activity Sign-Ups -->
+        <a asp-controller="MyPages" asp-action="ActivitySignUps" class="list-group-item list-group-item-action list-group-item-primary">
+            Activity Sign-Ups
+        </a>
+
+        <!-- Edit/Delete Created Activities -->
+        <a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities" class="list-group-item list-group-item-action list-group-item-secondary">
+            Edit/Delete Created Activities
+        </a>
+    </div>
 }
