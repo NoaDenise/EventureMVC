@@ -1,28 +1,41 @@
 ﻿@model List<Activity>
 
-<h4>Activities Awaiting Approval</h4>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Activities Awaiting Approval</h1>
+    <div class="row">
+        @foreach (var activity in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card shadow-lg border-light rounded-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@activity.ActivityName</h5>
+                        <h6 class="card-subtitle mb-3 text-muted">@activity.ActivityLocation</h6>
+                        <p class="card-text">@activity.ActivityDescription</p>
+                        <p class="card-text"><strong>Date:</strong> @activity.DateOfActivity</p>
+                        <p class="card-text"><strong>Contact:</strong> @activity.ContactInfo</p>
+                        <p class="card-text"><strong>Is Free:</strong> @activity.IsFree ? "Yes" : "No"</p>
+                        <p class="card-text"><strong>Age Restriction:</strong> @activity.Is18Plus ? "18+" : "All ages"</p>
 
-@foreach (var activity in Model)
-{
-    <p class="card-text">ID: @activity.ActivityId</p>
-    <p class="card-text">@activity.ActivityName</p>
-    <p class="card-text">Description: @activity.ActivityDescription</p>
-    <p class="card-text">Location: @activity.ActivityLocation</p>
-    <p class="card-text">Date of Activity: @activity.DateOfActivity</p>
-    <p class="card-text">Image Url: @activity.ImageUrl</p>
-    <p class="card-text">Website Url: @activity.WebsiteUrl</p>
-    <p class="card-text">Contact Info: @activity.ContactInfo</p>
-    <p class="card-text">Is Free: @activity.IsFree</p>
-    <p class="card-text">Is 18+: @activity.Is18Plus</p>
-    <p class="card-text">Is Kid Friendly: @activity.IsFamilyFriendly</p>
+                        <div class="d-flex justify-content-between mt-3">
+                            <!-- Approve Button -->
+                            <form asp-action="ApproveActivity" method="post">
+                                <input type="hidden" name="activityId" value="@activity.ActivityId" />
+                                <button type="submit" class="btn btn-success btn-lg w-48">Approve</button>
+                            </form>
 
-    @*adding approve-button, to make them true - removing them from this list*@
-    <form asp-action="ApproveActivity" method="post">
-        <input type="hidden" name="activityId" value="@activity.ActivityId" />
-        <button type="submit" class="button">Approve</button>
-    </form>
+                            <!-- Reject Button -->
+                            <form asp-action="RejectActivity" method="post">
+                                <input type="hidden" name="activityId" value="@activity.ActivityId" />
+                                <button type="submit" class="btn btn-danger btn-lg w-48">Reject</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
-}
 
 <!-- Error message when error occurs -->
 
@@ -31,4 +44,4 @@
     <div class="alert alert-danger">
         @TempData["ErrorMessage"]
     </div>
-}
+} 

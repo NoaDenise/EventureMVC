@@ -142,3 +142,74 @@ body {
     outline: none !important;
     box-shadow: none !important;
 }
+
+
+/*------------------------------------ Parmis Changes --------------------------------------*/
+/*---------AdminPage----------*/
+/*----ListAllCategories--*/
+
+
+
+/* Kategorikort */
+.category-card {
+    background-color: #f8f9fa; /* Lätt bakgrundsfärg */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effekt */
+}
+
+    .category-card:hover {
+        transform: translateY(-5px); /* Lyfter kortet lite vid hover */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* Lägger till en starkare skugga */
+    }
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Justera så att korten fördelas jämnt */
+}
+
+.category-card {
+    flex: 1; /* Gör att alla kort får samma storlek */
+    min-height: 300px; /* Eller använd en specifik minimi-höjd för alla kort */
+    margin-bottom: 20px; /* Gör mellanrummen lika för alla kort */
+}
+
+
+/* Kategorikortets titel */
+
+.category-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #60707e;
+    padding: 10px;
+    display: inline-block; /* Gör så att bakgrunden bara täcker texten */
+    margin-bottom: 15px; /* Utrymme under titeln */
+}
+.category-card-description {
+
+}
+
+.category-card-Create {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 2px;
+    background-color: #f8f9fa;
+    color: #207f2d;
+    text-decoration: none;
+    display: inline-block;
+    border: #207f2d; 
+}
+    .category-card-Create:hover {
+        background-color: #6baa73; /* Grön bakgrund på hover */
+        color: white; /* Vit text på hover */
+        border-color: #155d22; 
+    }
+
+.category-card-subject {
+    color: #4a5056;
+}
+/* Kategorikortets beskrivning */
+.category-card-description {
+    font-size: 1rem;
+    color: #6c757d;
+}
