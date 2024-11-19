@@ -5,7 +5,6 @@
         My Information
     </a>
 
-
     <!-- Activities to Approve -->
     <a asp-controller="Admin" asp-action="ListActivitiesToApprove" class="list-group-item list-group-item-action list-group-item-warning">
         Activities to Approve
@@ -21,23 +20,6 @@
         List/Create/Edit/Delete Categories
     </a>
 </div>
-
-<ul class="admin-pages-list">
-    <li>
-        <a asp-controller="Admin" asp-action="ListAdminInformation">My Information</a>
-    </li>
-    <li>
-        <a asp-controller="Admin" asp-action="ListActivitiesToApprove">Activities to Approve</a>
-    </li>
-    <li>
-        <a asp-controller="Admin" asp-action="ListAllActivities">List/Edit/Delete Activities</a>
-    </li>
-    <li>
-        <a asp-controller="Admin" asp-action="ListAllCategories">List/Create/Edit/Delete Categories</a>
-    </li>
-
-</ul>
-
 
 
 @if (TempData["ErrorMessage"] != null)

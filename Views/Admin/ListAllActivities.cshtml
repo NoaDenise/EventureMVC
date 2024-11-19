@@ -1,27 +1,44 @@
 @model List<Activity>
 
-
-<h1>All Activities</h1>
-
-
-
-
 <div class="container mt-5">
     <h1 class="text-center mb-4">List All Activities</h1>
     <div class="row">
         @foreach (var activity in Model)
         {
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <div class="card shadow-lg border-light rounded-3">
-                    <div class="card-body">
+                <div class="card shadow-lg border-light rounded-3 h-100">
+                    <div class="card-body d-flex flex-column">
+                        @* <p class="card-text">ID: @activity.ActivityId</p> *@
+
                         <h5 class="card-title text-primary">@activity.ActivityName</h5>
                         <h6 class="card-subtitle mb-3 text-muted">@activity.ActivityLocation</h6>
                         <p class="card-text">@activity.ActivityDescription</p>
+                        <p class="card-text"><strong>Image Url:</strong> @activity.ImageUrl</p>
                         <p class="card-text"><strong>Date:</strong> @activity.DateOfActivity</p>
                         <p class="card-text"><strong>Contact:</strong> @activity.ContactInfo</p>
-                        <p class="card-text"><strong>Age Restriction:</strong> @activity.Is18Plus ? "18+" : "All ages"</p>
 
-                        <div class="d-flex justify-content-between mt-3">
+                        <!-- Only shows if IsFree is true -->
+                        @if (activity.IsFree)
+                        {
+                            <p class="card-text"><strong>Is Free:</strong> This activity is free</p>
+                        }
+
+                        <!-- Only shows if Is18Plus true -->
+                        @if (activity.Is18Plus)
+                        {
+                            <p class="card-text"><strong>Age Restriction:</strong> 18+</p>
+                        }
+
+                        <!-- Only shows if IsFamilyFriendly true -->
+                        @if (activity.IsFamilyFriendly)
+                        {
+                            <p class="card-text"><strong>Family Friendly:</strong> Suitable for families</p>
+                        }
+
+                        <p class="card-text"><strong>Website Url:</strong> <a href="@activity.WebsiteUrl" target="_blank">@activity.WebsiteUrl</a></p>
+
+                        <!-- Buttons at the bottom of the card -->
+                        <div class="mt-auto d-flex justify-content-between">
                             <!-- Edit Button -->
                             <a asp-action="EditActivity" asp-route-id="@activity.ActivityId" class="btn btn-warning btn-lg w-48">Edit</a>
 
@@ -38,12 +55,9 @@
     </div>
 </div>
 
-
-
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">
         @TempData["ErrorMessage"]
     </div>
 }
-
