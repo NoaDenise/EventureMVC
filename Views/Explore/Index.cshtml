@@ -1,8 +1,12 @@
 ﻿@model EventureMVC.Models.ViewModel.ExploreViewModel
 
+@{
+    ViewData["Title"] = "Explore";
+}
+
 <h1>Explore Activities!</h1>
 
-<a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem">Post an Activity</a>
+<a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem">Create New Activity</a>
 
 <form id="filterForm" method="get" action="/Explore/Index">
     <label>

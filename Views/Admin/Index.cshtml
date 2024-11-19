@@ -1,9 +1,20 @@
 ﻿<h1>My Pages</h1>
 
-<a asp-controller="Admin" asp-action="ListAdminInformation"><h4>My Information</h4></a>
-<a asp-controller="Admin" asp-action="ListActivitiesToApprove"><h4>Activities to Approve</h4></a>
-<a asp-controller="Admin" asp-action="ListAllActivities"><h4>List/Edit/Delete Activities</h4></a>
-<a asp-controller="Admin" asp-action="ListAllCategories"><h4>List/Create/Edit/Delete Categories</h4></a>
+<ul class="admin-pages-list">
+    <li>
+        <a asp-controller="Admin" asp-action="ListAdminInformation">My Information</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ListActivitiesToApprove">Activities to Approve</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ListAllActivities">List/Edit/Delete Activities</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ListAllCategories">List/Create/Edit/Delete Categories</a>
+    </li>
+
+</ul>
 
 @* <h4>List all Users</h4>
 <h4>Delete User</h4> *@

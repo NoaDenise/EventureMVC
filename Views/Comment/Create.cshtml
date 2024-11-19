@@ -2,6 +2,10 @@
 @model CommentViewModel;
 
 @{
+    ViewData["Title"] = "New Comment";
+}
+
+@{
     var userId = Context.Session.GetString("nameid");
 }
     @if (string.IsNullOrEmpty(userId))
@@ -10,13 +14,13 @@
 }
 else
 {
-    <h5 class="mt-4">Add a Comment</h5>
+    <h1 class="mt-4">Add a Comment</h1>
     <form asp-action="Create" method="post">
         <input type="hidden" asp-for="ActivityId" />
 
         <div class="form-group">
             <label for="CommentText">Comment</label>
-            <textarea id="CommentText" name="CommentText" class="form-control" rows="3" required></textarea>
+            <textarea id="CommentText" name="CommentText" class="form-control" rows="3" placeholder="Write your comment here" required></textarea>
         </div>
         <div class="form-group">
             <input type="hidden" asp-for="ActivityId" value="@ViewData["id"]" />
@@ -24,5 +28,11 @@ else
 
         </div> 
         <button type="submit" class="btn btn-success">Submit</button>
+
+        @* cancel & redirect back when cancelling, collaborates with ViewData in Create Comment (controller) *@
+        <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary">Cancel</a>
+
+    
     </form>
 }
+            

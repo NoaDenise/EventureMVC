@@ -1,7 +1,11 @@
 ﻿@using EventureMVC.Models.ViewModel
 @model RegisterViewModel
 
-<h2>Sign Up</h2>
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<h1>Register</h1>
 
 <form asp-action="Register" method="post">
 
@@ -53,9 +57,9 @@
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <button type="submit" class="btn btn-primary">Register</button>
 
     <div class="mt-3">
-        <p>Already have an account? <a asp-action="Login">Sign In</a></p>
+        <p>Already have an account? <a asp-action="Login">Log In</a></p>
     </div>
 </form>

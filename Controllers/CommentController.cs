@@ -55,6 +55,9 @@ namespace EventureMVC.Controllers
         [HttpGet]
         public IActionResult Create(int activityId)
         {
+            //Works together with cancel-button in create comment view
+            ViewData["ActivityId"] = activityId;
+
             var newComment = new CommentViewModel
             {
                 ActivityId = activityId
@@ -122,6 +125,9 @@ namespace EventureMVC.Controllers
 
             var json = await response.Content.ReadAsStringAsync();
             var comment = JsonConvert.DeserializeObject<CommentViewModel>(json);
+
+            //adds activityId, will work with cancel in edit comment-view
+            ViewData["ActivityId"] = comment.ActivityId;
 
             return View(comment);
         }
