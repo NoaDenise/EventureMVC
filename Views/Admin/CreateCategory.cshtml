@@ -1,6 +1,6 @@
 ﻿@model Category
 
-<h4>Create New Category</h4>
+<h1>Create New Category</h1>
 
 <form asp-action="CreateCategory" method="post">
     <div class="form-group">
@@ -13,7 +13,7 @@
         <input asp-for="CategoryDescription" class="form-control" />
         <span asp-validation-for="CategoryDescription" class="text-danger"></span>
     </div>
-    <button type="submit" class="button">Save</button>
+    <button type="submit" class="button">Submit</button>
     <a asp-action="ListAllCategories" class="button">Cancel</a>
 </form>
 

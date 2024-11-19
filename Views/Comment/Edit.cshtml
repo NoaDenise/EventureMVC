@@ -1,6 +1,6 @@
 ﻿@model EventureMVC.Models.ViewModel.CommentViewModel
 
-<h2>Edit Comment</h2>
+<h1>Edit Comment</h1>
 
 <form asp-action="Edit" asp-route-commentId="@Model.CommentId" method="post">
 
@@ -13,7 +13,8 @@
         <span asp-validation-for="CommentText" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    @* works together with viewdata in Edit *@
+    <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary">Cancel</a>
 </form>

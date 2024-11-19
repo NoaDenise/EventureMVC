@@ -1,6 +1,6 @@
 ﻿@model List<EventureMVC.Models.UserAttendanceDTO>
 
-<h2>My Activity Sign-Ups</h2>
+<h1>My Activity Sign-Ups</h1>
 
 @if (Model != null && Model.Any())
 {
@@ -14,7 +14,7 @@
             <!-- Form to delete the signup -->
             <form asp-action="DeleteActivitySignup" method="post">
                 <input type="hidden" name="attendanceId" value="@activity.AttendanceId" />
-                <button type="submit">Cancel Sign-Up</button>
+                <button type="submit">Delete</button>
             </form>
         </div>
     }

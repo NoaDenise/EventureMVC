@@ -1,4 +1,5 @@
-﻿@model List<Activity>
+@model List<Activity>
+
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Activities Awaiting Approval</h1>
@@ -15,6 +16,9 @@
                         <p class="card-text"><strong>Contact:</strong> @activity.ContactInfo</p>
                         <p class="card-text"><strong>Is Free:</strong> @activity.IsFree ? "Yes" : "No"</p>
                         <p class="card-text"><strong>Age Restriction:</strong> @activity.Is18Plus ? "18+" : "All ages"</p>
+
+<h1>Activities Awaiting Approval</h1>
+
 
                         <div class="d-flex justify-content-between mt-3">
                             <!-- Approve Button -->
