@@ -1,4 +1,26 @@
-﻿<h1>My Pages</h1>
+
+<div class="list-group">
+    <!-- My Information -->
+    <a asp-controller="Admin" asp-action="ListAdminInformation" class="list-group-item list-group-item-action list-group-item-info">
+        My Information
+    </a>
+
+
+    <!-- Activities to Approve -->
+    <a asp-controller="Admin" asp-action="ListActivitiesToApprove" class="list-group-item list-group-item-action list-group-item-warning">
+        Activities to Approve
+    </a>
+
+    <!-- List/Edit/Delete Activities -->
+    <a asp-controller="Admin" asp-action="ListAllActivities" class="list-group-item list-group-item-action list-group-item-primary">
+        List/Edit/Delete Activities
+    </a>
+
+    <!-- List/Create/Edit/Delete Categories -->
+    <a asp-controller="Admin" asp-action="ListAllCategories" class="list-group-item list-group-item-action list-group-item-secondary">
+        List/Create/Edit/Delete Categories
+    </a>
+</div>
 
 <ul class="admin-pages-list">
     <li>
@@ -16,8 +38,7 @@
 
 </ul>
 
-@* <h4>List all Users</h4>
-<h4>Delete User</h4> *@
+
 
 @if (TempData["ErrorMessage"] != null)
 {
