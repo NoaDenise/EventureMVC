@@ -14,14 +14,19 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+            <div class="container-fluid d-flex justify-content-between">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Eventure</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                @* between --> end doesn't work*@
+             @*    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav flex-grow-1"> *@
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -37,12 +42,19 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="MyPages" asp-action="Index">My Pages</a>
                         </li>
 
-                        <li>
+                        <li class="nav-search">
+                            <form action="/Home/Search" method="get" class="d-flex align-items-center">
+                                <input type="text" name="query" placeholder="Search views..." class="form-control" />
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                        </li>
+
+                        <li class="login-button">
                             @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                             {
                                 <form asp-action="Logout" asp-controller="User" method="post" class="form-inline">
                                     <button type="submit" class="btn btn-outline-danger ml-2">Logout</button>
-                                </form>
+                                </form>            
                             }
                             else
                             {
@@ -52,10 +64,7 @@
 
                     </ul>
                 </div>
-                <form action="/Home/Search" method="get" class="form-inline">
-                    <input type="text" name="query" placeholder="Search views..." class="form-control" />
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
+   
             </div>
         </nav>
     </header>

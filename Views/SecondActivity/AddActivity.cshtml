@@ -1,6 +1,10 @@
 ﻿@using EventureMVC.Models.ViewModel
 @model Activity
 
+@{
+    ViewData["Title"] = "Create Activity";
+}
+
 <h1>Create Activity</h1>
 
 <form asp-action="AddActivity" method="post">
@@ -8,14 +12,14 @@
     <input type="hidden" asp-for="UserId"/>
 
     <div class="form-section">
-        <label asp-for="ActivityName">Name of activity / Title</label>
-        <input asp-for="ActivityName" class="form-control"/>
+        <label asp-for="ActivityName">Name (of activity)</label>
+        <input asp-for="ActivityName" class="form-control" placeholder="What place is it? Is it an event?"/>
         <span asp-validation-for="ActivityName"></span>
     </div>
 
     <div class="form-section">
-        <label asp-for="ActivityDescription">Description (Any useful information about the activity)</label>
-        <input asp-for="ActivityDescription" class="form-control" />
+        <label asp-for="ActivityDescription">Description</label>
+        <input asp-for="ActivityDescription" class="form-control" placeholder="Any useful information about the activity" />
         <span asp-validation-for="ActivityDescription"></span>
     </div>
 
@@ -27,25 +31,25 @@
 
     <div class="form-section">
         <label asp-for="ActivityLocation">Where will the activity be located?</label>
-        <input asp-for="ActivityLocation" class="form-control" />
+        <input asp-for="ActivityLocation" class="form-control" placeholder="City name" />
         <span asp-validation-for="ActivityLocation"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="ImageUrl">Link for image</label>
-        <input asp-for="ImageUrl" class="form-control" />
+        <input asp-for="ImageUrl" class="form-control" placeholder="Link or upload fitting image" />
         <span asp-validation-for="ImageUrl"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="WebsiteUrl">Link to website</label>
-        <input asp-for="WebsiteUrl" class="form-control" />
+        <input asp-for="WebsiteUrl" class="form-control" placeholder="https://www.website.com" />
         <span asp-validation-for="WebsiteUrl"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="ContactInfo">Contact information</label>
-        <input asp-for="ContactInfo" class="form-control" />
+        <input asp-for="ContactInfo" class="form-control" placeholder="How to contact owner/activity creator" />
         <span asp-validation-for="ContactInfo"></span>
     </div>
 
@@ -67,5 +71,8 @@
         <span asp-validation-for="IsFamilyFriendly"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Create Activity</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    @* redirects back to explore page *@
+    <a asp-controller="Explore" asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
