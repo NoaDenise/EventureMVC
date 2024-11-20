@@ -1,4 +1,4 @@
-﻿@{
+@{
     var userId = Context.Session.GetString("nameid");
 }
 
@@ -12,23 +12,24 @@ else
 
     <div class="list-group">
         <!-- My Information -->
-        <a asp-controller="MyPages" asp-action="MyInformation" class="list-group-item list-group-item-action list-group-item-info" aria-label="View your personal information">
-            My Information
+
+        <a asp-controller="MyPages" asp-action="MyInformation" class="list-group-item" aria-label="View your personal information">
+            <i class="fas fa-user-circle"></i> My Information
         </a>
 
         <!-- Saved Activities -->
-        <a asp-controller="MyPages" asp-action="SavedActivities" class="list-group-item list-group-item-action list-group-item-warning" aria-label="View your saved activities">
-            Saved Activities
+        <a asp-controller="MyPages" asp-action="SavedActivities" class="list-group-item" aria-label="View your saved activities">
+            <i class="fas fa-bookmark"></i> Saved Activities
         </a>
 
         <!-- Activity Sign-Ups -->
-        <a asp-controller="MyPages" asp-action="ActivitySignUps" class="list-group-item list-group-item-action list-group-item-primary" aria-label="View your activity sign-ups">
-            Activity Sign-Ups
+        <a asp-controller="MyPages" asp-action="ActivitySignUps" class="list-group-item" aria-label="View your activity sign-ups">
+            <i class="fas fa-calendar-check"></i> Activity Sign-Ups
         </a>
 
         <!-- Edit/Delete Created Activities -->
-        <a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities" class="list-group-item list-group-item-action list-group-item-secondary" aria-label="Edit or delete your created activities">
-            Edit/Delete Created Activities
+        <a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities" class="list-group-item" aria-label="Edit or delete your created activities">
+            <i class="fas fa-edit"></i> Edit/Delete Created Activities>>>>>>> master
         </a>
     </div>
 }
