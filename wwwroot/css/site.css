@@ -206,9 +206,42 @@ body {
 
 /*------------------------------------ Parmis Changes --------------------------------------*/
 /*---------AdminPage----------*/
+
+/*--------Index----------*/
+
+/* Basdesign */
+.list-group-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Hovringseffekt */
+    .list-group-item:hover {
+        background-color: #f0f8ff; 
+        color: #007bff; 
+    }
+
+    /* Ikoner */
+    .list-group-item i {
+        font-size: 1.2em; 
+        color: #666; 
+        transition: color 0.3s ease;
+    }
+
+    .list-group-item:hover i {
+        color: #007bff; 
+    }
+
+
+
 /*----ListAllCategories--*/
-
-
 
 /* Kategorikort */
 .category-card {
@@ -273,3 +306,35 @@ body {
     font-size: 1rem;
     color: #6c757d;
 }
+
+/*---------UserPage----------*/
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Hovringseffekt */
+    .list-group-item:hover {
+        background-color: #f0f8ff; 
+        color: #007bff; /* Blå text */
+    }
+
+    /* Ikoner */
+    .list-group-item i {
+        font-size: 1.2em;
+        color: #666;
+        transition: color 0.3s ease;
+    }
+
+    .list-group-item:hover i {
+        color: #007bff; 
+    }
+
