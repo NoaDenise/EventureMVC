@@ -50,6 +50,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Explore" asp-action="Index">Explore</a>
                         </li>
                     </ul>
+                  
                     <div class="d-flex ms-auto">
                         <!-- Search Bar -->
                         <form action="/Home/Search" method="get" class="d-flex align-items-center me-2">
@@ -59,6 +60,7 @@
 
                         <!-- Login / Logout Button -->
                         <div class="nav-item">
+                                                             
                             @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                             {
                                 <!-- Logout Form -->

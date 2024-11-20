@@ -1,5 +1,6 @@
 ﻿using EventureMVC.Models;
 using EventureMVC.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.ComponentModel.Design;
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace EventureMVC.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -111,7 +113,6 @@ namespace EventureMVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"Error: {response.StatusCode}");
                 TempData["ErrorMessage"] = "Unable to find admin. Please, try again later.";
                 return RedirectToAction("ListAdminInformation");
             }
