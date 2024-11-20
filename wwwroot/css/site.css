@@ -30,7 +30,7 @@
 
 /* Login button - specific blue color */
 .login-button {
-    background-color: #258cfb; /* Mjuk blå nyans */
+    background-color: #3494fa; 
 }
 
 /* Login button hover color */
@@ -40,7 +40,7 @@
 /* Specific style for Login-link */
 .login-link {
     display: inline-block; /* För att få den att bete sig som en knapp */
-    background-color: #258cfb; /* Mjuk blå bakgrundsfärg */
+    background-color: #3494fa; /* Mjuk blå bakgrundsfärg */
     color: white; /* Vit textfärg */
     padding: 7px 11px; /* Anpassa padding för att göra knappen större */
     font-size: 16px; /* Storlek på texten */
@@ -58,7 +58,7 @@
 /* Specific style for register-link  */
 .register-link {
     display: inline-block; /* För att få den att bete sig som en knapp */
-    background-color: #36b772; /* Mjuk blå bakgrundsfärg */
+    background-color: #4cbf81; /* Mjuk blå bakgrundsfärg */
     color: white; /* Vit textfärg */
     padding: 7px 11px; /* Anpassa padding för att göra knappen större */
     font-size: 16px; /* Storlek på texten */
@@ -74,7 +74,7 @@
 
 /* Register button color */
 .register-button {
-    background-color: #36b772; /* Mjuk blå nyans */
+    background-color: #4cbf81; /* Mjuk blå nyans */
 }
 
 /* Register button hover */
@@ -112,10 +112,10 @@
 
 /* continue as guest button hover */
 .continue-as-guest-button:hover {
-        background-color: #713c88; /* Mörkare blå vid hover */
+    background-color: #713c88; /* Mörkare blå vid hover */
 }
 
-/* Specifik stil för Search-knappen i nav-search */
+/* Specific style for search in nav-search */
 .nav-search .nav-search-button {
     background-color: #000000;
     color: white; /* Vit textfärg */
@@ -127,11 +127,22 @@
     transition: background-color 0.3s ease; /* Mjuk övergång vid hover */
 }
 
-/* Hover-effekt för knappen */
+/* Hover-effect for search in nav-search */
 .nav-search .nav-search-button:hover {
     background-color: #3b3939; /* Mörkare blå vid hover */
     color: white; /* Se till att texten fortfarande är vit vid hover */
 }
+
+/*logout button color*/
+.logout-button {
+    background-color: #bb3b3b;
+}
+
+/*Logout button hover color*/
+.logout-button:hover {
+    background-color: #7f2929;
+}
+
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {
     background-color: #525a5c;
