@@ -59,6 +59,8 @@ namespace EventureMVC.Controllers
                 {
                     // Store userId in session
                     HttpContext.Session.SetString("nameid", userId);
+
+
                 }
                 else
                 {
@@ -78,6 +80,10 @@ namespace EventureMVC.Controllers
 
                 // Retrieve the user's role after successful login
                 var userRole = await GetUserRole(token);
+
+                // Save userRole in session AFTER it is retrieved
+                HttpContext.Session.SetString("UserRole", userRole);
+
 
                 if (userRole == "admin")
 
@@ -99,7 +105,10 @@ namespace EventureMVC.Controllers
             return View(login);
         }
 
-
+        public string GetUserRole()
+        {
+            return HttpContext.Session.GetString("UserRole") ?? string.Empty;
+        }
 
         // Method to get the user's role using the token
         private async Task<string> GetUserRole(string token)
