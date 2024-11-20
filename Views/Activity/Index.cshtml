@@ -49,9 +49,14 @@
     <div class="d-flex justify-content-between align-items-center">
         <p>Would you like to add your comment?</p>
 
-        <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3">
-            <i class="fas fa-comment-alt"></i> Add Comment
-        </a>
+        @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="fas fa-comment-alt"></i> Add Comment
+            </a>
+        }
+    
     </div>
 
     @if (Model.Comments != null && Model.Comments.Any())
@@ -73,13 +78,39 @@
     }   
 </div>
 
-<script>
-    function clearFilters() {
-        window.location.href = '/Activity/Index';
-    }
+@* use this modal to let non-logged in user to access like-function *@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Function not available</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You cannot access this function. Please, <a href="/User/Login">log in</a> to have full access to Eventure!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    //using the likeActivity in Eplore
+
+<script>
+    //using the likeActivity in Explore
     function toggleLikeDislike(activityId) {
+
+        //check if user is logged in
+        var isLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // true eller false
+
+        if (!isLoggedIn) {
+            // Visa Bootstrap-modal istället för alert
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            return;
+        }
+
         // Define the URL for toggling like/dislike
         let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;
         let heartIcon = document.getElementById(`heart-icon-${activityId}`);
