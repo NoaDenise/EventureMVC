@@ -99,6 +99,23 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+/*------------------------------------ Explore CSS --------------------------------------*/
+.activity-link {
+    color: black;
+    text-decoration: none;
+}
+    .activity-link:hover {
+        text-decoration: underline 2px solid;
+    }
+
+.bi-check-lg { 
+    color: mediumseagreen;
+}
+
+.card-icon {
+    font-size: 1.1rem;
+}
+
 .like-button {
     background: none; /* No background */
     border: none; /* No border */
