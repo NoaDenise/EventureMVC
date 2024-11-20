@@ -115,6 +115,23 @@
         background-color: #713c88; /* Mörkare blå vid hover */
 }
 
+/* Specifik stil för Search-knappen i nav-search */
+.nav-search .nav-search-button {
+    background-color: #000000;
+    color: white; /* Vit textfärg */
+    border: none; /* Ingen kantlinje */
+    border-radius: 5px; /* Rundade hörn */
+    padding: 7px 11px; /* Padding för att göra knappen större */
+    font-size: 16px; /* Storlek på texten */
+    cursor: pointer; /* Handpekare när man hovrar */
+    transition: background-color 0.3s ease; /* Mjuk övergång vid hover */
+}
+
+/* Hover-effekt för knappen */
+.nav-search .nav-search-button:hover {
+    background-color: #3b3939; /* Mörkare blå vid hover */
+    color: white; /* Se till att texten fortfarande är vit vid hover */
+}
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {
     background-color: #525a5c;
