@@ -34,13 +34,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Explore" asp-action="Index">Explore</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MyPages" asp-action="Index">My Pages</a>
-                        </li>
+                        @* only admin will see this *@
+                     @*    @if (User.IsInRole("Admin"))
+                        { *@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
+                            </li>
+                        @* } *@
+            
+                        @* only ordinary user will see this *@
+                        @* @if (User.IsInRole("User")) *@
+                        @* { *@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="MyPages" asp-action="Index">My Pages</a>
+                            </li>
+                        @* } *@
+  
 
                         <li class="nav-search">
                             <form action="/Home/Search" method="get" class="d-flex align-items-center">

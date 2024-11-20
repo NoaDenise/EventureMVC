@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace EventureMVC.Controllers
 {
@@ -27,6 +28,7 @@ namespace EventureMVC.Controllers
             string location = null,
             List<int> likedActivities = null)
         {
+
 
             //Get the userId from the session cookie/jwt
             var userId = HttpContext.Session.GetString("nameid");
