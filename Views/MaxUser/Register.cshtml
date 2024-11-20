@@ -57,9 +57,16 @@
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="button register-button">
+        <i class="bi bi-person-plus-fill"></i> Register
+    </button>
+
 
     <div class="mt-3">
-        <p>Already have an account? <a asp-action="Login">Log In</a></p>
+        <p>
+            Already have an account? <a asp-action="Login" class="login-link">
+                <i class="bi bi-person-fill"></i> Login
+            </a>
+        </p>
     </div>
 </form>

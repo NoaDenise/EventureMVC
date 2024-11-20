@@ -15,6 +15,106 @@
     margin-bottom: 1rem;
 }
 
+/*------------------------------------------BUTTONS--------------------------------------------*/
+/* General button design */
+.button {
+    /*background-color: #4fa3f7;  Mjuk blå färg för knappar */
+    color: white; /* Vit textfärg */
+    border: none; /* Ingen kantlinje */
+    border-radius: 5px; /* Rundade hörn */
+    padding: 7px 11px; /* Padding för att göra knappen större */
+    font-size: 16px; /* Storlek på texten */
+    cursor: pointer; /* Handpekare när man hovrar */
+    transition: background-color 0.3s ease; /* Mjuk övergång vid hover */
+}
+
+/* Login button - specific blue color */
+.login-button {
+    background-color: #258cfb; /* Mjuk blå nyans */
+}
+
+/* Login button hover color */
+.login-button:hover {
+    background-color: #174188; /* Mörkare blå vid hover */
+}
+/* Specific style for Login-link */
+.login-link {
+    display: inline-block; /* För att få den att bete sig som en knapp */
+    background-color: #258cfb; /* Mjuk blå bakgrundsfärg */
+    color: white; /* Vit textfärg */
+    padding: 7px 11px; /* Anpassa padding för att göra knappen större */
+    font-size: 16px; /* Storlek på texten */
+    border-radius: 5px; /* Rundade hörn */
+    text-decoration: none; /* Ta bort eventuell understrykning */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
+}
+
+/* Hover for Login-link */
+.login-link:hover {
+    background-color: #174188; /* Mörkare blå vid hover */
+    color: white; /* Säkerställ att texten förblir vit */
+}
+
+/* Specific style for register-link  */
+.register-link {
+    display: inline-block; /* För att få den att bete sig som en knapp */
+    background-color: #36b772; /* Mjuk blå bakgrundsfärg */
+    color: white; /* Vit textfärg */
+    padding: 7px 11px; /* Anpassa padding för att göra knappen större */
+    font-size: 16px; /* Storlek på texten */
+    border-radius: 5px; /* Rundade hörn */
+    text-decoration: none; /* Ta bort eventuell understrykning */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
+}
+/* Register link hover */
+.register-link:hover {
+    background-color: #1e6941; /* Mörkare blå vid hover */
+    color: white; /* Säkerställ att texten förblir vit */
+}
+
+/* Register button color */
+.register-button {
+    background-color: #36b772; /* Mjuk blå nyans */
+}
+
+/* Register button hover */
+.register-button:hover {
+    background-color: #1e6941; /* Mörkare blå vid hover */
+}
+
+/* Specific style for continue as guest-link  */
+.continue-as-guest-link {
+    display: inline-block; /* För att få den att bete sig som en knapp */
+    background-color: #c56aec; /* Mjuk blå bakgrundsfärg */
+    color: white; /* Vit textfärg */
+    padding: 7px 11px; /* Anpassa padding för att göra knappen större */
+    font-size: 16px; /* Storlek på texten */
+    border-radius: 5px; /* Rundade hörn */
+    text-decoration: none; /* Ta bort eventuell understrykning */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
+}
+
+/* continue as guest link hover color*/
+.continue-as-guest-link:hover {
+    background-color: #713c88; /* Mörkare blå vid hover */
+    color: white; /* Säkerställ att texten förblir vit */
+}
+
+/* continue as guest button color */
+.continue-as-guest-button {
+    background-color: #c56aec; /* Mjuk blå nyans */
+}
+
+/* continue as guest button margin between icon and text */
+.continue-as-guest-button i {
+    margin-right: 6px; /* Lite mellanrum mellan ikonen och texten */
+}
+
+/* continue as guest button hover */
+.continue-as-guest-button:hover {
+        background-color: #713c88; /* Mörkare blå vid hover */
+}
+
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {
     background-color: #525a5c;

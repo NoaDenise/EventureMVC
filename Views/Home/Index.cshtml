@@ -12,9 +12,17 @@
         Post. Explore. Engage.
     </p>
 
-    <a asp-controller="User" asp-action="Login" class="btn btn-primary">Log in</a>
-    <a asp-controller="User" asp-action="Register" class="btn btn-primary">Register</a>
-    <a asp-controller="Explore" asp-action="Index" class="btn btn-primary">Continue as guest</a>
+    <a asp-controller="User" asp-action="Login" class="login-link">
+        <i class="bi bi-person-fill"></i> Login
+        </a>
+
+    <a asp-controller="User" asp-action="Register" class="register-link">
+        <i class="bi bi-person-plus-fill"></i> Register
+    </a>
+
+    <a asp-controller="Explore" asp-action="Index" class="continue-as-guest-link">
+        <i class="bi bi-person-lines-fill"></i> Continue as guest
+    </a>
 </div>
 
 <div class="banner-image">
