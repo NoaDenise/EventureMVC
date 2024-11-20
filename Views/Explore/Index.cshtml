@@ -10,27 +10,27 @@
 
 <form id="filterForm" method="get" action="/Explore/Index">
     <label>
-        <input type="checkbox" name="isFree" value="true" @(Model.IsFree ? "checked" : "") /> Free Entry
+        <input type="checkbox" name="isFree" value="true" aria-label="Is this activity free?" @(Model.IsFree ? "checked" : "") /> Free Entry
     </label>
     <label>
-        <input type="checkbox" name="is18Plus" value="true" @(Model.Is18Plus ? "checked" : "") /> 18+ Only
+        <input type="checkbox" name="is18Plus" value="true" aria-label="Is this activity for adults?" @(Model.Is18Plus ? "checked" : "") /> 18+ Only
     </label>
     <label>
-        <input type="checkbox" name="isFamilyFriendly" value="true" @(Model.IsFamilyFriendly ? "checked" : "") /> Family Friendly
+        <input type="checkbox" name="isFamilyFriendly" value="true" aria-label="Is the activity family friendly?" @(Model.IsFamilyFriendly ? "checked" : "") /> Family Friendly
     </label>
 
     <!-- Date filter inputs -->
     <label>
-        Start Date: <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        Start Date: <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" aria-label="Choose the earliest date you want to attend an activity" />
     </label>
     <label>
-        End Date: <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        End Date: <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" aria-label="Choose the latest date you want to attend an activity"/>
     </label>
 
     <!-- Location filter input with Datalist for auto-fill -->
     <label>
         Location:
-        <input type="text" id="location" name="location" placeholder="Enter location" list="locationsList" autocomplete="off" value="@Model.Location" />
+        <input type="text" id="location" name="location" placeholder="Enter location" list="locationsList" autocomplete="off" value="@Model.Location" aria-label="Choose location of the activity" />
         <datalist id="locationsList">
             @foreach (var country in Model.CountriesWithCities)
             {

@@ -13,66 +13,66 @@
 
     <div class="form-section">
         <label asp-for="ActivityName">Name (of activity)</label>
-        <input asp-for="ActivityName" class="form-control" placeholder="What place is it? Is it an event?"/>
+        <input asp-for="ActivityName" class="form-control" placeholder="What place is it? Is it an event?" aria-label="Name of the place or activity" />
         <span asp-validation-for="ActivityName"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="ActivityDescription">Description</label>
-        <input asp-for="ActivityDescription" class="form-control" placeholder="Any useful information about the activity" />
+        <input asp-for="ActivityDescription" class="form-control" placeholder="Any useful information about the activity" aria-label="Description of the activity" />
         <span asp-validation-for="ActivityDescription"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="DateOfActivity">Choose a date for the activity</label>
-        <input asp-for="DateOfActivity" class="form-control" type="datetime-local" />
+        <input asp-for="DateOfActivity" class="form-control" type="datetime-local" aria-label="If there is a date: What date and time is the activity?" />
         <span asp-validation-for="DateOfActivity"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="ActivityLocation">Where will the activity be located?</label>
-        <input asp-for="ActivityLocation" class="form-control" placeholder="City name" />
+        <input asp-for="ActivityLocation" class="form-control" placeholder="City name" aria-label="Location of the activity" />
         <span asp-validation-for="ActivityLocation"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="ImageUrl">Link for image</label>
-        <input asp-for="ImageUrl" class="form-control" placeholder="Link or upload fitting image" />
+        <input asp-for="ImageUrl" class="form-control" placeholder="Link or upload fitting image" aria-label="Image URL for the activity" />
         <span asp-validation-for="ImageUrl"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="WebsiteUrl">Link to website</label>
-        <input asp-for="WebsiteUrl" class="form-control" placeholder="https://www.website.com" />
+        <input asp-for="WebsiteUrl" class="form-control" placeholder="https://www.website.com" aria-label="Website link for the activity" />
         <span asp-validation-for="WebsiteUrl"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="ContactInfo">Contact information</label>
-        <input asp-for="ContactInfo" class="form-control" placeholder="How to contact owner/activity creator" />
+        <input asp-for="ContactInfo" class="form-control" placeholder="How to contact owner/activity creator" aria-label="Contact information for the activity" />
         <span asp-validation-for="ContactInfo"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="IsFree">Is this a free activity?</label>
-        <input asp-for="IsFree" class="form-check-input" type="checkbox" />
+        <input asp-for="IsFree" class="form-check-input" type="checkbox" aria-label="Is this activity free?" />
         <span asp-validation-for="IsFree"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="Is18Plus">Is this activity +18?</label>
-        <input asp-for="Is18Plus" class="form-check-input" type="checkbox" />
+        <input asp-for="Is18Plus" class="form-check-input" type="checkbox" aria-label="Is this activity for adults?" />
         <span asp-validation-for="Is18Plus"></span>
     </div>
 
     <div class="form-section">
         <label asp-for="IsFamilyFriendly">Is this activity Family friendly?</label>
-        <input asp-for="IsFamilyFriendly" class="form-check-input" type="checkbox" />
+        <input asp-for="IsFamilyFriendly" class="form-check-input" type="checkbox" aria-label="Is the activity family friendly?" />
         <span asp-validation-for="IsFamilyFriendly"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" aria-label="Submit activity">Submit</button>
 
     @* redirects back to explore page *@
-    <a asp-controller="Explore" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a asp-controller="Explore" asp-action="Index" class="btn btn-secondary" aria-label="Cancel and go back to Explore">Cancel</a>
 </form>

@@ -20,17 +20,17 @@ else
 
         <div class="form-group">
             <label for="CommentText">Comment</label>
-            <textarea id="CommentText" name="CommentText" class="form-control" rows="3" placeholder="Write your comment here" required></textarea>
+            <textarea id="CommentText" name="CommentText" class="form-control" rows="3" placeholder="Write your comment here" aria-label="Write your comment here" required></textarea>
         </div>
         <div class="form-group">
             <input type="hidden" asp-for="ActivityId" value="@ViewData["id"]" />
             <input type="hidden" asp-for="UserId" value="@ViewData["id"]" />
 
-        </div> 
-        <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+        <button type="submit" class="btn btn-success" aria-label="Submit comment">Submit</button>
 
         @* cancel & redirect back when cancelling, collaborates with ViewData in Create Comment (controller) *@
-        <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary">Cancel</a>
+        <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary" aria-label="Cancel and go back to activity">Cancel</a>
 
     
     </form>

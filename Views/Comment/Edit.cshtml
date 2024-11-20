@@ -13,8 +13,8 @@
         <span asp-validation-for="CommentText" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" aria-label="Submit edited comment">Submit</button>
 
     @* works together with viewdata in Edit *@
-    <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary">Cancel</a>
+    <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary" aria-label="Cancel and go back to activity">Cancel</a>
 </form>
