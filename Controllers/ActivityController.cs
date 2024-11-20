@@ -23,7 +23,11 @@ namespace EventureMVC.Controllers
             var activityUri = $"{BaseUri}api/Activity/getActivityById/{activityId}";
            
             var commentsUri = $"{BaseUri}api/Comment/getAllCommentsByActivity/{activityId}";
-              
+             
+
+            //need this for fetching liked activity
+            var userId = HttpContext.Session.GetString("nameid");
+
             try
             {
                 // Fetch Activity details
@@ -36,6 +40,21 @@ namespace EventureMVC.Controllers
                 }
                 var activityJson = await activityResponse.Content.ReadAsStringAsync();
                 var activity = JsonConvert.DeserializeObject<ActivityViewModel>(activityJson);
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var likedActivitiesResponse = await _httpClient.GetAsync($"{BaseUri}api/User/likedActivities/{userId}");
+                    if (likedActivitiesResponse.IsSuccessStatusCode)
+                    {
+                        var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
+                        activity.LikedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
+                    }
+                }
+                else
+                {
+                    activity.LikedActivities = new List<int>();
+                }
+
 
                 // Fetch Comments related to the activity
                 var commentsResponse = await _httpClient.GetAsync(commentsUri);
@@ -58,6 +77,7 @@ namespace EventureMVC.Controllers
             }
         }
 
+     
 
     }
 }

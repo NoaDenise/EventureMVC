@@ -10,8 +10,18 @@
         <div class="card">
             <div class="card-body">
 
+            <div class="position-relative">
+                @* Heart button for like/dislike *@
+                <button type="button" class="btn btn-heart position-absolute top-0 end-0 m-2"
+                        id="like-button-@Model.ActivityId"
+                        onclick="toggleLikeDislike(@Model.ActivityId)">
+                    <i id="heart-icon-@Model.ActivityId" class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(Model.ActivityId) ? "liked" : "")"></i>
+                </button>
+            </div>
+
                 <!-- Event Name -->
                 <h3 class="card-title">@Model.ActivityName</h3>
+
 
                 <!-- Event Description -->
                 <p class="card-text"><strong>Description:</strong> @Model.ActivityDescription</p>
@@ -73,4 +83,27 @@ else
     }
     
 </div>
+
+<script>
+    function clearFilters() {
+        window.location.href = '/Activity/Index';
+    }
+
+    //using the likeActivity in Eplore
+    function toggleLikeDislike(activityId) {
+        // Define the URL for toggling like/dislike
+        let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;
+        let heartIcon = document.getElementById(`heart-icon-${activityId}`);
+        heartIcon.classList.toggle("liked"); // Toggle the liked class
+        // Send the fetch request
+        fetch(toggleUrl, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',  // Identifies this as an AJAX request
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+</script>
 
