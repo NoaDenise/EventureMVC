@@ -1,11 +1,8 @@
 ﻿@using EventureMVC.Models.ViewModel;
 @model ActivityViewModel
 
-@* <p>Activity ID: @ViewData["activityId"]</p> *@
 
 
-@* @if (Model != null)
- *@
     <div class="container my-4">
         <div class="card">
             <div class="card-body">
@@ -29,16 +26,10 @@
                 {
                     <img src="@Model.ImageUrl" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
                 }
-@* }
- *@          
+        
             </div>
         </div>
     </div>
-@* }
-else
-{
-    <p>No activity found or an error occurred while fetching the data.</p>
-} *@
 
 <!-- Comments Section -->
 <div class="container my-4">
@@ -57,7 +48,6 @@ else
     {
         @foreach (var comment in Model.Comments)
         {
-            <h3>Here is index.activity that shows alli comment under activity</h3>
             <div class="card mb-3">
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">@comment.UserName</h6>
@@ -70,7 +60,6 @@ else
     else
     {
         <p>No comments available for this activity.</p>
-    }
-    
+    }   
 </div>
 
