@@ -171,6 +171,115 @@ namespace EventureMVC.Controllers
             return RedirectToAction("Login", "User");
         }
 
+
+        //Imported from maxuser
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // auto assigns a new user to user
+            string role = "User";
+
+            var response = await _httpClient.PostAsJsonAsync($"{_baseUri}api/User/register?role={role}", model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("RegisterSuccess", "User");
+            }
+
+            var errorContent = await response.Content.ReadAsStringAsync();
+            TempData["ErrorMessage"] = "Unable to register you, try again!";
+
+            return View(model);
+
+        }
+
+        public IActionResult RegisterSuccess()
+        {
+            return View();
+        }
+
+        // Trying to create the Category connection when creating user
+
+        [HttpGet]
+        public async Task<IActionResult> AddPreferences()
+        {
+            var response = await _httpClient.GetAsync($"{_baseUri}api/Category/getAllCategories");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return View("Error");
+            }
+
+            var categories = await response.Content.ReadFromJsonAsync<List<Category>>();
+            var viewModel = new PreferencesViewModel
+            {
+                Categories = categories ?? new List<Category>(),
+                SelectedCategoryIds = new List<int>()
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddPreferences(PreferencesViewModel model)
+        {
+            // Retrieve user ID from the cookie
+            if (!Request.Cookies.TryGetValue("UserId", out var userId) || string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // No user ID found, return Unauthorized
+            }
+
+            // Loop through selected categories and make a request for each one
+            foreach (var categoryId in model.SelectedCategoryIds)
+            {
+                var response = await _httpClient.PostAsync($"{_baseUri}/api/User/{userId}/categories/{categoryId}", null);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    ModelState.AddModelError(string.Empty, "Unable to save preferences for one or more categories. Please try again.");
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory(string categoryName, string categoryDescription)
+        {
+            if (string.IsNullOrEmpty(categoryName))
+            {
+                ModelState.AddModelError(string.Empty, "Category name is required.");
+                return RedirectToAction(nameof(AddPreferences)); // Stay on the same page if validation fails
+            }
+
+            var data = new
+            {
+                categoryName = categoryName,
+                categoryDescription = categoryDescription
+            };
+
+            var response = await _httpClient.PostAsJsonAsync($"{_baseUri}api/Category/addCategory", data);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                ModelState.AddModelError(string.Empty, "Failed to create category.");
+            }
+
+            return RedirectToAction(nameof(AddPreferences));
+        }
     }
 }
 

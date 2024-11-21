@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using EventureMVC.Models;
 using EventureMVC.Models.ViewModel;
+using System.Text;
 
 namespace EventureMVC.Controllers
 {
@@ -120,6 +121,56 @@ namespace EventureMVC.Controllers
                 TempData["Error"] = "Failed to toggle the like status.";
                 return RedirectToAction("Index");
             }
+        }
+
+        //Imported from old SecondActivity Controller
+        public IActionResult AddActivity()
+        {
+            ViewData["Title"] = "Create Activity";
+
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var activity = new Activity
+            {
+                UserId = userId
+            };
+
+            return View(activity);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddActivity(Activity activity)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(activity);
+            }
+
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var json = JsonConvert.SerializeObject(activity);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{BaseUri}api/Activity/addActivity", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Explore"); // Or use RedirectToAction("Details", "Activity", new { id = activity.Id }); Kanske ska länka där man ser listan för alla man skapat?
+                //eller ändra i backend så man får ut ActivityId i svaret när man har skapat en activity.
+            }
+
+            return View(activity);
         }
 
     }

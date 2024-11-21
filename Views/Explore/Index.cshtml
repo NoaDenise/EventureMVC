@@ -11,12 +11,12 @@
         @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
         @if (Context.Request.Cookies.ContainsKey("jwtToken"))
         {
-            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-primary" style="margin-bottom:1rem">
+            <a asp-action="AddActivity" asp-controller="Activity" class="btn btn-primary" style="margin-bottom:1rem">
                 <i class="bi bi-plus-square-fill" style="margin-right: 6px;"></i>Post New Activity</a>
         }
         else
         {
-            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <a asp-action="AddActivity" asp-controller="Activity" class="btn btn-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">
                 <i class="bi bi-plus-square-fill" style="margin-right: 6px;"></i>Post New Activity</a>
         }
 

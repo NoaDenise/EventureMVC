@@ -506,6 +506,15 @@ body {
 .bi-check-lg { 
     color: mediumseagreen;
 }
+.bi-currency-dollar {
+    color: firebrick;
+}
+.bi-x-lg {
+    color: firebrick;
+}
+.bi-exclamation-circle {
+    color: firebrick;
+}
 
 .card-icon {
     font-size: 1.1rem;
