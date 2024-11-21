@@ -11,11 +11,13 @@
         @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
         @if (Context.Request.Cookies.ContainsKey("jwtToken"))
         {
-            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem">Post New Activity</a>
+            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-primary" style="margin-bottom:1rem">
+                <i class="bi bi-plus-square-fill" style="margin-right: 6px;"></i>Post New Activity</a>
         }
         else
         {
-            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">Post New Activity</a>
+            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="bi bi-plus-square-fill" style="margin-right: 6px;"></i>Post New Activity</a>
         }
 
 
@@ -53,8 +55,8 @@
         </datalist>
     </label>
 
-    <button type="submit">Apply Filter</button>
-    <button type="button" onclick="clearFilters()">Clear Filter</button>
+    <button type="submit" class="apply-filter-button">Apply Filter</button>
+    <button type="button" class="clear-filter-button" onclick="clearFilters()">Clear Filter</button>
 </form>
 
 @* Activities list v1 *@

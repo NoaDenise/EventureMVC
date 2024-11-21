@@ -173,7 +173,7 @@
 }
 
 /* Specific style for search in nav-search */
-.nav-search .nav-search-button {
+.nav-search-button {
     background-color: #000000;
     color: white; 
     border: none; 
@@ -185,19 +185,19 @@
 }
 
 /* Hover-effect for search in nav-search */
-.nav-search .nav-search-button:hover {
+.nav-search-button:hover {
     background-color: #3b3939; 
     color: white; 
 }
 
 /*logout button color*/
 .logout-button {
-    background-color: #bb3b3b;
+    background-color: #cd0000;
 }
 
 /*Logout button hover color*/
 .logout-button:hover {
-    background-color: #7f2929;
+    background-color: #900404;
 }
 
 /* logout button margin between icon and text */
@@ -339,6 +339,62 @@
 
 /*reject button margin*/
 .reject-button i {
+    margin-right: 6px;
+}
+
+/*apply filter button color*/
+.apply-filter-button {
+    background-color: #0056b2;
+    display: inline-block;
+    border:none;
+    cursor: pointer;
+    color: white;
+    padding: 5px 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 6px;
+}
+
+/*apply filter button hover*/
+.apply-filter-button:hover {
+    background-color: #003873;
+}
+
+/*clear filter button color*/
+.clear-filter-button {
+    background-color: #3c3a3a;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 5px 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 6px;
+}
+
+/*clear filter button hover*/
+.clear-filter-button:hover {
+    background-color: #252424;
+}
+
+/*post new activity link color*/
+.new-activity-link {
+    background-color: #007bff;
+}
+
+/*post new activity link hover color*/
+.new-activity-link:hover {
+    background-color:#0056b2;
+    color: white;
+}
+
+/*post new activity link margin*/
+.new-activity-link i {
     margin-right: 6px;
 }
 /*------------------------------------------FOOTER--------------------------------------------*/
