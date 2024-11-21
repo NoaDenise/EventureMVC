@@ -12,6 +12,7 @@
         </a>
     </div>
 
+
     <!-- Categories List -->
     <div class="row category-grid">
         @foreach (var category in Model)
@@ -23,19 +24,18 @@
                         <p class="card-text category-card-description">@category.CategoryDescription</p>
 
 
+
                         <div class="d-flex justify-content-between mt-3">
                             <!-- Edit Button -->
-                            <a asp-controller="Admin" asp-action="EditCategory" asp-route-id="@category.CategoryId"
-                               class="btn btn-outline-primary btn-sm w-48">Edit</a>
+                <a asp-controller="Admin" asp-action="EditCategory" asp-route-id=@category.CategoryId class="edit-information-link">
+                    <i class="bi bi-pencil-fill"></i>Edit</a>
 
                             <!-- Delete Button -->
-                            <form asp-action="DeleteCategory" method="post" asp-controller="Admin" style="display:inline;">
-                                <input type="hidden" name="id" value="@category.CategoryId" />
-                                <button type="submit" class="btn btn-outline-danger btn-sm w-48"
-                                        onclick="return confirm('Are you sure you want to delete this category?');">
-                                    Delete
-                                </button>
-                            </form>
+                      <form method="post" asp-action="DeleteCategory" asp-controller="Admin" style="display:inline;">
+                          <input type="hidden" name="id" value="@category.CategoryId" />
+                          <button type="submit" class="button delete-button" onclick="return confirm('Do you really want to delete this category?');">
+                              <i class="bi bi-x-circle-fill"></i>Delete</button>
+                      </form>
                         </div>
                     </div>
                 </div>

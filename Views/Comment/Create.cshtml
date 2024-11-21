@@ -27,10 +27,13 @@ else
             <input type="hidden" asp-for="UserId" value="@ViewData["id"]" />
 
         </div>
-        <button type="submit" class="btn btn-success" aria-label="Submit comment">Submit</button>
+
+        <button type="submit" class="button submit-button"><i class="bi bi-check-circle-fill"></i>Submit</button>
 
         @* cancel & redirect back when cancelling, collaborates with ViewData in Create Comment (controller) *@
-        <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="btn btn-secondary" aria-label="Cancel and go back to activity">Cancel</a>
+        <a asp-controller="Activity" asp-action="Index" asp-route-activityId="@ViewData["ActivityId"]" class="cancel-link">
+            <i class="bi bi-x-circle-fill"></i>Cancel</a>
+
 
     
     </form>

@@ -50,29 +50,37 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Explore" asp-action="Index">Explore</a>
                         </li>
+
                     </ul>
                   
                     <div class="d-flex ms-auto">
                         <!-- Search Bar -->
                         <form action="/Home/Search" method="get" class="d-flex align-items-center me-2">
                             <input type="text" name="query" placeholder="Search views..." class="form-control" />
-                            <button type="submit" class="btn btn-primary">Search</button>
+                             <button type="submit" class="nav-search-button">
+                                    <i class="bi bi-search-heart-fill"></i> 
+                             </button>
                         </form>
 
                         <!-- Login / Logout Button -->
                         <div class="nav-item">
                                                              
+
                             @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                             {
                                 <!-- Logout Form -->
                                 <form asp-action="Logout" asp-controller="User" method="post" class="form-inline">
-                                    <button type="submit" class="btn btn-outline-danger">Logout</button>
-                                </form>
+
+                                    <button type="submit" class="button logout-button ml-2"><i class="bi bi-person-x-fill"></i>Logout</button>
+                                </form> 
                             }
                             else
                             {
                                 <!-- Login Link -->
-                                <a asp-action="Login" asp-controller="User" class="btn btn-outline-primary">Login</a>
+                                <a asp-action="Login" asp-controller="User" class="login-link ml-2">
+                                    <i class="bi bi-person-fill"></i> Login
+                                </a>
+
                             }
                         </div>
                     </div>

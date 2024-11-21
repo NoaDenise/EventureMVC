@@ -20,17 +20,21 @@
                             <p class="card-text"><strong>Location:</strong> @activity.ActivityLocation</p>
                             <p class="card-text"><strong>Date:</strong> @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Date not available")</p>
 
-                            <div class="mt-auto">
-                                <!-- Form to delete the signup -->
-                                <form asp-action="DeleteActivitySignup" method="post" class="mt-3">
-                                    <input type="hidden" name="attendanceId" value="@activity.AttendanceId" />
-                                    <button type="submit" class="btn btn-danger btn-block">Delete Sign-Up</button>
-                                </form>
+
+            <!-- Form to delete the signup -->
+  <div class="mt-auto">
+            <form asp-action="DeleteActivitySignup" method="post" class="mt-3">
+                <input type="hidden" name="attendanceId" value="@activity.AttendanceId" />
+                <button type="submit" class="button delete-button"><i class="bi bi-x-circle-fill"></i>Delete</button>
+            </form>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             }
+
         </div>
     }
     else

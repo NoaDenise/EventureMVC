@@ -72,6 +72,233 @@
     /*margin: 0;*/
     padding: 0;
 }
+
+/*------------------------------------------BUTTONS--------------------------------------------*/
+/* General button design */
+.button {
+    color: white; /* Vit textf√§rg */
+    border: none; /* Ingen kantlinje */
+    border-radius: 5px; /* Rundade h√∂rn */
+    padding: 7px 11px; /* Padding f√∂r att g√∂ra knappen st√∂rre */
+    font-size: 16px; /* Storlek p√• texten */
+    cursor: pointer; /* Handpekare n√§r man hovrar */
+    transition: background-color 0.3s ease; /* Mjuk √∂verg√•ng vid hover */
+}
+
+/* Login button - specific blue color */
+.login-button {
+    background-color: #3494fa; 
+}
+
+/* Login button hover color */
+.login-button:hover {
+    background-color: #174188; 
+}
+/* Specific style for Login-link */
+.login-link {
+    display: inline-block; /* F√∂r att f√• den att bete sig som en knapp */
+    background-color: #3494fa; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; /* Ta bort eventuell understrykning */
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+/* Hover for Login-link */
+.login-link:hover {
+    background-color: #174188; 
+    color: white; 
+}
+
+/* Specific style for register-link  */
+.register-link {
+    display: inline-block; 
+    background-color: #4cbf81; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+/* Register link hover */
+.register-link:hover {
+    background-color: #1e6941; 
+    color: white; 
+}
+
+/* Register button color */
+.register-button {
+    background-color: #4cbf81; 
+}
+
+/* Register button hover */
+.register-button:hover {
+    background-color: #1e6941; 
+}
+
+/* Specific style for continue as guest-link  */
+.continue-as-guest-link {
+    display: inline-block; 
+    background-color: #c56aec; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+/* continue as guest link hover color*/
+.continue-as-guest-link:hover {
+    background-color: #713c88; 
+    color: white; 
+}
+
+/* continue as guest button color */
+.continue-as-guest-button {
+    background-color: #c56aec; 
+}
+
+/* continue as guest button margin between icon and text */
+.continue-as-guest-button i {
+    margin-right: 6px; 
+}
+
+/* continue as guest button hover */
+.continue-as-guest-button:hover {
+    background-color: #713c88; 
+}
+
+/* Specific style for search in nav-search */
+.nav-search .nav-search-button {
+    background-color: #000000;
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+/* Hover-effect for search in nav-search */
+.nav-search .nav-search-button:hover {
+    background-color: #3b3939; 
+    color: white; 
+}
+
+/*logout button color*/
+.logout-button {
+    background-color: #bb3b3b;
+}
+
+/*Logout button hover color*/
+.logout-button:hover {
+    background-color: #7f2929;
+}
+
+/* logout button margin between icon and text */
+.logout-button i {
+    margin-right: 6px; 
+}
+
+/*submit button color*/
+.submit-button {
+    background-color: #247a4c;
+}
+
+/*submit button hover*/
+.submit-button:hover {
+    background-color: #174f31;
+}
+/*margin for submit button*/
+.submit-button i {
+    margin-right: 6px;
+}
+
+/*cancel link style*/
+.cancel-link {
+    display: inline-block; 
+    background-color: #000000; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+/* cancel link margin between icon and text */
+.cancel-link i {
+    margin-right: 6px; 
+}
+
+/*hover for cancel link*/
+.cancel-link:hover {
+    background-color: #2b2a2a;
+    color: white;
+}
+
+/*edit information link style*/
+.edit-information-link {
+    display: inline-block;
+    background-color: #c2a503;
+    color: white;
+    padding: 7px 11px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* edit information link margin between icon and text */
+.edit-information-link i {
+    margin-right: 6px; 
+}
+
+/*hover for edit information link*/
+.edit-information-link:hover {
+    background-color: #c2a503;
+    color: white;
+}
+
+/*edit password link style*/
+.edit-password-link {
+    display: inline-block;
+    background-color: #000000;
+    color: white;
+    padding: 7px 11px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* edit password link margin between icon and text */
+.edit-password-link i {
+    margin-right: 6px;
+}
+
+/*hover for edit password link*/
+.edit-password-link:hover {
+    background-color: #2b2a2a;
+    color: white;
+}
+
+/* delete button - specific blue color */
+.delete-button {
+    background-color: #cd0000;
+}
+
+/* delete button hover color */
+.delete-button:hover {
+    background-color: #900404;
+}
+
+
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {
     background-color: #525a5c;
@@ -255,25 +482,25 @@ body {
 
 /* Kategorikort */
 .category-card {
-    background-color: #f8f9fa; /* L‰tt bakgrundsf‰rg */
+    background-color: #f8f9fa; /* L√§tt bakgrundsf√§rg */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effekt */
 }
 
     .category-card:hover {
         transform: translateY(-5px); /* Lyfter kortet lite vid hover */
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* L‰gger till en starkare skugga */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* L√§gger till en starkare skugga */
     }
 
 .row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Justera sÂ att korten fˆrdelas j‰mnt */
+    justify-content: space-between; /* Justera s√• att korten f√∂rdelas j√§mnt */
 }
 
 .category-card {
-    flex: 1; /* Gˆr att alla kort fÂr samma storlek */
-    min-height: 300px; /* Eller anv‰nd en specifik minimi-hˆjd fˆr alla kort */
-    margin-bottom: 20px; /* Gˆr mellanrummen lika fˆr alla kort */
+    flex: 1; /* G√∂r att alla kort f√•r samma storlek */
+    min-height: 300px; /* Eller anv√§nd en specifik minimi-h√∂jd f√∂r alla kort */
+    margin-bottom: 20px; /* G√∂r mellanrummen lika f√∂r alla kort */
 }
 
 
@@ -284,7 +511,7 @@ body {
     font-weight: 600;
     color: #60707e;
     padding: 10px;
-    display: inline-block; /* Gˆr sÂ att bakgrunden bara t‰cker texten */
+    display: inline-block; /* G√∂r s√• att bakgrunden bara t√§cker texten */
     margin-bottom: 15px; /* Utrymme under titeln */
 }
 .category-card-description {
@@ -303,8 +530,8 @@ body {
     border: #207f2d; 
 }
     .category-card-Create:hover {
-        background-color: #6baa73; /* Grˆn bakgrund pÂ hover */
-        color: white; /* Vit text pÂ hover */
+        background-color: #6baa73; /* Gr√∂n bakgrund p√• hover */
+        color: white; /* Vit text p√• hover */
         border-color: #155d22; 
     }
 
@@ -334,7 +561,7 @@ body {
     /* Hovringseffekt */
     .list-group-item:hover {
         background-color: #f0f8ff; 
-        color: #007bff; /* BlÂ text */
+        color: #007bff; /* Bl√• text */
     }
 
     /* Ikoner */

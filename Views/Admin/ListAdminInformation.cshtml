@@ -28,13 +28,14 @@
                 </div>
             </div>
 
+
             <div class="text-center mt-4">
-                <a asp-controller="Admin" asp-action="EditAdminInformation" class="btn btn-outline-primary me-2">
-                    Edit Information
-                </a>
-                <a asp-controller="Admin" asp-action="EditAdminPassword" class="btn btn-outline-danger">
-                    Edit Password
-                </a>
+                <a asp-controller="Admin" asp-action="EditAdminInformation" class="edit-information-link">
+                   <i class="bi bi-pencil-fill"></i>Edit Information
+              </a>
+                <a asp-controller="Admin" asp-action="EditAdminPassword" class="edit-password-link">
+                   <i class="bi bi-pencil-fill"></i>Edit Password
+              </a>
             </div>
         </div>
     </div>
