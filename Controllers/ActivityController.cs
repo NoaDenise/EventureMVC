@@ -77,7 +77,50 @@ namespace EventureMVC.Controllers
             }
         }
 
-     
+        //Toggles the like between like and unlike
+        [HttpPost]
+        public async Task<IActionResult> LikeActivity(int activityId)
+        {
+            var userId = HttpContext.Session.GetString("nameid");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var likedActivitiesResponse = await _httpClient.GetAsync($"{BaseUri}api/User/likedActivities/{userId}");
+            List<int> likedActivities = new List<int>();
+
+            if (likedActivitiesResponse.IsSuccessStatusCode)
+            {
+                var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
+                likedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
+            }
+
+            bool isLiked = likedActivities.Contains(activityId);
+            var toggleLikeUrl = $"{BaseUri}api/User/toggleLike/{userId}/{activityId}/{!isLiked}";
+
+            var response = await _httpClient.PostAsJsonAsync(toggleLikeUrl, new { UserId = userId, ActivityId = activityId });
+
+            if (response.IsSuccessStatusCode)
+            {
+                likedActivitiesResponse = await _httpClient.GetAsync($"{BaseUri}api/User/likedActivities/{userId}");
+
+                if (likedActivitiesResponse.IsSuccessStatusCode)
+                {
+                    var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
+                    likedActivities = JsonConvert.DeserializeObject<List<int>>(likedJson);
+                }
+
+                // Pass liked activities list to the view model when redirecting back to the Index action
+                return RedirectToAction("Index", new { likedActivities });
+            }
+            else
+            {
+                TempData["Error"] = "Failed to toggle the like status.";
+                return RedirectToAction("Index");
+            }
+        }
 
     }
 }

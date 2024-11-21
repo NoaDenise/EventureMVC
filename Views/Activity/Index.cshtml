@@ -9,11 +9,22 @@
 
             <div class="position-relative">
                 @* Heart button for like/dislike *@
-                <button type="button" class="btn btn-heart position-absolute top-0 end-0 m-2"
-                        id="like-button-@Model.ActivityId"
-                        onclick="toggleLikeDislike(@Model.ActivityId)">
-                    <i id="heart-icon-@Model.ActivityId" class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(Model.ActivityId) ? "liked" : "")"></i>
-                </button>
+                @if (Context.Request.Cookies.ContainsKey("jwtToken"))
+                {
+                    <button type="button" class="like-button position-absolute top-0 end-0 m-2"
+                            id="like-button-@Model.ActivityId"
+                            onclick="toggleLikeDislike(@Model.ActivityId)">
+                        <i id="heart-icon-@Model.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(Model.ActivityId) ? "liked" : "")"></i>
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="like-button position-absolute top-0 end-0 m-2"
+                            id="like-button-@Model.ActivityId"
+                            onclick="toggleLikeDislike(@Model.ActivityId)">
+                        <i id="heart-icon-@Model.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(Model.ActivityId) ? "liked" : "")" data-bs-toggle="modal" data-bs-target="#loginModal"></i>
+                    </button>
+                }
             </div>
 
                 <!-- Event Name -->
@@ -50,13 +61,19 @@
         <p>Would you like to add your comment?</p>
 
         @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
-        @if (!User.Identity.IsAuthenticated)
+        @if (Context.Request.Cookies.ContainsKey("jwtToken"))
+        {
+            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3">
+                <i class="fas fa-comment-alt"></i> Add Comment
+            </a>
+        }
+        else
         {
             <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3" data-bs-toggle="modal" data-bs-target="#loginModal">
                 <i class="fas fa-comment-alt"></i> Add Comment
             </a>
         }
-    
+
     </div>
 
     @if (Model.Comments != null && Model.Comments.Any())
@@ -101,15 +118,6 @@
     //using the likeActivity in Explore
     function toggleLikeDislike(activityId) {
 
-        //check if user is logged in
-        var isLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // true eller false
-
-        if (!isLoggedIn) {
-            // Visa Bootstrap-modal istället för alert
-            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-            return;
-        }
 
         // Define the URL for toggling like/dislike
         let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;

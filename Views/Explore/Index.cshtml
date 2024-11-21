@@ -8,10 +8,14 @@
 
 
   @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
-        @if (!User.Identity.IsAuthenticated)
+        @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
+        @if (Context.Request.Cookies.ContainsKey("jwtToken"))
         {
-           <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">Post New Activity</a>
-
+            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem">Post New Activity</a>
+        }
+        else
+        {
+            <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">Post New Activity</a>
         }
 
 
@@ -80,11 +84,23 @@
                             <h6>@activity.ActivityLocation</h6>
                         </a>
 
-                        <button type="button" class="like-button"
-                                id="like-button-@activity.ActivityId"
-                                onclick="toggleLikeDislike(@activity.ActivityId)">
-                            <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"> Like</span>
-                        </button>
+                        @if (Context.Request.Cookies.ContainsKey("jwtToken"))
+                        {
+                            <button type="button" class="like-button"
+                                    id="like-button-@activity.ActivityId"
+                                    onclick="toggleLikeDislike(@activity.ActivityId)">
+                                <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"> Like</span>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="like-button"
+                                    id="like-button-@activity.ActivityId"
+                                    onclick="toggleLikeDislike(@activity.ActivityId)">
+                                <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")" data-bs-toggle="modal" data-bs-target="#loginModal"> Like</span>
+                            </button>
+                        }
+                        
                     </div>
 
                     @if (activity.DateOfActivity != null){
@@ -151,6 +167,7 @@
     }
 </div>
 
+
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -162,11 +179,13 @@
                 You cannot access this function. Please, <a href="/User/Login">log in</a> to have full access to Eventure!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <script>
     function clearFilters() {
@@ -175,15 +194,6 @@
 
     function toggleLikeDislike(activityId) {
 
-        //check if user is logged in
-        var isLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // true eller false
-
-        if (!isLoggedIn) {
-            // Visa Bootstrap-modal istället för alert
-            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-            return;
-        }
 
         // Define the URL for toggling like/dislike
         let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;

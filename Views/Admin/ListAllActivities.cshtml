@@ -41,17 +41,18 @@
                         <div class="mt-auto d-flex justify-content-between">
                             <!-- Edit Button -->
                             <!--<a asp-action="EditActivity" asp-route-id="@activity.ActivityId" class="btn btn-warning btn-lg w-48">Edit</a>-->
-<a asp-controller="Admin" asp-action="EditActivity" asp-route-id=@activity.ActivityId class="edit-information-link">
-        <i class="bi bi-pencil-fill"></i>Edit</a>
+                            <a asp-controller="Admin" asp-action="EditActivity" asp-route-id=@activity.ActivityId class="edit-information-link">
+                                    <i class="bi bi-pencil-fill"></i>Edit</a>
 
 
                             <!-- Delete Button -->
-                            <!--<form asp-action="DeleteActivity" method="post">
+@*                             <form asp-action="DeleteActivity" method="post">
                                 <input type="hidden" name="activityId" value="@activity.ActivityId" />
                                 <button type="submit" class="btn btn-danger btn-lg w-48" onclick="return confirm('Are you sure you want to delete this activity?');">Delete</button>
-                            </form>-->
+                            </form> *@
+
                         <form method="post" asp-controller="Admin" asp-action="DeleteActivity" style="display:inline;">
-                            <input type="hidden" name="id" value="@activity.ActivityId" />
+                                <input type="hidden" name="id" value="@activity.ActivityId" />
                             <button type="submit" class="button delete-button" onclick="return confirm('Do you really want to delete this activity?');">
                                 <i class="bi bi-x-circle-fill"></i>Delete</button>
                         </form>
@@ -61,7 +62,7 @@
                 </div>
             </div>
         }
-                        </div>
+    </div>
 </div>
 
 

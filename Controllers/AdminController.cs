@@ -26,6 +26,13 @@ namespace EventureMVC.Controllers
 
         public IActionResult Index()
         {
+            //var userRole = HttpContext.Session.GetString("role");
+
+            //if (userRole != "admin")
+            //{
+            //    return RedirectToAction("Login", "User");
+            //}
+
             ViewData["Title"] = "Admin Pages";
 
             return View();
@@ -362,6 +369,13 @@ namespace EventureMVC.Controllers
 
         public async Task<IActionResult> ListAllActivities()
         {
+            //var userRole = HttpContext.Session.GetString("role");
+
+            //if (userRole != "admin")
+            //{
+            //    return RedirectToAction("Login", "User");
+            //}
+
             ViewData["Title"] = "All Activities";
 
             var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getAllActivities");
@@ -483,7 +497,7 @@ namespace EventureMVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                TempData["ErrorMessage"] = "Unable to list your information. Please, try again later.";
+                TempData["ErrorMessage"] = "Unable to delete your activity.";
                 return RedirectToAction("ListAllActivities");
             }
 
