@@ -1,6 +1,10 @@
 ﻿@model Activity
 
-<h4>Edit Activity</h4>
+@{
+    ViewData["Title"] = "Edit Activity";
+}
+
+<h1>Edit Activity</h1>
 
 <form method="post" asp-action="EditActivity">
 
@@ -63,8 +67,8 @@
 
 
 
-    <button type="submit" class="button">Save</button>
-    <a asp-action="ListAllActivities" class="button">Cancel</a>
+    <button type="submit" class="button submit-button"><i class="bi bi-check-circle-fill"></i>Submit</button>
+    <a asp-action="ListAllActivities" class="cancel-link"><i class="bi bi-x-circle-fill"></i>Cancel</a>
 
 </form>
 

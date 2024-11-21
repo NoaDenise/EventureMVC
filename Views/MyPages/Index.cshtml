@@ -1,4 +1,4 @@
-﻿@{
+@{
     var userId = Context.Session.GetString("nameid");
 }
 
@@ -9,10 +9,27 @@
 else
 {
     <h1>Welcome to My Pages!</h1>
-    <ul>
-        <li><a asp-controller="MyPages" asp-action="MyInformation">My Information</a></li>
-        <li><a asp-controller="MyPages" asp-action="SavedActivities">Saved Activities</a></li>
-        <li><a asp-controller="MyPages" asp-action="ActivitySignUps">Activity Sign-Ups</a></li>
-        <li><a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities">Edit/Delete Created Activities</a></li>
-    </ul>
+
+    <div class="list-group">
+        <!-- My Information -->
+
+        <a asp-controller="MyPages" asp-action="MyInformation" class="list-group-item" aria-label="View your personal information">
+            <i class="fas fa-user-circle"></i> My Information
+        </a>
+
+        <!-- Saved Activities -->
+        <a asp-controller="MyPages" asp-action="SavedActivities" class="list-group-item" aria-label="View your saved activities">
+            <i class="fas fa-bookmark"></i> Saved Activities
+        </a>
+
+        <!-- Activity Sign-Ups -->
+        <a asp-controller="MyPages" asp-action="ActivitySignUps" class="list-group-item" aria-label="View your activity sign-ups">
+            <i class="fas fa-calendar-check"></i> Activity Sign-Ups
+        </a>
+
+        <!-- Edit/Delete Created Activities -->
+        <a asp-controller="MyPages" asp-action="EditDeleteCreatedActivities" class="list-group-item" aria-label="Edit or delete your created activities">
+            <i class="fas fa-edit"></i> Edit/Delete Created Activities
+        </a>
+    </div>
 }

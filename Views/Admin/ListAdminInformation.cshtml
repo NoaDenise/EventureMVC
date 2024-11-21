@@ -1,17 +1,44 @@
-﻿@model EventureMVC.Models.ViewModel.AdminInformationViewModel
+@model EventureMVC.Models.ViewModel.AdminInformationViewModel
 
-<h4>My Information</h4>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">My Information</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>First Name:</h5>
+                    <p class="text-muted">@Model.FirstName</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Last Name:</h5>
+                    <p class="text-muted">@Model.LastName</p>
+                </div>
+            </div>
 
-    <p class="card-text">First name: @Model.FirstName</p>
-    <p class="card-text">Last name: @Model.LastName</p>
-    <p class="card-text">Phone number: @Model.PhoneNumber</p>
-    <p class="card-text">Password will not be shown, but you can change it here.</p>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Phone Number:</h5>
+                    <p class="text-muted">@Model.PhoneNumber</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Password:</h5>
+                    <p class="text-muted">Password is hidden for security reasons</p>
+                </div>
+            </div>
 
-<!-- asp-route-id should be removed, since it will collide with identity -->
-<a asp-controller="Admin" asp-action="EditAdminInformation" class="button">Edit Information</a>
-<a asp-controller="Admin" asp-action="EditAdminPassword" class="button">Edit Password</a>
 
-@* <a asp-controller="Admin" asp-action="EditAdminInformation" asp-route-id="@Model.Id" class="button">Edit</a> *@
+            <div class="text-center mt-4">
+                <a asp-controller="Admin" asp-action="EditAdminInformation" class="edit-information-link">
+                   <i class="bi bi-pencil-fill"></i>Edit Information
+              </a>
+                <a asp-controller="Admin" asp-action="EditAdminPassword" class="edit-password-link">
+                   <i class="bi bi-pencil-fill"></i>Edit Password
+              </a>
+            </div>
+        </div>
+    </div>
 
 @if (TempData["ErrorMessage"] != null)
 {

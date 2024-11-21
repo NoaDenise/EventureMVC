@@ -1,32 +1,43 @@
 ﻿@model EventureMVC.Models.ViewModel.ExploreViewModel
 
+@{
+    ViewData["Title"] = "Explore";
+}
+
 <h1>Explore Activities!</h1>
 
-<a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem">Post an Activity</a>
+
+  @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
+        @if (!User.Identity.IsAuthenticated)
+        {
+           <a asp-action="AddActivity" asp-controller="SecondActivity" class="btn btn-outline-primary" style="margin-bottom:1rem" data-bs-toggle="modal" data-bs-target="#loginModal">Post New Activity</a>
+
+        }
+
 
 <form id="filterForm" method="get" action="/Explore/Index">
     <label>
-        <input type="checkbox" name="isFree" value="true" @(Model.IsFree ? "checked" : "") /> Free Entry
+        <input type="checkbox" name="isFree" value="true" aria-label="Is this activity free?" @(Model.IsFree ? "checked" : "") /> Free Entry
     </label>
     <label>
-        <input type="checkbox" name="is18Plus" value="true" @(Model.Is18Plus ? "checked" : "") /> 18+ Only
+        <input type="checkbox" name="is18Plus" value="true" aria-label="Is this activity for adults?" @(Model.Is18Plus ? "checked" : "") /> 18+ Only
     </label>
     <label>
-        <input type="checkbox" name="isFamilyFriendly" value="true" @(Model.IsFamilyFriendly ? "checked" : "") /> Family Friendly
+        <input type="checkbox" name="isFamilyFriendly" value="true" aria-label="Is the activity family friendly?" @(Model.IsFamilyFriendly ? "checked" : "") /> Family Friendly
     </label>
 
     <!-- Date filter inputs -->
     <label>
-        Start Date: <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        Start Date: <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" aria-label="Choose the earliest date you want to attend an activity" />
     </label>
     <label>
-        End Date: <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        End Date: <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" aria-label="Choose the latest date you want to attend an activity"/>
     </label>
 
     <!-- Location filter input with Datalist for auto-fill -->
     <label>
         Location:
-        <input type="text" id="location" name="location" placeholder="Enter location" list="locationsList" autocomplete="off" value="@Model.Location" />
+        <input type="text" id="location" name="location" placeholder="Enter location" list="locationsList" autocomplete="off" value="@Model.Location" aria-label="Choose location of the activity" />
         <datalist id="locationsList">
             @foreach (var country in Model.CountriesWithCities)
             {
@@ -139,12 +150,41 @@
         </div>
     }
 </div>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Function not available</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You cannot access this function. Please, <a href="/User/Login">log in</a> to have full access to Eventure!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function clearFilters() {
         window.location.href = '/Explore/Index';
     }
 
     function toggleLikeDislike(activityId) {
+
+        //check if user is logged in
+        var isLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // true eller false
+
+        if (!isLoggedIn) {
+            // Visa Bootstrap-modal istället för alert
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            return;
+        }
+
         // Define the URL for toggling like/dislike
         let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;
         let heartIcon = document.getElementById(`heart-icon-${activityId}`);

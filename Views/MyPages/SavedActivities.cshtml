@@ -1,6 +1,6 @@
 ﻿@model List<EventureMVC.Models.SavedActivitiesUserDTO>
 
-<h2>Liked Activities</h2>
+<h1>Liked Activities</h1>
 
 @if (Model != null && Model.Any())
 {
@@ -12,7 +12,7 @@
             <p>Date: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Date not available")</p>
             <form asp-action="DeleteSavedActivity" method="post">
                 <input type="hidden" name="userEventId" value="@activity.UserEventId" />
-                <button type="submit">Delete</button>
+                <button type="submit" class="button delete-button"><i class="bi bi-x-circle-fill"></i>Delete</button>
             </form>
         </div>
     }

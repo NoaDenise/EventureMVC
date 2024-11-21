@@ -2,6 +2,7 @@ using EventureMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace EventureMVC.Controllers
 {
@@ -52,6 +53,11 @@ namespace EventureMVC.Controllers
 
         public IActionResult Search(string query)
         {
+            //should be a control for hackers, when we have time for that...
+
+            //removes space
+            query = query?.Trim();
+
             if (string.IsNullOrEmpty(query))
             {
                 return View("SearchResults", new List<string>());

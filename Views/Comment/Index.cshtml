@@ -18,13 +18,14 @@
                 <td>@comment.UserName</td>
                 <td>
                     <!-- Edit action with hidden activityId -->
-                    <a asp-action="Edit" asp-route-commentId="@comment.CommentId" asp-route-activityId="@comment.ActivityId" class="btn btn-primary">Edit</a>
+                    <a asp-action="Edit" asp-route-commentId="@comment.CommentId" asp-route-activityId="@comment.ActivityId" class="edit-information-link">
+                        <i class="bi bi-pencil-fill"></i>Edit</a>
 
                     <!-- Delete action with hidden activityId -->
                     <form method="post" asp-action="Delete">
                         <input type="hidden" name="commentId" value="@comment.CommentId" />
                         <input type="hidden" name="activityId" value="@ViewData["activityId"]" />
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="button delete-button"><i class="bi bi-x-circle-fill"></i>Delete</button>
                     </form>
 
                 </td>

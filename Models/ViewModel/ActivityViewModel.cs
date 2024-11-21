@@ -14,6 +14,7 @@ namespace EventureMVC.Models
         public string? ContactInfo { get; set; }
 
         public List<CommentViewModel> Comments { get; set; } /*= new List<CommentViewModel>();*/
+        public List<int> LikedActivities { get; set; }
 
 
     }

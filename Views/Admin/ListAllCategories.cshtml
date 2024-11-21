@@ -1,25 +1,48 @@
-﻿@model List<Category>
+@model List<Category>
 
-<div class="button">
-    <a asp-action="CreateCategory" asp-controller="Admin" class="button">Create</a>
+
+
+<div class="container mt-5">
+   <h1 class="text-center mb-4 category-card-subject">All Categories</h1>
+
+    <!-- Create New Category Button -->
+    <div class="d-flex justify-content-center mb-4">
+        <a asp-action="CreateCategory" asp-controller="Admin" class="category-card-Create">
+            Create New Category
+        </a>
+    </div>
+
+
+    <!-- Categories List -->
+    <div class="row category-grid">
+        @foreach (var category in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card category-card shadow-sm border-light rounded-3">
+                    <div class="card-body category-card-body">
+                        <h5 class="card-title category-card-title">@category.CategoryName</h5>                     
+                        <p class="card-text category-card-description">@category.CategoryDescription</p>
+
+
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <!-- Edit Button -->
+                <a asp-controller="Admin" asp-action="EditCategory" asp-route-id=@category.CategoryId class="edit-information-link">
+                    <i class="bi bi-pencil-fill"></i>Edit</a>
+
+                            <!-- Delete Button -->
+                      <form method="post" asp-action="DeleteCategory" asp-controller="Admin" style="display:inline;">
+                          <input type="hidden" name="id" value="@category.CategoryId" />
+                          <button type="submit" class="button delete-button" onclick="return confirm('Do you really want to delete this category?');">
+                              <i class="bi bi-x-circle-fill"></i>Delete</button>
+                      </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-
-<h4>All Categories</h4>
-
-@foreach (var category in Model)
-{
-    <p class="card-text">ID: @category.CategoryId</p>
-    <p class="card-text">Name: @category.CategoryName</p>
-    <p class="card-text">Description: @category.CategoryDescription</p>
-
-    <a asp-controller="Admin" asp-action="EditCategory" asp-route-id=@category.CategoryId class="button">Edit</a>
-
-    <form method="post" asp-action="DeleteCategory" asp-controller="Admin" style="display:inline;">
-        <input type="hidden" name="id" value="@category.CategoryId" />
-        <button type="submit" class="button" onclick="return confirm('Do you really want to delete this category?');">Delete</button>
-    </form>
-}
-
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">
