@@ -13,8 +13,8 @@
         <input asp-for="CategoryDescription" class="form-control" />
         <span asp-validation-for="CategoryDescription" class="text-danger"></span>
     </div>
-    <button type="submit" class="button">Submit</button>
-    <a asp-action="ListAllCategories" class="button">Cancel</a>
+    <button type="submit" class="button submit-button"><i class="bi bi-check-circle-fill"></i>Submit</button>
+    <a asp-action="ListAllCategories" class="cancel-link"><i class="bi bi-x-circle-fill"></i>Cancel</a>
 </form>
 
 @if (TempData["ErrorMessage"] != null)

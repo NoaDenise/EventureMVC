@@ -43,13 +43,13 @@
                                 <!-- Approve Button -->
                             <form asp-action="ApproveActivity" method="post" class="w-48">
                                 <input type="hidden" name="activityId" value="@activity.ActivityId" />
-                                <button type="submit" class="button submit-button w-100"><i class="bi bi-check-circle-fill">Approve</button>
+                                <button type="submit" class="button submit-button"><i class="bi bi-check-circle-fill"></i>Approve</button>
                             </form>
 
                                 <!-- Reject Button -->
                                 <form asp-action="RejectActivity" method="post" class="w-48">
                                     <input type="hidden" name="activityId" value="@activity.ActivityId" />
-                                    <button type="submit" class="btn btn-danger w-100">Reject</button>
+                                <button type="submit" class="button reject-button"><i class="bi bi-x-square-fill"></i>Reject</button>
                                 </form>
                             </div>
                         </div>
