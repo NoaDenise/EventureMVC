@@ -16,11 +16,13 @@
     <p class="card-text">Is 18+: @activity.Is18Plus</p>
     <p class="card-text">Is Kid Friendly: @activity.IsFamilyFriendly</p>
 
-    <a asp-controller="Admin" asp-action="EditActivity" asp-route-id=@activity.ActivityId class="button">Edit</a>
+    <a asp-controller="Admin" asp-action="EditActivity" asp-route-id=@activity.ActivityId class="edit-information-link">
+        <i class="bi bi-pencil-fill"></i>Edit</a>
 
     <form method="post" asp-controller="Admin" asp-action="DeleteActivity" style="display:inline;">
         <input type="hidden" name="id" value="@activity.ActivityId" />
-        <button type="submit" class="button" onclick="return confirm('Do you really want to delete this activity?');">Delete</button>
+        <button type="submit" class="button delete-button" onclick="return confirm('Do you really want to delete this activity?');">
+            <i class="bi bi-x-circle-fill"></i>Delete</button>
     </form>
 }
 

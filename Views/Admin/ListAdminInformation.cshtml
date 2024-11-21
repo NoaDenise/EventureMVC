@@ -8,8 +8,10 @@
     <p class="card-text">Password will not be shown, but you can change it here.</p>
 
 <!-- asp-route-id should be removed, since it will collide with identity -->
-<a asp-controller="Admin" asp-action="EditAdminInformation" class="button">Edit Information</a>
-<a asp-controller="Admin" asp-action="EditAdminPassword" class="button">Edit Password</a>
+<a asp-controller="Admin" asp-action="EditAdminInformation" class="edit-information-link">
+    <i class="bi bi-pencil-fill"></i>Edit Information</a>
+<a asp-controller="Admin" asp-action="EditAdminPassword" class="edit-password-link">
+    <i class="bi bi-pencil-fill"></i>Edit Password</a>
 
 @* <a asp-controller="Admin" asp-action="EditAdminInformation" asp-route-id="@Model.Id" class="button">Edit</a> *@
 

@@ -14,7 +14,7 @@
             <!-- Form to delete the signup -->
             <form asp-action="DeleteActivitySignup" method="post">
                 <input type="hidden" name="attendanceId" value="@activity.AttendanceId" />
-                <button type="submit">Delete</button>
+                <button type="submit" class="button delete-button"><i class="bi bi-x-circle-fill"></i>Delete</button>
             </form>
         </div>
     }

@@ -175,13 +175,69 @@
 
 /* cancel link margin between icon and text */
 .cancel-link i {
-    margin-right: 6px; /* Lite mellanrum mellan ikonen och texten */
+    margin-right: 6px; 
 }
 
 /*hover for cancel link*/
 .cancel-link:hover {
     background-color: #2b2a2a;
     color: white;
+}
+
+/*edit information link style*/
+.edit-information-link {
+    display: inline-block;
+    background-color: #c2a503;
+    color: white;
+    padding: 7px 11px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* edit information link margin between icon and text */
+.edit-information-link i {
+    margin-right: 6px; 
+}
+
+/*hover for edit information link*/
+.edit-information-link:hover {
+    background-color: #c2a503;
+    color: white;
+}
+
+/*edit password link style*/
+.edit-password-link {
+    display: inline-block;
+    background-color: #000000;
+    color: white;
+    padding: 7px 11px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* edit password link margin between icon and text */
+.edit-password-link i {
+    margin-right: 6px;
+}
+
+/*hover for edit password link*/
+.edit-password-link:hover {
+    background-color: #2b2a2a;
+    color: white;
+}
+
+/* delete button - specific blue color */
+.delete-button {
+    background-color: #cd0000;
+}
+
+/* delete button hover color */
+.delete-button:hover {
+    background-color: #900404;
 }
 
 /*------------------------------------------FOOTER--------------------------------------------*/

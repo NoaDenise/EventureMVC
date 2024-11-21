@@ -12,11 +12,13 @@
     <p class="card-text">Name: @category.CategoryName</p>
     <p class="card-text">Description: @category.CategoryDescription</p>
 
-    <a asp-controller="Admin" asp-action="EditCategory" asp-route-id=@category.CategoryId class="button">Edit</a>
+    <a asp-controller="Admin" asp-action="EditCategory" asp-route-id=@category.CategoryId class="edit-information-link">
+        <i class="bi bi-pencil-fill"></i>Edit</a>
 
     <form method="post" asp-action="DeleteCategory" asp-controller="Admin" style="display:inline;">
         <input type="hidden" name="id" value="@category.CategoryId" />
-        <button type="submit" class="button" onclick="return confirm('Do you really want to delete this category?');">Delete</button>
+        <button type="submit" class="button delete-button" onclick="return confirm('Do you really want to delete this category?');">
+            <i class="bi bi-x-circle-fill"></i>Delete</button>
     </form>
 }
 
