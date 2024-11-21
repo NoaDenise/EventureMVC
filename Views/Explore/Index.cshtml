@@ -53,31 +53,99 @@
     <button type="button" onclick="clearFilters()">Clear Filter</button>
 </form>
 
-@* Activities list *@
-<div id="activities-container" class="list-group">
+@* Activities list v1 *@
+<div id="activities-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     @foreach (var activity in Model.Activities)
     {
-        <div class="list-group-item flex-column align-items-start activity-item">
-            <div class="d-flex w-100 justify-content-between">
-                <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })" class="activity-link w-75 text-decoration-none text-reset">
-                    <h5>@activity.ActivityName</h5>
-                    <h6>@activity.ActivityLocation</h6>
-                    <p>@activity.DateOfActivity?.ToString("f")</p>
+        <div class="col">
+            <div class="card shadow-sm">
+                <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })">
+                    @if (activity.ImageUrl != null)
+                    {
+                        <img class="card-img-top" src="@activity.ImageUrl" alt="@activity.ActivityDescription" width="100%" height="225">
+                    }
+                    else
+                    {
+                        <img class="card-img-top" src="~/images/palceholdereventimg.jpg" alt="Image of the Event or Activity" width="100%" height="225">
+                    }
                 </a>
-                <div class="info-buttons">
-                    <p>+18 @activity.Is18Plus</p>
-                    <p>Family Friendly @activity.IsFamilyFriendly</p>
-                    <p>Free @activity.IsFree</p>
+                <div class="card-body">
+
+
+
+                    <div class="d-flex justify-content-between">
+
+                        <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })" class="activity-link">
+                            <h5>@activity.ActivityName</h5>
+                            <h6>@activity.ActivityLocation</h6>
+                        </a>
+
+                        <button type="button" class="like-button"
+                                id="like-button-@activity.ActivityId"
+                                onclick="toggleLikeDislike(@activity.ActivityId)">
+                            <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"> Like</span>
+                        </button>
+                    </div>
+
+                    @if (activity.DateOfActivity != null){
+                        <p class="text-body"> @activity.DateOfActivity?.ToString("f")</p>
+                    }
+                    else
+                    {
+                        <p class="text-white">N/A</p>
+                    }
+
+                    <div class="mt-auto flex-row justify-content-around">
+
+                        @if (activity.IsFree)
+                        {
+                            <p class="card-icon">
+                                Free
+                                <i class="bi bi-check-lg"></i>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="card-icon">
+                                Not Free
+                                <i class="bi bi-currency-dollar"></i>
+                            </p>
+                        }
+                            
+                        @if (activity.Is18Plus)
+                        {
+                            <p class="card-icon">
+                                +18
+                                <i class="bi bi-exclamation-circle"></i>
+                            </p>
+                                
+                        }
+                        else
+                        {
+                            <p class="card-icon">
+                                All Ages
+                                <i class="bi bi-check-lg"></i>
+                            </p>
+                        }
+                        
+                        @if (activity.IsFamilyFriendly)
+                        {
+                            <p class="card-icon">
+                                Family Friendly
+                                @* <i class="bi bi-people-fill"></i> *@
+                                <i class="bi bi-check-lg"></i>
+                            </p>
+                            }
+                        else
+                        {
+                            <p class="card-icon">
+                                Not Family Friendly
+                                @* <i class="bi bi-people"></i> *@
+                                <i class="bi bi-x-lg"></i>
+                            </p>
+                        }
+                    </div>
                 </div>
-
-                @* Heart button for like/dislike *@
-                <button type="button" class="btn btn-heart"
-                        id="like-button-@activity.ActivityId"
-                        onclick="toggleLikeDislike(@activity.ActivityId)">
-                    <i id="heart-icon-@activity.ActivityId" class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"></i>
-                </button>
-
-
             </div>
         </div>
     }
