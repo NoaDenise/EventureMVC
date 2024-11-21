@@ -1,23 +1,27 @@
-﻿<h1>My Pages</h1>
 
-<ul class="admin-pages-list">
-    <li>
-        <a asp-controller="Admin" asp-action="ListAdminInformation">My Information</a>
-    </li>
-    <li>
-        <a asp-controller="Admin" asp-action="ListActivitiesToApprove">Activities to Approve</a>
-    </li>
-    <li>
-        <a asp-controller="Admin" asp-action="ListAllActivities">List/Edit/Delete Activities</a>
-    </li>
-    <li>
-        <a asp-controller="Admin" asp-action="ListAllCategories">List/Create/Edit/Delete Categories</a>
-    </li>
+<h1>Admin Pages</h1>
 
-</ul>
+<div class="list-group">
+    <!-- My Information -->
+    <a asp-controller="Admin" asp-action="ListAdminInformation" class="list-group-item">
+        <i class="fas fa-user-circle"></i> My Information
+    </a>
 
-@* <h4>List all Users</h4>
-<h4>Delete User</h4> *@
+    <!-- Activities to Approve -->
+    <a asp-controller="Admin" asp-action="ListActivitiesToApprove" class="list-group-item">
+        <i class="fas fa-check-circle"></i> Activities to Approve
+    </a>
+
+    <!-- List/Edit/Delete Activities -->
+    <a asp-controller="Admin" asp-action="ListAllActivities" class="list-group-item">
+        <i class="fas fa-tasks"></i> List/Edit/Delete Activities
+    </a>
+
+    <!-- List/Create/Edit/Delete Categories -->
+    <a asp-controller="Admin" asp-action="ListAllCategories" class="list-group-item">
+        <i class="fas fa-tags"></i> List/Create/Edit/Delete Categories
+    </a>
+</div>
 
 @if (TempData["ErrorMessage"] != null)
 {

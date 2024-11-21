@@ -1,17 +1,24 @@
 ﻿@using EventureMVC.Models.ViewModel;
 @model ActivityViewModel
 
-@* <p>Activity ID: @ViewData["activityId"]</p> *@
 
 
-@* @if (Model != null)
- *@
     <div class="container my-4">
         <div class="card">
             <div class="card-body">
 
+            <div class="position-relative">
+                @* Heart button for like/dislike *@
+                <button type="button" class="btn btn-heart position-absolute top-0 end-0 m-2"
+                        id="like-button-@Model.ActivityId"
+                        onclick="toggleLikeDislike(@Model.ActivityId)">
+                    <i id="heart-icon-@Model.ActivityId" class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(Model.ActivityId) ? "liked" : "")"></i>
+                </button>
+            </div>
+
                 <!-- Event Name -->
                 <h3 class="card-title">@Model.ActivityName</h3>
+
 
                 <!-- Event Description -->
                 <p class="card-text"><strong>Description:</strong> @Model.ActivityDescription</p>
@@ -29,16 +36,10 @@
                 {
                     <img src="@Model.ImageUrl" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
                 }
-@* }
- *@          
+        
             </div>
         </div>
     </div>
-@* }
-else
-{
-    <p>No activity found or an error occurred while fetching the data.</p>
-} *@
 
 <!-- Comments Section -->
 <div class="container my-4">
@@ -48,16 +49,20 @@ else
     <div class="d-flex justify-content-between align-items-center">
         <p>Would you like to add your comment?</p>
 
-        <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3">
-            <i class="fas fa-comment-alt"></i> Add Comment
-        </a>
+        @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="fas fa-comment-alt"></i> Add Comment
+            </a>
+        }
+    
     </div>
 
     @if (Model.Comments != null && Model.Comments.Any())
     {
         @foreach (var comment in Model.Comments)
         {
-            <h3>Here is index.activity that shows alli comment under activity</h3>
             <div class="card mb-3">
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">@comment.UserName</h6>
@@ -70,7 +75,55 @@ else
     else
     {
         <p>No comments available for this activity.</p>
-    }
-    
+    }   
 </div>
+
+@* use this modal to let non-logged in user to access like-function *@
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Function not available</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You cannot access this function. Please, <a href="/User/Login">log in</a> to have full access to Eventure!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Stäng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //using the likeActivity in Explore
+    function toggleLikeDislike(activityId) {
+
+        //check if user is logged in
+        var isLoggedIn = @User.Identity.IsAuthenticated.ToString().ToLower(); // true eller false
+
+        if (!isLoggedIn) {
+            // Visa Bootstrap-modal istället för alert
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            return;
+        }
+
+        // Define the URL for toggling like/dislike
+        let toggleUrl = `/Explore/LikeActivity?activityId=${activityId}`;
+        let heartIcon = document.getElementById(`heart-icon-${activityId}`);
+        heartIcon.classList.toggle("liked"); // Toggle the liked class
+        // Send the fetch request
+        fetch(toggleUrl, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',  // Identifies this as an AJAX request
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+</script>
 

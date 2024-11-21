@@ -9,22 +9,80 @@
     margin-right: 0.5rem;
 }
 
+.search-list a {
+    text-decoration: none;
+    color: #000000;
+    line-height: 2rem;
+}
+
+.search-list a:hover {
+    color: #43A16F;
+}
+
+.search-list a:visited {
+    color: #006B5F;
+}
+
+.search-list a:focus {
+    color: #2B56A1;
+}
+
+
+#color {
+    color: #206680;
+}
+
+.logo {
+    font-weight: 500;
+}
+
+
 /*------------------------------------------HOME----------------------------------------------*/
 .banner-image {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+/*--------------------------------------ADMIN/MYPAGES------------------------------------*/
+
+.my-pages-list a,
+.admin-pages-list a {
+    text-decoration: none;
+    color: #000000;
+    line-height: 2rem;
+}
+
+.my-pages-list a:hover,
+.admin-pages-list a:hover {
+    color: #43A16F;
+}
+
+/*.my-pages-list a:visited,
+.admin-pages-list a:visited {
+    color: #006B5F;
+}*/
+
+.my-pages-list a:focus,
+.admin-pages-list a:focus {
+    color: #2B56A1;
+}
+
+.my-pages-list,
+.admin-pages-list {
+    list-style: none;
+    /*margin: 0;*/
+    padding: 0;
+}
 
 /*------------------------------------------BUTTONS--------------------------------------------*/
 /* General button design */
 .button {
-    color: white; /* Vit textf�rg */
+    color: white; /* Vit textfärg */
     border: none; /* Ingen kantlinje */
-    border-radius: 5px; /* Rundade h�rn */
-    padding: 7px 11px; /* Padding f�r att g�ra knappen st�rre */
-    font-size: 16px; /* Storlek p� texten */
-    cursor: pointer; /* Handpekare n�r man hovrar */
-    transition: background-color 0.3s ease; /* Mjuk �verg�ng vid hover */
+    border-radius: 5px; /* Rundade hörn */
+    padding: 7px 11px; /* Padding för att göra knappen större */
+    font-size: 16px; /* Storlek på texten */
+    cursor: pointer; /* Handpekare när man hovrar */
+    transition: background-color 0.3s ease; /* Mjuk övergång vid hover */
 }
 
 /* Login button - specific blue color */
@@ -38,7 +96,7 @@
 }
 /* Specific style for Login-link */
 .login-link {
-    display: inline-block; /* F�r att f� den att bete sig som en knapp */
+    display: inline-block; /* För att få den att bete sig som en knapp */
     background-color: #3494fa; 
     color: white; 
     padding: 7px 11px; 
@@ -240,6 +298,7 @@
     background-color: #900404;
 }
 
+
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {
     background-color: #525a5c;
@@ -261,14 +320,14 @@ footer a:hover {
     color: #96DED1;
 }
 
-/*footer a:visited {
-    color: #0589F5;
-}*/
-
-/*footer a:focus {
-    color: #0C665C;
+footer a:visited {
+    color: #B4D3DE;
 }
-*/
+
+footer a:focus {
+    color: #83A182;
+}
+
 /*to color the social media icons when we hover on them*/
 footer a:hover svg path {
     fill: #96DED1;
@@ -380,3 +439,139 @@ body {
     outline: none !important;
     box-shadow: none !important;
 }
+
+
+/*------------------------------------ Parmis Changes --------------------------------------*/
+/*---------AdminPage----------*/
+
+/*--------Index----------*/
+
+/* Basdesign */
+.list-group-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Hovringseffekt */
+    .list-group-item:hover {
+        background-color: #f0f8ff; 
+        color: #007bff; 
+    }
+
+    /* Ikoner */
+    .list-group-item i {
+        font-size: 1.2em; 
+        color: #666; 
+        transition: color 0.3s ease;
+    }
+
+    .list-group-item:hover i {
+        color: #007bff; 
+    }
+
+
+
+/*----ListAllCategories--*/
+
+/* Kategorikort */
+.category-card {
+    background-color: #f8f9fa; /* Lätt bakgrundsfärg */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effekt */
+}
+
+    .category-card:hover {
+        transform: translateY(-5px); /* Lyfter kortet lite vid hover */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* Lägger till en starkare skugga */
+    }
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Justera så att korten fördelas jämnt */
+}
+
+.category-card {
+    flex: 1; /* Gör att alla kort får samma storlek */
+    min-height: 300px; /* Eller använd en specifik minimi-höjd för alla kort */
+    margin-bottom: 20px; /* Gör mellanrummen lika för alla kort */
+}
+
+
+/* Kategorikortets titel */
+
+.category-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #60707e;
+    padding: 10px;
+    display: inline-block; /* Gör så att bakgrunden bara täcker texten */
+    margin-bottom: 15px; /* Utrymme under titeln */
+}
+.category-card-description {
+
+}
+
+.category-card-Create {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 15px 25px;
+    border-radius: 2px;
+    background-color: #f8f9fa;
+    color: #207f2d;
+    text-decoration: none;
+    display: inline-block;
+    border: #207f2d; 
+}
+    .category-card-Create:hover {
+        background-color: #6baa73; /* Grön bakgrund på hover */
+        color: white; /* Vit text på hover */
+        border-color: #155d22; 
+    }
+
+.category-card-subject {
+    color: #4a5056;
+}
+/* Kategorikortets beskrivning */
+.category-card-description {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/*---------UserPage----------*/
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Hovringseffekt */
+    .list-group-item:hover {
+        background-color: #f0f8ff; 
+        color: #007bff; /* Blå text */
+    }
+
+    /* Ikoner */
+    .list-group-item i {
+        font-size: 1.2em;
+        color: #666;
+        transition: color 0.3s ease;
+    }
+
+    .list-group-item:hover i {
+        color: #007bff; 
+    }
+

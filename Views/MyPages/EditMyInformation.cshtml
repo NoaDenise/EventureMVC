@@ -6,37 +6,38 @@
 
     <div class="form-group">
         <label asp-for="FirstName">First Name</label>
-        <input asp-for="FirstName" class="form-control" />
+        <input asp-for="FirstName" class="form-control" placeholder="Enter first name" aria-label="Enter first name" />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="LastName">Last Name</label>
-        <input asp-for="LastName" class="form-control" />
+        <input asp-for="LastName" class="form-control" placeholder="Enter last name" aria-label="Enter last name" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PhoneNumber">PhoneNumber</label>
-        <input asp-for="PhoneNumber" class="form-control" />
+        <label asp-for="PhoneNumber">Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" aria-label="Enter your phone number"/>
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="UserLocation">Location</label>
-        <input asp-for="UserLocation" class="form-control" />
+        <input asp-for="UserLocation" class="form-control" placeholder="Enter your city" aria-label="Enter your city"/>
         <span asp-validation-for="UserLocation" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="UserName">User Name</label>
-        <input asp-for="UserName" class="form-control" />
+        <input asp-for="UserName" class="form-control" placeholder="Enter your user name" aria-label="Enter your user name"/>
         <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Email">Email</label>
-        <input asp-for="Email" class="form-control" />
+        <input asp-for="Email" class="form-control" placeholder="Enter your e-mail" aria-label="Enter your e-mail"/>
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="button submit-button"><i class="bi bi-check-circle-fill"></i>Submit</button>
-    <a asp-action="MyInformation" class="cancel-link"><i class="bi bi-x-circle-fill"></i>Cancel</a>
+    <button type="submit" class="button submit-button" aria-label="Submit edited information"><i class="bi bi-check-circle-fill"></i>Submit</button>
+    <a asp-action="MyInformation" class="cancel-link" aria-label="Cancel and go back to your information"><i class="bi bi-x-circle-fill"></i>Cancel</a>
+
 
 </form>
 

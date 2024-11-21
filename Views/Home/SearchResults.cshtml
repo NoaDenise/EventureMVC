@@ -1,10 +1,14 @@
 ﻿@model List<string>
 
+@{
+    ViewData["Title"] = "Search Results";
+}
+
 <h1>Search Results</h1>
 
 @if (Model.Any())
 {
-    <ul>
+    <ul class="search-list">
         @foreach (var view in Model)
         {
             <li>
