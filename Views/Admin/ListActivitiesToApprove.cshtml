@@ -9,32 +9,6 @@
                     <div class="card shadow-lg border-light rounded-3 h-100">
                         <div class="card-body d-flex flex-column">
 
-
-@foreach (var activity in Model)
-{
-    <p class="card-text">ID: @activity.ActivityId</p>
-    <p class="card-text">@activity.ActivityName</p>
-    <p class="card-text">Description: @activity.ActivityDescription</p>
-    <p class="card-text">Location: @activity.ActivityLocation</p>
-    <p class="card-text">Date of Activity: @activity.DateOfActivity</p>
-    <p class="card-text">Image Url: @activity.ImageUrl</p>
-    <p class="card-text">Website Url: @activity.WebsiteUrl</p>
-    <p class="card-text">Contact Info: @activity.ContactInfo</p>
-    <p class="card-text">Is Free: @activity.IsFree</p>
-    <p class="card-text">Is 18+: @activity.Is18Plus</p>
-    <p class="card-text">Is Kid Friendly: @activity.IsFamilyFriendly</p>
-
-    @*adding approve-button, to make them true - removing them from this list*@
-    <form asp-action="ApproveActivity" method="post">
-        <input type="hidden" name="activityId" value="@activity.ActivityId" />
-        <button type="submit" class="button submit-button"><i class="bi bi-check-circle-fill">Approve</button>
-    </form>
-
-}
-
-
-
-
                             <h5 class="card-title text-primary">@activity.ActivityName</h5>
                             <h6 class="card-subtitle mb-3 text-muted">@activity.ActivityLocation</h6>
                             <p class="card-text">@activity.ActivityDescription</p>
@@ -65,12 +39,12 @@
                             <!-- Buttons section aligned to the bottom of the card -->
                             <div class="mt-auto d-flex justify-content-between">
 
-
+                            @*adding approve-button, to make them true - removing them from this list*@
                                 <!-- Approve Button -->
-                                <form asp-action="ApproveActivity" method="post" class="w-48">
-                                    <input type="hidden" name="activityId" value="@activity.ActivityId" />
-                                    <button type="submit" class="btn btn-success w-100">Approve</button>
-                                </form>
+                            <form asp-action="ApproveActivity" method="post" class="w-48">
+                                <input type="hidden" name="activityId" value="@activity.ActivityId" />
+                                <button type="submit" class="button submit-button w-100"><i class="bi bi-check-circle-fill">Approve</button>
+                            </form>
 
                                 <!-- Reject Button -->
                                 <form asp-action="RejectActivity" method="post" class="w-48">
