@@ -47,7 +47,7 @@ namespace EventureMVC.Controllers
                 "Explore",
                 "Login",
                 "Register",
-                "SecondActivity/AddActivity"
+                "Activity/AddActivity"
                 // Kanske m�ste uppdatera till n�got annat, s� att den hittar alla sidor automatisktt, eller s� har vi de viktiga saker man kan s�ka p�.
             };
 
