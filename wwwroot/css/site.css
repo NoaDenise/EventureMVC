@@ -18,7 +18,6 @@
 /*------------------------------------------BUTTONS--------------------------------------------*/
 /* General button design */
 .button {
-    /*background-color: #4fa3f7;  Mjuk blå färg för knappar */
     color: white; /* Vit textfärg */
     border: none; /* Ingen kantlinje */
     border-radius: 5px; /* Rundade hörn */
@@ -35,102 +34,102 @@
 
 /* Login button hover color */
 .login-button:hover {
-    background-color: #174188; /* Mörkare blå vid hover */
+    background-color: #174188; 
 }
 /* Specific style for Login-link */
 .login-link {
     display: inline-block; /* För att få den att bete sig som en knapp */
-    background-color: #3494fa; /* Mjuk blå bakgrundsfärg */
-    color: white; /* Vit textfärg */
-    padding: 7px 11px; /* Anpassa padding för att göra knappen större */
-    font-size: 16px; /* Storlek på texten */
-    border-radius: 5px; /* Rundade hörn */
+    background-color: #3494fa; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
     text-decoration: none; /* Ta bort eventuell understrykning */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
 
 /* Hover for Login-link */
 .login-link:hover {
-    background-color: #174188; /* Mörkare blå vid hover */
-    color: white; /* Säkerställ att texten förblir vit */
+    background-color: #174188; 
+    color: white; 
 }
 
 /* Specific style for register-link  */
 .register-link {
-    display: inline-block; /* För att få den att bete sig som en knapp */
-    background-color: #4cbf81; /* Mjuk blå bakgrundsfärg */
-    color: white; /* Vit textfärg */
-    padding: 7px 11px; /* Anpassa padding för att göra knappen större */
-    font-size: 16px; /* Storlek på texten */
-    border-radius: 5px; /* Rundade hörn */
-    text-decoration: none; /* Ta bort eventuell understrykning */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
+    display: inline-block; 
+    background-color: #4cbf81; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
 /* Register link hover */
 .register-link:hover {
-    background-color: #1e6941; /* Mörkare blå vid hover */
-    color: white; /* Säkerställ att texten förblir vit */
+    background-color: #1e6941; 
+    color: white; 
 }
 
 /* Register button color */
 .register-button {
-    background-color: #4cbf81; /* Mjuk blå nyans */
+    background-color: #4cbf81; 
 }
 
 /* Register button hover */
 .register-button:hover {
-    background-color: #1e6941; /* Mörkare blå vid hover */
+    background-color: #1e6941; 
 }
 
 /* Specific style for continue as guest-link  */
 .continue-as-guest-link {
-    display: inline-block; /* För att få den att bete sig som en knapp */
-    background-color: #c56aec; /* Mjuk blå bakgrundsfärg */
-    color: white; /* Vit textfärg */
-    padding: 7px 11px; /* Anpassa padding för att göra knappen större */
-    font-size: 16px; /* Storlek på texten */
-    border-radius: 5px; /* Rundade hörn */
-    text-decoration: none; /* Ta bort eventuell understrykning */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Mjuk övergång */
+    display: inline-block; 
+    background-color: #c56aec; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
 
 /* continue as guest link hover color*/
 .continue-as-guest-link:hover {
-    background-color: #713c88; /* Mörkare blå vid hover */
-    color: white; /* Säkerställ att texten förblir vit */
+    background-color: #713c88; 
+    color: white; 
 }
 
 /* continue as guest button color */
 .continue-as-guest-button {
-    background-color: #c56aec; /* Mjuk blå nyans */
+    background-color: #c56aec; 
 }
 
 /* continue as guest button margin between icon and text */
 .continue-as-guest-button i {
-    margin-right: 6px; /* Lite mellanrum mellan ikonen och texten */
+    margin-right: 6px; 
 }
 
 /* continue as guest button hover */
 .continue-as-guest-button:hover {
-    background-color: #713c88; /* Mörkare blå vid hover */
+    background-color: #713c88; 
 }
 
 /* Specific style for search in nav-search */
 .nav-search .nav-search-button {
     background-color: #000000;
-    color: white; /* Vit textfärg */
-    border: none; /* Ingen kantlinje */
-    border-radius: 5px; /* Rundade hörn */
-    padding: 7px 11px; /* Padding för att göra knappen större */
-    font-size: 16px; /* Storlek på texten */
-    cursor: pointer; /* Handpekare när man hovrar */
-    transition: background-color 0.3s ease; /* Mjuk övergång vid hover */
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
 }
 
 /* Hover-effect for search in nav-search */
 .nav-search .nav-search-button:hover {
-    background-color: #3b3939; /* Mörkare blå vid hover */
-    color: white; /* Se till att texten fortfarande är vit vid hover */
+    background-color: #3b3939; 
+    color: white; 
 }
 
 /*logout button color*/
@@ -141,6 +140,48 @@
 /*Logout button hover color*/
 .logout-button:hover {
     background-color: #7f2929;
+}
+
+/* logout button margin between icon and text */
+.logout-button i {
+    margin-right: 6px; 
+}
+
+/*submit button color*/
+.submit-button {
+    background-color: #247a4c;
+}
+
+/*submit button hover*/
+.submit-button:hover {
+    background-color: #174f31;
+}
+/*margin for submit button*/
+.submit-button i {
+    margin-right: 6px;
+}
+
+/*cancel link style*/
+.cancel-link {
+    display: inline-block; 
+    background-color: #000000; 
+    color: white; 
+    padding: 7px 11px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+/* cancel link margin between icon and text */
+.cancel-link i {
+    margin-right: 6px; /* Lite mellanrum mellan ikonen och texten */
+}
+
+/*hover for cancel link*/
+.cancel-link:hover {
+    background-color: #2b2a2a;
+    color: white;
 }
 
 /*------------------------------------------FOOTER--------------------------------------------*/

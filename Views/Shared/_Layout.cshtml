@@ -55,7 +55,7 @@
                             @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                             {
                                 <form asp-action="Logout" asp-controller="User" method="post" class="form-inline">
-                                    <button type="submit" class="button logout-button ml-2"><i class="bi bi-person-fill-x"></i>Logout</button>
+                                    <button type="submit" class="button logout-button ml-2"><i class="bi bi-person-x-fill"></i>Logout</button>
                                 </form>            
                             }
                             else
