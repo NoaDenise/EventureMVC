@@ -229,6 +229,7 @@
     border-radius: 5px; 
     text-decoration: none; 
     transition: background-color 0.3s ease, color 0.3s ease; 
+    margin-top: 6px;
 }
 
 /* cancel link margin between icon and text */
@@ -245,7 +246,7 @@
 /*edit information link style*/
 .edit-information-link {
     display: inline-block;
-    background-color: #c2a503;
+    background-color: #f7b307;
     color: white;
     padding: 7px 11px;
     font-size: 16px;
@@ -261,7 +262,7 @@
 
 /*hover for edit information link*/
 .edit-information-link:hover {
-    background-color: #c2a503;
+    background-color: #ca9101;
     color: white;
 }
 
@@ -288,7 +289,7 @@
     color: white;
 }
 
-/* delete button - specific blue color */
+/* delete button color */
 .delete-button {
     background-color: #cd0000;
 }
@@ -296,6 +297,11 @@
 /* delete button hover color */
 .delete-button:hover {
     background-color: #900404;
+}
+
+/*delete button margin*/
+.delete-button i {
+    margin-right: 6px;
 }
 
 /*add comment link style*/
@@ -321,6 +327,20 @@
     margin-right:6px;
 }
 
+/*reject button color*/
+.reject-button {
+    background-color: #cd0000;
+}
+
+/*reject button hover*/
+.reject-button:hover {
+    background-color: #900404;
+}
+
+/*reject button margin*/
+.reject-button i {
+    margin-right: 6px;
+}
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {
     background-color: #525a5c;
