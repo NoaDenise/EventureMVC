@@ -84,7 +84,7 @@
                         <p class="text-white">N/A</p>
                     }
 
-                    <div class="mt-auto d-flex justify-content-around">
+                    <div class="mt-auto flex-row justify-content-around">
 
                         @if (activity.IsFree)
                         {
@@ -120,14 +120,16 @@
                         @if (activity.IsFamilyFriendly)
                         {
                             <p class="card-icon">
-                                <i class="bi bi-people-fill"></i>
+                                Family Friendly
+                                @* <i class="bi bi-people-fill"></i> *@
                                 <i class="bi bi-check-lg"></i>
                             </p>
                             }
                         else
                         {
                             <p class="card-icon">
-                                <i class="bi bi-people"></i>
+                                Not Family Friendly
+                                @* <i class="bi bi-people"></i> *@
                                 <i class="bi bi-x-lg"></i>
                             </p>
                         }
@@ -137,37 +139,6 @@
         </div>
     }
 </div>
-
-@* Activities list *@
-<div id="activities-container" class="list-group">
-    @foreach (var activity in Model.Activities)
-    {
-        <div class="list-group-item flex-column align-items-start activity-item">
-            <div class="d-flex w-100 justify-content-between">
-                <a href="@Url.Action("Index", "Activity", new { activityId = activity.ActivityId })" class="activity-link w-75 text-decoration-none text-reset">
-                    <h5>@activity.ActivityName</h5>
-                    <h6>@activity.ActivityLocation</h6>
-                    <p>@activity.DateOfActivity?.ToString("f")</p>
-                </a>
-                <div class="info-buttons">
-                    <p>+18 @activity.Is18Plus</p>
-                    <p>Family Friendly @activity.IsFamilyFriendly</p>
-                    <p>Free @activity.IsFree</p>
-                </div>
-
-                @* Heart button for like/dislike *@
-                <button type="button" class="btn btn-heart"
-                        id="like-button-@activity.ActivityId"
-                        onclick="toggleLikeDislike(@activity.ActivityId)">
-                    <i id="heart-icon-@activity.ActivityId" class="bi bi-heart heart-icon @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"></i>
-                </button>
-
-
-            </div>
-        </div>
-    }
-</div>
-
 <script>
     function clearFilters() {
         window.location.href = '/Explore/Index';
