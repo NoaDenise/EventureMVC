@@ -298,6 +298,28 @@
     background-color: #900404;
 }
 
+/*add comment link style*/
+.add-comment-link {
+    display: inline-block;
+    background-color: #2B56A1;
+    color: white;
+    padding: 7px 11px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/*add comment link hover color*/
+.add-comment-link:hover {
+    background-color: #193667;
+    color: white;
+}
+
+/*add comment link margin*/
+.add-comment-link i {
+    margin-right:6px;
+}
 
 /*------------------------------------------FOOTER--------------------------------------------*/
 footer {

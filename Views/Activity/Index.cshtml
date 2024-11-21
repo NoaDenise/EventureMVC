@@ -63,14 +63,14 @@
         @* if non-logged in user tries to comment, show modal that tells them they cannot acces this function *@
         @if (Context.Request.Cookies.ContainsKey("jwtToken"))
         {
-            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3">
-                <i class="fas fa-comment-alt"></i> Add Comment
+            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="add-comment-link">
+                <i class="bi bi-chat-square-text-fill"></i> Add Comment
             </a>
         }
         else
         {
-            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="btn btn-outline-primary btn-sm rounded-pill ms-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                <i class="fas fa-comment-alt"></i> Add Comment
+            <a asp-controller="Comment" asp-action="Create" asp-route-activityId="@Model.ActivityId" class="add-comment-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="bi bi-chat-square-text-fill"></i> Add Comment
             </a>
         }
 
