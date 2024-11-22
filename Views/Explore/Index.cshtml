@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Explore";
 }
+@*Message to user after posting a new activity*@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        @TempData["SuccessMessage"]
+    </div>
+}
 
 <h1>Explore Activities!</h1>
 
@@ -211,4 +219,28 @@
         })
     }
 
+</script>
+
+@*Message to user after posting activity*@
+<script>
+    window.onload = function () {
+        var successMessage = document.querySelector('.alert-success');
+        if (successMessage) {
+            // hides message after 20 seconds
+            setTimeout(function () {
+                successMessage.style.display = "none";
+                // ensure user will stay on explore after message closes
+                window.location.href = '@Url.Action("Index", "Explore")';
+            }, 20000); 
+        }
+    }
+    // user can close the message by clicking X
+    document.querySelectorAll('.btn-close').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var successMessage = document.querySelector('.alert-success');
+            if (successMessage) {
+                successMessage.style.display = "none";
+            }
+        });
+    });
 </script>
