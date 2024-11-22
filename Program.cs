@@ -13,11 +13,14 @@ namespace EventureMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
+            // Fetch Base URL from configuration
+            var baseUrl = builder.Configuration.GetValue<string>("ApiSettings:BaseUrl");
 
             //builder.Services.AddHttpClient();
             builder.Services.AddHttpClient("APIClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7277/"); 
+                client.BaseAddress = new Uri(baseUrl); 
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
