@@ -11,12 +11,13 @@ namespace EventureMVC.Controllers
     public class MyPagesController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUri = "https://localhost:7277";
+        private readonly string _BaseUrl;
         private readonly ILogger<AdminController> _logger;
 
-        public MyPagesController(HttpClient httpClient)
+        public MyPagesController(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         public IActionResult Index()
@@ -45,7 +46,7 @@ namespace EventureMVC.Controllers
 
             ViewData["Title"] = "My Information";
 
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{userId}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getUserById/{userId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -92,7 +93,7 @@ namespace EventureMVC.Controllers
             }
 
 
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getUserById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -135,7 +136,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var apiUrl = $"{_baseUri}/api/User/editUser/{id}";
+            var apiUrl = $"{_BaseUrl}/api/User/editUser/{id}";
 
             var response = await _httpClient.PutAsJsonAsync(apiUrl, myInformationViewModel);
 
@@ -164,7 +165,7 @@ namespace EventureMVC.Controllers
             }
 
 
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getUserById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getUserById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -206,7 +207,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var apiUrl = $"{_baseUri}/api/User/editAdminPassword/{id}";
+            var apiUrl = $"{_BaseUrl}/api/User/editAdminPassword/{id}";
 
             var response = await _httpClient.PutAsJsonAsync(apiUrl, userPasswordViewModel);
 
@@ -236,7 +237,7 @@ namespace EventureMVC.Controllers
             }
 
             // Anropa API:et för att hämta sparade aktiviteter
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/User/getAllUserEvents?userId={userId}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getAllUserEvents?userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -261,11 +262,11 @@ namespace EventureMVC.Controllers
             }
 
             // Anropa API:et för att radera den sparade aktiviteten
-            var response = await _httpClient.DeleteAsync($"{_baseUri}/api/User/deleteUserEvent?userEventId={userEventId}&userId={userId}");
+            var response = await _httpClient.DeleteAsync($"{_BaseUrl}/api/User/deleteUserEvent?userEventId={userEventId}&userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {
-                var updatedResponse = await _httpClient.GetAsync($"{_baseUri}/api/User/getAllUserEvents?userId={userId}");
+                var updatedResponse = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getAllUserEvents?userId={userId}");
 
                 if (updatedResponse.IsSuccessStatusCode)
                 {
@@ -292,7 +293,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var response = await _httpClient.GetAsync($"{_baseUri}/api/Attendance/getUsersAttendance/{userId}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Attendance/getUsersAttendance/{userId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -318,12 +319,12 @@ namespace EventureMVC.Controllers
             }
 
             // Anropa API för att radera användarens sign-up, nu med både attendanceId och userId
-            var response = await _httpClient.DeleteAsync($"{_baseUri}/api/Attendance/deleteAttendance/{attendanceId}");
+            var response = await _httpClient.DeleteAsync($"{_BaseUrl}/api/Attendance/deleteAttendance/{attendanceId}");
 
 
             if (response.IsSuccessStatusCode)
             {
-                var updatedResponse = await _httpClient.GetAsync($"{_baseUri}/api/Attendance/getUsersAttendance/{userId}");
+                var updatedResponse = await _httpClient.GetAsync($"{_BaseUrl}/api/Attendance/getUsersAttendance/{userId}");
 
                 if (updatedResponse.IsSuccessStatusCode)
                 {

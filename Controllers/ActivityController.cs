@@ -9,11 +9,13 @@ namespace EventureMVC.Controllers
     public class ActivityController : Controller
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUri = "https://localhost:7277/";
+        private readonly string _BaseUrl;
 
-        public ActivityController(HttpClient httpClient)
+        public ActivityController(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
+
         }
 
         public async Task<IActionResult> Index(int activityId)
@@ -21,9 +23,9 @@ namespace EventureMVC.Controllers
             ViewData["Title"] = "Activity";
 
             // Define the request URI with activityId parameter
-            var activityUri = $"{BaseUri}api/Activity/getActivityById/{activityId}";
+            var activityUri = $"{_BaseUrl}api/Activity/getActivityById/{activityId}";
            
-            var commentsUri = $"{BaseUri}api/Comment/getAllCommentsByActivity/{activityId}";
+            var commentsUri = $"{_BaseUrl}api/Comment/getAllCommentsByActivity/{activityId}";
              
 
             //need this for fetching liked activity
@@ -44,7 +46,7 @@ namespace EventureMVC.Controllers
 
                 if (!string.IsNullOrEmpty(userId))
                 {
-                    var likedActivitiesResponse = await _httpClient.GetAsync($"{BaseUri}api/User/likedActivities/{userId}");
+                    var likedActivitiesResponse = await _httpClient.GetAsync($"{_BaseUrl}api/User/likedActivities/{userId}");
                     if (likedActivitiesResponse.IsSuccessStatusCode)
                     {
                         var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
@@ -89,7 +91,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var likedActivitiesResponse = await _httpClient.GetAsync($"{BaseUri}api/User/likedActivities/{userId}");
+            var likedActivitiesResponse = await _httpClient.GetAsync($"{_BaseUrl}api/User/likedActivities/{userId}");
             List<int> likedActivities = new List<int>();
 
             if (likedActivitiesResponse.IsSuccessStatusCode)
@@ -99,13 +101,13 @@ namespace EventureMVC.Controllers
             }
 
             bool isLiked = likedActivities.Contains(activityId);
-            var toggleLikeUrl = $"{BaseUri}api/User/toggleLike/{userId}/{activityId}/{!isLiked}";
+            var toggleLikeUrl = $"{_BaseUrl}api/User/toggleLike/{userId}/{activityId}/{!isLiked}";
 
             var response = await _httpClient.PostAsJsonAsync(toggleLikeUrl, new { UserId = userId, ActivityId = activityId });
 
             if (response.IsSuccessStatusCode)
             {
-                likedActivitiesResponse = await _httpClient.GetAsync($"{BaseUri}api/User/likedActivities/{userId}");
+                likedActivitiesResponse = await _httpClient.GetAsync($"{_BaseUrl}api/User/likedActivities/{userId}");
 
                 if (likedActivitiesResponse.IsSuccessStatusCode)
                 {
@@ -162,7 +164,7 @@ namespace EventureMVC.Controllers
             var json = JsonConvert.SerializeObject(activity);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{BaseUri}api/Activity/addActivity", content);
+            var response = await _httpClient.PostAsync($"{_BaseUrl}api/Activity/addActivity", content);
 
             if (response.IsSuccessStatusCode)
             {

@@ -14,13 +14,14 @@ namespace EventureMVC.Controllers
     public class AdminController : Controller
     {
         private readonly HttpClient _httpClient;
-        private string baseUri = "https://localhost:7277";
+        private readonly string _BaseUrl;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(HttpClient httpClient, ILogger<AdminController> logger)
+        public AdminController(HttpClient httpClient, ILogger<AdminController> logger, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
 
 
@@ -56,7 +57,7 @@ namespace EventureMVC.Controllers
 
             ViewData["Title"] = "My Information";
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/User/getUserById/{userId}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getUserById/{userId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -116,7 +117,7 @@ namespace EventureMVC.Controllers
             }
 
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/User/getUserById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getUserById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -173,7 +174,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var apiUrl = $"{baseUri}/api/User/editAdminInfo/{id}";
+            var apiUrl = $"{_BaseUrl}/api/User/editAdminInfo/{id}";
 
             var response = await _httpClient.PutAsJsonAsync(apiUrl, adminInformationViewModel);
 
@@ -209,7 +210,7 @@ namespace EventureMVC.Controllers
             }
 
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/User/getUserById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/User/getUserById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -261,7 +262,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var apiUrl = $"{baseUri}/api/User/editAdminPassword/{id}";
+            var apiUrl = $"{_BaseUrl}/api/User/editAdminPassword/{id}";
 
             var response = await _httpClient.PutAsJsonAsync(apiUrl, adminPasswordViewModel);
 
@@ -289,7 +290,7 @@ namespace EventureMVC.Controllers
             ViewData["Title"] = "Activites Awaiting Approval";
 
             //in Swagger and here we have to fill in true in order to list NOT approved activities
-            var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/awaitingApproval?isApproved=true");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Activity/awaitingApproval?isApproved=true");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -319,7 +320,7 @@ namespace EventureMVC.Controllers
         public async Task<IActionResult> ApproveActivity(int id)
         {
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getActivityById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Activity/getActivityById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -354,7 +355,7 @@ namespace EventureMVC.Controllers
 
             try
             {
-                var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/approveActivity/{activity.ActivityId}", null);
+                var response = await _httpClient.PutAsync($"{_BaseUrl}/api/Activity/approveActivity/{activity.ActivityId}", null);
 
                 return RedirectToAction("ListActivitiesToApprove");
             }
@@ -378,7 +379,7 @@ namespace EventureMVC.Controllers
 
             ViewData["Title"] = "All Activities";
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getAllActivities");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Activity/getAllActivities");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -415,7 +416,7 @@ namespace EventureMVC.Controllers
                 return BadRequest("Invalid data received.");
             }
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/Activity/getActivityById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Activity/getActivityById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -473,7 +474,7 @@ namespace EventureMVC.Controllers
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{baseUri}/api/Activity/editActivity/{activity.ActivityId}", content);
+                var response = await _httpClient.PutAsync($"{_BaseUrl}/api/Activity/editActivity/{activity.ActivityId}", content);
 
                 return RedirectToAction("ListAllActivities");
             }
@@ -493,7 +494,7 @@ namespace EventureMVC.Controllers
                 return BadRequest("Invalid data received.");
             }
 
-            var response = await _httpClient.DeleteAsync($"{baseUri}/api/Activity/deleteActivity/{id}");
+            var response = await _httpClient.DeleteAsync($"{_BaseUrl}/api/Activity/deleteActivity/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -508,7 +509,7 @@ namespace EventureMVC.Controllers
         {
             ViewData["Title"] = "All Categories";
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/Category/getAllCategories");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Category/getAllCategories");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -554,7 +555,7 @@ namespace EventureMVC.Controllers
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{baseUri}/api/Category/addCategory", content);
+                var response = await _httpClient.PostAsync($"{_BaseUrl}/api/Category/addCategory", content);
 
                 return RedirectToAction("ListAllCategories");
             }
@@ -572,7 +573,7 @@ namespace EventureMVC.Controllers
         {
             ViewData["Title"] = "Edit Category";
 
-            var response = await _httpClient.GetAsync($"{baseUri}/api/Category/getCategoryById/{id}");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}/api/Category/getCategoryById/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -627,7 +628,7 @@ namespace EventureMVC.Controllers
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{baseUri}/api/Category/editCategory/{category.CategoryId}", content);
+                var response = await _httpClient.PutAsync($"{_BaseUrl}/api/Category/editCategory/{category.CategoryId}", content);
 
                 return RedirectToAction("ListAllCategories");
             }
@@ -647,7 +648,7 @@ namespace EventureMVC.Controllers
                 return BadRequest("Invalid data received.");
             }
 
-            var response = await _httpClient.DeleteAsync($"{baseUri}/api/Category/deleteCategory/{id}");
+            var response = await _httpClient.DeleteAsync($"{_BaseUrl}/api/Category/deleteCategory/{id}");
 
             if (!response.IsSuccessStatusCode)
             {

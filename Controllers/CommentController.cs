@@ -14,13 +14,15 @@ namespace EventureMVC.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<CommentController> _logger;
-        private string _baseUri = "https://localhost:7277/";
+        private readonly string _BaseUrl;
 
-        public CommentController(IHttpClientFactory httpClientFactory, ILogger<CommentController> logger)
+        public CommentController(IHttpClientFactory httpClientFactory, ILogger<CommentController> logger, IConfiguration configuration)
         {
             _httpClient = httpClientFactory.CreateClient("APIClient");
 
             _logger = logger;
+
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
         public async Task<IActionResult> Index(int activityId)
         {
@@ -34,7 +36,7 @@ namespace EventureMVC.Controllers
             Console.WriteLine($"Loading comments for ActivityId: {activityId}");
             ViewData["activityId"] = activityId;
 
-            var apiUrl = $"{_baseUri}api/Comment/getAllCommentsByActivity/{activityId}";
+            var apiUrl = $"{_BaseUrl}api/Comment/getAllCommentsByActivity/{activityId}";
             var response = await _httpClient.GetAsync(apiUrl);
 
             if (!response.IsSuccessStatusCode)
@@ -89,7 +91,7 @@ namespace EventureMVC.Controllers
 
             newComment.UserId = userId;
 
-            var apiUrl = $"{_baseUri}api/Comment/addComment";
+            var apiUrl = $"{_BaseUrl}api/Comment/addComment";
 
             var token = HttpContext.Request.Cookies["jwtToken"];
             if (!string.IsNullOrEmpty(token))
@@ -114,7 +116,7 @@ namespace EventureMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int commentId)
         {
-            var apiUrl = $"{_baseUri}api/Comment/getCommentById/{commentId}";
+            var apiUrl = $"{_BaseUrl}api/Comment/getCommentById/{commentId}";
             var response = await _httpClient.GetAsync(apiUrl);
 
             if (!response.IsSuccessStatusCode)
@@ -136,7 +138,7 @@ namespace EventureMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int commentId, CommentViewModel updatedComment)
         {
-            var apiUrl = $"{_baseUri}api/Comment/editComment/{commentId}";
+            var apiUrl = $"{_BaseUrl}api/Comment/editComment/{commentId}";
 
             var jsonContent = JsonConvert.SerializeObject(updatedComment);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -156,7 +158,7 @@ namespace EventureMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int commentId, int activityId)
         {
-            var apiUrl = $"{_baseUri}api/Comment/deleteComment/{commentId}";
+            var apiUrl = $"{_BaseUrl}api/Comment/deleteComment/{commentId}";
             var response = await _httpClient.DeleteAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
