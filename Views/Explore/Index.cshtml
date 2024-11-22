@@ -229,8 +229,6 @@
             // hides message after 20 seconds
             setTimeout(function () {
                 successMessage.style.display = "none";
-                // ensure user will stay on explore after message closes
-                window.location.href = '@Url.Action("Index", "Explore")';
             }, 20000); 
         }
     }
