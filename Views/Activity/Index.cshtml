@@ -8,7 +8,7 @@
             <div class="card-body">
 
             <div class="position-relative">
-                @* Heart button for like/dislike *@
+                
                 @if (Context.Request.Cookies.ContainsKey("jwtToken"))
                 {
                     <button type="button" class="like-button position-absolute top-0 end-0 m-2"
@@ -45,9 +45,13 @@
                 <!-- Event Images -->
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
-                    <img src="@Model.ImageUrl" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
-                }
-        
+                <img src="@Model.ImageUrl" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
+            }
+            else
+            {
+                <img src="~/images/palceholdereventimg.jpg" class="img-fluid" alt="Event Image" style="width: 100%; margin-bottom: 10px;">
+            }
+
             </div>
         </div>
     </div>

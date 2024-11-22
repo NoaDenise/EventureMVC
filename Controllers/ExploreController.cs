@@ -11,12 +11,13 @@ namespace EventureMVC.Controllers
     public class ExploreController : Controller
     {
         private readonly HttpClient _client;
-        private string baseUrl = "https://localhost:7277/";
+        private readonly string _BaseUrl;
         private string countriesData = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "resources", "countries.json");
       
-        public ExploreController(HttpClient client)
+        public ExploreController(HttpClient client, IConfiguration configuration)
         {
             _client = client;
+            _BaseUrl = configuration.GetValue<string>("ApiSettings:BaseUrl");
         }
 
         public async Task<IActionResult> Index(
@@ -63,7 +64,7 @@ namespace EventureMVC.Controllers
 
             // Puts togetehr all the inputs to a query for the api
             var queryString = string.Join("&", queryParameters);
-            var requestUrl = $"{baseUrl}api/Activity/getFilteredActivities?{queryString}";
+            var requestUrl = $"{_BaseUrl}api/Activity/getFilteredActivities?{queryString}";
             var response = await _client.GetAsync(requestUrl);
 
             // Loading the locations
@@ -73,7 +74,7 @@ namespace EventureMVC.Controllers
             if (likedActivities == null)
             {
                 likedActivities = new List<int>();
-                var likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
+                var likedActivitiesResponse = await _client.GetAsync($"{_BaseUrl}api/User/likedActivities/{userId}");
                 if (likedActivitiesResponse.IsSuccessStatusCode)
                 {
                     var likedJson = await likedActivitiesResponse.Content.ReadAsStringAsync();
@@ -128,7 +129,7 @@ namespace EventureMVC.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
+            var likedActivitiesResponse = await _client.GetAsync($"{_BaseUrl}api/User/likedActivities/{userId}");
             List<int> likedActivities = new List<int>();
 
             if (likedActivitiesResponse.IsSuccessStatusCode)
@@ -138,13 +139,13 @@ namespace EventureMVC.Controllers
             }
 
             bool isLiked = likedActivities.Contains(activityId);
-            var toggleLikeUrl = $"{baseUrl}api/User/toggleLike/{userId}/{activityId}/{!isLiked}";
+            var toggleLikeUrl = $"{_BaseUrl}api/User/toggleLike/{userId}/{activityId}/{!isLiked}";
 
             var response = await _client.PostAsJsonAsync(toggleLikeUrl, new { UserId = userId, ActivityId = activityId });
 
             if (response.IsSuccessStatusCode)
             {
-                likedActivitiesResponse = await _client.GetAsync($"{baseUrl}api/User/likedActivities/{userId}");
+                likedActivitiesResponse = await _client.GetAsync($"{_BaseUrl}api/User/likedActivities/{userId}");
 
                 if (likedActivitiesResponse.IsSuccessStatusCode)
                 {

@@ -15,11 +15,12 @@ namespace EventureMVC.Controllers
     public class UserController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUri = "https://localhost:7277/";
+        private readonly string _BaseUrl;
 
-        public UserController(HttpClient httpClient)
+        public UserController(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient; // Injecting the HTTP client dependency
+            _BaseUrl = configuration.GetValue<string>("ApiSettings:BaseUrl");
         }
 
         // GET: User/Login
@@ -34,7 +35,7 @@ namespace EventureMVC.Controllers
 
             // Send login credentials to the API in JSON format
             var jsonContent = new StringContent(JsonSerializer.Serialize(login), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{_baseUri}api/User/login", jsonContent);
+            var response = await _httpClient.PostAsync($"{_BaseUrl}api/User/login", jsonContent);
 
             if (response.IsSuccessStatusCode)
             {
@@ -114,7 +115,7 @@ namespace EventureMVC.Controllers
         private async Task<string> GetUserRole(string token)
         {
             // Send a request to the API to get the user's role, passing the JWT token in the Authorization header
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{_baseUri}api/User/getRole");
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{_BaseUrl}api/User/getRole");
             requestMessage.Headers.Add("Authorization", "Bearer " + token);
 
             var response = await _httpClient.SendAsync(requestMessage);
@@ -134,7 +135,7 @@ namespace EventureMVC.Controllers
         private async Task<bool> IsAdmin(string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.GetAsync($"{_baseUri}api/User/role?token={{token}}\"");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}api/User/role?token={{token}}\"");
 
             if (response.IsSuccessStatusCode)
             {
@@ -191,7 +192,7 @@ namespace EventureMVC.Controllers
             // auto assigns a new user to user
             string role = "User";
 
-            var response = await _httpClient.PostAsJsonAsync($"{_baseUri}api/User/register?role={role}", model);
+            var response = await _httpClient.PostAsJsonAsync($"{_BaseUrl}api/User/register?role={role}", model);
 
             if (response.IsSuccessStatusCode)
             {
@@ -215,7 +216,7 @@ namespace EventureMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> AddPreferences()
         {
-            var response = await _httpClient.GetAsync($"{_baseUri}api/Category/getAllCategories");
+            var response = await _httpClient.GetAsync($"{_BaseUrl}api/Category/getAllCategories");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -243,7 +244,7 @@ namespace EventureMVC.Controllers
             // Loop through selected categories and make a request for each one
             foreach (var categoryId in model.SelectedCategoryIds)
             {
-                var response = await _httpClient.PostAsync($"{_baseUri}/api/User/{userId}/categories/{categoryId}", null);
+                var response = await _httpClient.PostAsync($"{_BaseUrl}/api/User/{userId}/categories/{categoryId}", null);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -271,7 +272,7 @@ namespace EventureMVC.Controllers
                 categoryDescription = categoryDescription
             };
 
-            var response = await _httpClient.PostAsJsonAsync($"{_baseUri}api/Category/addCategory", data);
+            var response = await _httpClient.PostAsJsonAsync($"{_BaseUrl}api/Category/addCategory", data);
 
             if (!response.IsSuccessStatusCode)
             {
