@@ -19,7 +19,7 @@ namespace EventureMVC.Controllers
         {
             _client = client;
             _configuration = configuration;
-            _BaseUrl = configuration["BaseUrl"];
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         public async Task<IActionResult> Index(

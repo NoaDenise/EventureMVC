@@ -22,7 +22,7 @@ namespace EventureMVC.Controllers
         {
             _httpClient = httpClient; // Injecting the HTTP client dependency
             _configuration = configuration;
-            _BaseUrl = configuration["BaseUrl"];
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         // GET: User/Login
