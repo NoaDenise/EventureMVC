@@ -17,7 +17,7 @@ namespace EventureMVC.Controllers
         public ExploreController(HttpClient client, IConfiguration configuration)
         {
             _client = client;
-            _BaseUrl = configuration.GetValue<string>("ApiSettings:BaseUrl");
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         public async Task<IActionResult> Index(
