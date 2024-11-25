@@ -48,6 +48,7 @@ namespace EventureMVC.Controllers
                 {
                     // If the token is empty or null, login failed
                     ModelState.AddModelError("", "Login failed. Token is missing.");
+                    ViewBag.Url = _BaseUrl;
                     return View(login);
                 }
 
