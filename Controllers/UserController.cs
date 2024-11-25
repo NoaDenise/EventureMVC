@@ -16,10 +16,12 @@ namespace EventureMVC.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly string _BaseUrl;
+        private readonly IConfiguration _configuration;
 
         public UserController(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient; // Injecting the HTTP client dependency
+            _configuration = configuration;
             _BaseUrl = configuration["BaseUrl"];
         }
 

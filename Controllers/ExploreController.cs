@@ -13,10 +13,12 @@ namespace EventureMVC.Controllers
         private readonly HttpClient _client;
         private readonly string _BaseUrl;
         private string countriesData = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "resources", "countries.json");
-      
+        private readonly IConfiguration _configuration;
+
         public ExploreController(HttpClient client, IConfiguration configuration)
         {
             _client = client;
+            _configuration = configuration;
             _BaseUrl = configuration["BaseUrl"];
         }
 
