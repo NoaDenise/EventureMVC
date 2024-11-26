@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
 using EventureMVC.Models.ViewModel;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace EventureMVC.Controllers
 {
@@ -84,7 +85,7 @@ namespace EventureMVC.Controllers
 
                 // Retrieve the user's role after successful login
                 var userRole = await GetUserRole(token);
-
+           
                 // Save userRole in session AFTER it is retrieved
                 HttpContext.Session.SetString("UserRole", userRole);
 
@@ -134,7 +135,7 @@ namespace EventureMVC.Controllers
             return string.Empty;
         }
 
-        // Method to check if the user is an admin (not currently used in the login flow, but could be useful)
+        // Method to check if the user is an admin 
         private async Task<bool> IsAdmin(string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -165,13 +166,10 @@ namespace EventureMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            // Delete the JWT token from cookies when the user logs out
-            HttpContext.Response.Cookies.Delete("jwtToken");
-
-            //Delete the session
             HttpContext.Session.Clear();
+            HttpContext.Response.Cookies.Delete("jwtToken");
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
 
-            // Redirect the user back to the login page
             return RedirectToAction("Login", "User");
         }
 

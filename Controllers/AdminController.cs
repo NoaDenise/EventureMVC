@@ -1,5 +1,7 @@
 ﻿using EventureMVC.Models;
 using EventureMVC.Models.ViewModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,7 +12,7 @@ using System.Text;
 
 namespace EventureMVC.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+   
     public class AdminController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -27,18 +29,22 @@ namespace EventureMVC.Controllers
 
         public IActionResult Index()
         {
-            //var userRole = HttpContext.Session.GetString("role");
-
-            //if (userRole != "admin")
-            //{
-            //    return RedirectToAction("Login", "User");
-            //}
+          
 
             ViewData["Title"] = "Admin Pages";
+            _logger.LogInformation("User: {User}, Roles: {Roles}", User.Identity.Name, string.Join(", ", User.Claims.Select(c => c.Value)));
 
             return View();
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); 
+            HttpContext.Response.Cookies.Delete("jwtToken"); 
+        
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
 
+            return RedirectToAction("Index", "Home");
+        }
         public async Task<IActionResult> ListAdminInformation(/*string userId*/)
         {
 

@@ -1,23 +1,38 @@
 ﻿@model List<EventureMVC.Models.SavedActivitiesUserDTO>
 
-<h1>Liked Activities</h1>
-
-@if (Model != null && Model.Any())
-{
-    foreach (var activity in Model)
-    {
-        <div class="activity-card">
-            <h3>@activity.ActivityName</h3>
-            <p>Location: @activity.ActivityLocation</p>
-            <p>Date: @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Date not available")</p>
-            <form asp-action="DeleteSavedActivity" method="post">
-                <input type="hidden" name="userEventId" value="@activity.UserEventId" />
-                <button type="submit" class="button delete-button"><i class="bi bi-x-circle-fill"></i>Delete</button>
-            </form>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Liked Activities</h4>
         </div>
-    }
-}
-else
-{
-    <p>No saved activities yet.</p>
-}
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                <div class="row">
+                    @foreach (var activity in Model)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">@activity.ActivityName</h5>
+                                    <p class="card-text"><strong>Location:</strong> @activity.ActivityLocation</p>
+                                    <p class="card-text"><strong>Date:</strong> @(activity.DateOfActivity.HasValue ? activity.DateOfActivity.Value.ToString("yyyy-MM-dd") : "Date not available")</p>
+                                    <form asp-action="DeleteSavedActivity" method="post">
+                                        <input type="hidden" name="userEventId" value="@activity.UserEventId" />
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-x-circle-fill"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>No saved activities yet.</p>
+            }
+        </div>
+    </div>
+</div>

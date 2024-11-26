@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using EventureMVC.Models;
 using System.Net.Http.Headers;
+using EventureMVC.Middleware;
 
 namespace EventureMVC
 {
@@ -42,7 +43,7 @@ namespace EventureMVC
                 options.ExpireTimeSpan = TimeSpan.FromDays(30); // Set this to a reasonable expiration time
                 options.SlidingExpiration = true; // Optional: Automatically refresh the expiration time
             });
-         
+           
 
 
             var app = builder.Build();
@@ -54,11 +55,13 @@ namespace EventureMVC
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+       
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseSession();
+            app.UseMiddleware<RoleBasedAccessMiddleware>();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -69,5 +72,6 @@ namespace EventureMVC
 
             app.Run();
         }
+
     }
 }
