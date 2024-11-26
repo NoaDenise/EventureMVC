@@ -99,7 +99,7 @@
                             <button type="button" class="like-button"
                                     id="like-button-@activity.ActivityId"
                                     onclick="toggleLikeDislike(@activity.ActivityId)">
-                                <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"> Like</span>
+                                <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")"></span>
                             </button>
                         }
                         else
@@ -107,7 +107,7 @@
                             <button type="button" class="like-button"
                                     id="like-button-@activity.ActivityId"
                                     onclick="toggleLikeDislike(@activity.ActivityId)">
-                                <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")" data-bs-toggle="modal" data-bs-target="#loginModal"> Like</span>
+                                <span id="heart-icon-@activity.ActivityId" class="bi bi-heart-fill heart-icon  @(Model.LikedActivities.Contains(activity.ActivityId) ? "liked" : "")" data-bs-toggle="modal" data-bs-target="#loginModal"></span>
                             </button>
                         }
                         

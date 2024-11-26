@@ -90,9 +90,11 @@ namespace EventureMVC.Controllers
                 var json = await response.Content.ReadAsStringAsync();
                 var activities = JsonConvert.DeserializeObject<List<Activity>>(json);
 
+                var approvedActivities = activities.Where(activity => activity.IsApproved).ToList();
+
                 return View(new ExploreViewModel
                 {
-                    Activities = activities,
+                    Activities = approvedActivities,
                     CountriesWithCities = countriesWithCities,
                     IsFree = isFree ?? false,
                     Is18Plus = is18Plus ?? false,
