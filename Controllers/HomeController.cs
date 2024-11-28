@@ -9,14 +9,19 @@ namespace EventureMVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly string _BaseUrl;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
+            _BaseUrl = configuration["ApiSettings:BaseUrl"];
         }
 
         public IActionResult Index()
         {
+            _logger.LogCritical($"{_BaseUrl}");
             return View();
         }
 
