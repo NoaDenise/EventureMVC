@@ -14,12 +14,14 @@ namespace EventureMVC.Controllers
         private readonly string _BaseUrl;
         private string countriesData = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "resources", "countries.json");
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ExploreController> _logger;
 
-        public ExploreController(HttpClient client, IConfiguration configuration)
+        public ExploreController(HttpClient client, IConfiguration configuration, ILogger<ExploreController> logger)
         {
             _client = client;
             _configuration = configuration;
             _BaseUrl = configuration["ApiSettings:BaseUrl"];
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index(
@@ -31,10 +33,12 @@ namespace EventureMVC.Controllers
             string location = null,
             List<int> likedActivities = null)
         {
+            _logger.LogError("Explore Index");
 
 
             //Get the userId from the session cookie/jwt
             var userId = HttpContext.Session.GetString("nameid");
+            _logger.LogError($"Explore Index {userId}");
 
             //Make a query with all the bools and inputs
             var queryParameters = new List<string>();
@@ -68,6 +72,7 @@ namespace EventureMVC.Controllers
             var queryString = string.Join("&", queryParameters);
             var requestUrl = $"{_BaseUrl}api/Activity/getFilteredActivities?{queryString}";
             var response = await _client.GetAsync(requestUrl);
+            _logger.LogError($"Explore Response {response}");
 
             // Loading the locations
             var countriesWithCities = LoadCountriesWithCities();
